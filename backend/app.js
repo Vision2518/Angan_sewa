@@ -6,6 +6,7 @@ import serviceRouter from "./routes/service.route.js";
 import staffRouter from "./routes/staff.route.js";
 import authRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
+import siteRouter from "./routes/site.route.js";
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -15,6 +16,7 @@ app.use("/api/branch", branchRouter);
 app.use("/api/service", serviceRouter);
 app.use("/api/staff", staffRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/site", siteRouter);
 
 const PORT = process.env.PORT || 4000;
 try {
