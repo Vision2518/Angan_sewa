@@ -20,10 +20,10 @@ export const authLogin = async (req, res) => {
     }
     const token = jwt.sign(
       {
-        id: userData.userid,
+        user_id: userData.userid,
         email: userData.email,
         role: userData.role,
-        banch_id: userData.branch_id,
+        branch_id: userData.branch_id,
       },
       process.env.JWT_SECRET,
       { expiresIn: process.env.EXPIRE }

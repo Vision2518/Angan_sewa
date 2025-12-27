@@ -40,6 +40,29 @@ export const getAllProvinces = async (req, res) => {
     console.error("Failed to get all data", error);
   }
 };
+//delete province
+export const deleteProvince=async(req,res,next)=>{
+  try {
+    const {id}=req.params;
+    const[existing]=await db.execute(
+      "SELECT * FROM province WHERE province_id=? ",[id]
+    );
+    if(existing.length===0)
+    {
+      return res.status(404).json({
+        message:  `province not found with this ${id}th id`,
+      });
+    }
+    const existProvince=existing[0];
+  await db.execute("DELETE FROM province WHERE province_id=?",[province_id]
+  );
+  res.status(200).json({
+    message:`${existProvince.province_name} province deleted sucessfully`,
+  });
+  } catch (error) {
+    next(error);
+  }
+}
 //add district
 export const addDistrict = async (req, res) => {
   try {
@@ -79,6 +102,8 @@ export const getAllDistricts = async (req, res) => {
     console.error("Failed to get all data", error);
   }
 };
+//delete district
+
 //add branch
 export const addBranch = async (req, res) => {
   try {

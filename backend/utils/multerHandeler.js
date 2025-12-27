@@ -10,14 +10,14 @@ const staffstorage = multer.diskStorage({
   destination: "uploads/staff",
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + "-" + file.orginalname);
+    cb(null, uniqueSuffix + "-" + file.originalname);
   },
 });
 const tcustomerStorage = multer.diskStorage({
   destination: "uploads/tcustomerimg",
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + "-" + file.orginalname);
+    cb(null, uniqueSuffix + "-" + file.originalname);
   },
 });
 const galleries = multer.diskStorage({

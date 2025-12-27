@@ -58,7 +58,7 @@ export const addReview = async (req, res) => {
       return res.status(404).json({ message: "Branch does not exist" });
     }
     await db.query(
-      "INSERT INTO review(name,star,description,branch_id) VALUES (?,?,?,?",
+      "INSERT INTO review(name,star,description,branch_id) VALUES (?,?,?,?)",
       [name, star, description, branch_id]
     );
     res.status(201).json({ message: "Review added sucesfully" });
@@ -75,9 +75,10 @@ export const getReview = async (req, res) => {
            r.description,
            b.branch_id,
            b.branch_name
-           FROM review r LEFT JOIN ON r.branch_id=b.branch_id
+           FROM review r 
+           LEFT JOIN branch b ON r.branch_id=b.branch_id
             `);
-    res.status(201).json({ message: "Review Retrived sucessfully" });
+    res.status(201).json({ message: "Review Retrived sucessfully", data: row });
   } catch (error) {
     console.log(error);
   }
@@ -95,7 +96,7 @@ export const addTrustedCustomer = async (req, res) => {
       "INSERT into trusted_customer (name,trusted_customer_image) VALUES (?,?)",
       [name, tCustomerImgPath]
     );
-    res.status(200) / json({ message: "Trusted customer added sucessfully" });
+    res.status(200) . json({ message: "Trusted customer added sucessfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });
@@ -104,7 +105,7 @@ export const addTrustedCustomer = async (req, res) => {
 //get trusted customer
 export const getTrustedCustomer = async (req, res) => {
   try {
-    const [rows] = await db.query("SELCT * FROM trusted_customer");
+    const [rows] = await db.query("SELECT * FROM trusted_customer");
     res
       .status(200)
       .json({ message: "Sucessfully retrieved trusted customer", data: rows });
@@ -120,7 +121,7 @@ export const addGallery = async (req, res) => {
     if (!title || !branch_id) {
       return res
         .status(400)
-        .json({ message: "Please Priovide Title and Branch_id" });
+        .json({ message: "Please Provide Title and Branch_id" });
     }
     if (!images || images.length === 0) {
       return res.status(400).json({ message: "Images required" });
