@@ -3,9 +3,13 @@ import {
   addBranch,
   addDistrict,
   addProvince,
+  deleteBranch,
+  deleteDistrict,
+  deleteProvince,
   getAllBranches,
   getAllDistricts,
   getAllProvinces,
+  updateBranch,
 } from "../controller/branch.controller.js";
 import { authorizeRoles } from "../middlewares/isAuth.js";
 import { isLogin } from "../middlewares/isLogin.js";
@@ -17,7 +21,22 @@ branchRouter.post(
   addProvince
 );
 branchRouter.get("/get-province", getAllProvinces);
+branchRouter.delete("/delete-province", deleteProvince);
 branchRouter.post("/add-district", addDistrict);
+branchRouter.get("/get-district", getAllDistricts);
+branchRouter.delete("/delete-district", deleteDistrict);
 branchRouter.post("/add-branch", addBranch);
 branchRouter.get("/get-branch", getAllBranches);
+branchRouter.delete(
+  "/delete-branch",
+  isLogin,
+  authorizeRoles("admin"),
+  deleteBranch
+);
+branchRouter.patch(
+  "/update-branch",
+  isLogin,
+  authorizeRoles("admin"),
+  updateBranch
+);
 export default branchRouter;

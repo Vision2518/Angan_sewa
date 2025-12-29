@@ -96,7 +96,7 @@ export const addTrustedCustomer = async (req, res) => {
       "INSERT into trusted_customer (name,trusted_customer_image) VALUES (?,?)",
       [name, tCustomerImgPath]
     );
-    res.status(200) . json({ message: "Trusted customer added sucessfully" });
+    res.status(200).json({ message: "Trusted customer added sucessfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });
@@ -117,6 +117,8 @@ export const getTrustedCustomer = async (req, res) => {
 export const addGallery = async (req, res) => {
   try {
     const { title, branch_id } = req.body;
+    console.log(req.user.user_id);
+    console.log(req.user);
     const images = req.files;
     if (!title || !branch_id) {
       return res
@@ -132,7 +134,7 @@ export const addGallery = async (req, res) => {
     if (branch.length === 0) {
       return res.status(404).json({ message: "Branch not found" });
     }
-    const uploadedBy = req.user.id;
+    const uploadedBy = req.user.user_id;
     const userRole = req.user.role;
     const userBranchId = req.user.branch_id;
     if (userRole === "branch_manager") {

@@ -20,7 +20,7 @@ export const authLogin = async (req, res) => {
     }
     const token = jwt.sign(
       {
-        user_id: userData.userid,
+        user_id: userData.user_id,
         email: userData.email,
         role: userData.role,
         branch_id: userData.branch_id,
@@ -33,6 +33,7 @@ export const authLogin = async (req, res) => {
       secure: "none",
       maxAge: 24 * 60 * 60 * 1000,
     });
+
     res.status(200).json({
       message: "Login sucessfull",
       token,
@@ -40,6 +41,7 @@ export const authLogin = async (req, res) => {
         user_id: userData.user_id,
         email: userData.email,
         role: userData.role,
+        branch_id: userData.branch_id,
       },
     });
   } catch (error) {

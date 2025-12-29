@@ -189,3 +189,28 @@ export const deleteBranch = async (req, res, next) => {
     next(error);
   }
 };
+//update branch
+export const updateBranch=async(req,res,next)=>{
+  try {
+    const {id}=req.params;
+    const {branch_name,district_id,remarks}=req.body;
+    const [existing]=await db.query("SELECT * FROM branch WHERE branch_id=?",
+      [id]
+    );
+    if(existing.length===0)
+    {
+      return res.status(404).json({
+        message:"Branch not found with id ${id}",
+      });
+    }
+    const oldbranch=existing[0];
+    const updatedBranchName=branch_name||oldbranch.branch_name;
+    const updatedDistrictId=district_id||oldbranch.district_id;
+    const updatedRemarks=remarks||oldbranch.remarks;
+    if(district_id !==oldbranch.district_id){
+      
+    }
+  } catch (error) {
+    
+  }
+}

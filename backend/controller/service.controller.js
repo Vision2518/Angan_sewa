@@ -34,19 +34,34 @@ export const addService = async (req, res) => {
     res.status(400).json({ message: "Internal server error" });
   }
 };
-//get services
+//get service
 export const getAllservices = async (req, res) => {
   try {
-    const [rows] = await db.query(
-      "SELECT s.service_name,s.description,s.branch_id,b.branch_name FROM services s LEFT JOIN branch b ON s.branch_id=b.branch_id"
-    );
-    res.status(200).json({
-      message: "Sucesfully retrieved all services",
-      data: rows,
-    });
+    const { province_id, district_id, branch_id } = req.query;
+    let query = "";
+    let params = [];
+    if (province_id && !district_id && !branch_id) {
+      //get district based on province_id
+      query = "SELECT * FROM district WHERE province_id=?";
+      params = [province_id];
+    } else if (province_id && district_id && !branch_id) {
+      //get branches based on district_id
+      query = "SELECT * FROM branch WHERE district_id=?";
+      params = [distict_id];
+    } else if (province_id && district_id) {
+      //get services based on branch_id
+      query == "SELECT * FROM services WHERE branch_id=?";
+      params = [branch_id];
+    } else {
+      query = "SELECT * FROM services";
+    }
+    const [results] = await db.query(query, params);
+    return;
+    res
+      .status(200)
+      .json({ message: "Sucessfully retrived service", data: results });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ message: "Internal server error" });
   }
 };
 //delete service
