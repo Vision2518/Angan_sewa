@@ -1,12 +1,24 @@
 import { useState } from "react";
 import Input from "./shared/Input";
 import { useLoginMutation } from "../redux/features/authSlice";
-
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setUser } from "../redux/features/authState";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isAuth = useSelector((state) => state.user.isAuth);
   const [login] = useLoginMutation();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+  });
+  useEffect(() => {
+    if (isAuth) {
+      navigate("/admin/dashboard");
+    }
   });
   const handleClick = (e) => {
     const { id, value } = e.target;
@@ -18,11 +30,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await login(formData).unwrap();
-      console.log(res);
+      const data = await login(formData).unwrap();
+
+      dispatch(setUser(data.user));
+      navigate("/admin/dashboard");
+      toast.success(data.message);
     } catch (error) {
-      alert("error", error);
-      console.log(error);
+      toast.error(error.data.message);
     }
   };
   return (

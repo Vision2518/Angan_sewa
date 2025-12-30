@@ -1,3 +1,4 @@
+//auth slice
 import { indexSlice } from "./indexSlice";
 
 export const authAPIs = indexSlice.injectEndpoints({
