@@ -1,7 +1,9 @@
 import { useState } from "react";
 import Input from "./shared/Input";
+import { useLoginMutation } from "../redux/features/authSlice";
 
 const Login = () => {
+  const [login] = useLoginMutation();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -13,9 +15,15 @@ const Login = () => {
       [id]: value,
     });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Hi " + formData.email);
+    try {
+      const res = await login(formData).unwrap();
+      console.log(res);
+    } catch (error) {
+      alert("error", error);
+      console.log(error);
+    }
   };
   return (
     <div className="h-screen flex justify-center items-center bg-gray-100">
