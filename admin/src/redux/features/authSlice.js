@@ -9,9 +9,17 @@ export const authAPIs = indexSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      
       invalidatesTags: ["auth"],
       //providetag when query and get
     }),
+    signout: builder.mutation({
+        query: () => ({
+          url: "/auth/signout",
+          method: "POST",
+        }),
+        invalidatesTags: ["auth"],
+      }),
   }),
 });
-export const { useLoginMutation } = authAPIs;
+export const { useLoginMutation,useSignoutMutation } = authAPIs;
