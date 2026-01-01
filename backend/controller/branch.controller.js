@@ -153,12 +153,13 @@ export const addBranch = async (req, res) => {
 export const getAllBranches = async (req, res) => {
   try {
     const [rows] = await db.query(
-      "SELECT d.district_name,b.branch_name,b.remarks FROM branch b LEFT JOIN district d ON b.branch_id=d.district_id"
+      "SELECT d.district_name,b.branch_id,b.branch_name,b.remarks FROM branch b LEFT JOIN district d ON b.branch_id=d.district_id"
     );
     res.status(200).json({
       message: "sucessfully retrieved all branch name",
       data: rows,
     });
+    console.log(rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -190,27 +191,24 @@ export const deleteBranch = async (req, res, next) => {
   }
 };
 //update branch
-export const updateBranch=async(req,res,next)=>{
+export const updateBranch = async (req, res, next) => {
   try {
-    const {id}=req.params;
-    const {branch_name,district_id,remarks}=req.body;
-    const [existing]=await db.query("SELECT * FROM branch WHERE branch_id=?",
+    const { id } = req.params;
+    const { branch_name, district_id, remarks } = req.body;
+    const [existing] = await db.query(
+      "SELECT * FROM branch WHERE branch_id=?",
       [id]
     );
-    if(existing.length===0)
-    {
+    if (existing.length === 0) {
       return res.status(404).json({
-        message:"Branch not found with id ${id}",
+        message: "Branch not found with id ${id}",
       });
     }
-    const oldbranch=existing[0];
-    const updatedBranchName=branch_name||oldbranch.branch_name;
-    const updatedDistrictId=district_id||oldbranch.district_id;
-    const updatedRemarks=remarks||oldbranch.remarks;
-    if(district_id !==oldbranch.district_id){
-      
+    const oldbranch = existing[0];
+    const updatedBranchName = branch_name || oldbranch.branch_name;
+    const updatedDistrictId = district_id || oldbranch.district_id;
+    const updatedRemarks = remarks || oldbranch.remarks;
+    if (district_id !== oldbranch.district_id) {
     }
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};

@@ -7,11 +7,12 @@ import staffRouter from "./routes/staff.route.js";
 import authRouter from "./routes/auth.route.js";
 import cookieParser from "cookie-parser";
 import siteRouter from "./routes/site.route.js";
+import cors from "cors";
 dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use("/api/branch", branchRouter);
 app.use("/api/service", serviceRouter);
 app.use("/api/staff", staffRouter);

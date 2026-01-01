@@ -13,19 +13,27 @@ import { isLogin } from "../middlewares/isLogin.js";
 import { authorizeRoles } from "../middlewares/isAuth.js";
 const siteRouter = express.Router();
 siteRouter.post("/add-inquiry", addInquiry);
-siteRouter.get("/get-inquiry", getInquiry);
+siteRouter.get(
+  "/get-inquiry",
+  getInquiry,
+  isLogin,
+  authorizeRoles("branch_manager", "admin")
+);
+
 siteRouter.post("/add-review", addReview);
 siteRouter.get("/get-review", getReview);
 siteRouter.post(
   "/add-trusted-customer",
   tcustomerImgUpload.single("tcustomerImg"),
+  isLogin,
+  authorizeRoles("admin", "branch_manager"),
   addTrustedCustomer
 );
 siteRouter.get("/get-trusted-customer", getTrustedCustomer);
 siteRouter.post(
   "/add-gallery",
   isLogin,
-  authorizeRoles("admin","branch_manager"),
+  authorizeRoles("admin", "branch_manager"),
   Galleries.array("images", 20),
   addGallery
 );

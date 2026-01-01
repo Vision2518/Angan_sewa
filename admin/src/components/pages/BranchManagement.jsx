@@ -1,13 +1,13 @@
 import Select from "../../components/shared/Select";
-import { useGetDistrictQuery } from "../../redux/features/districtSlice";
-const DistrictManagement = () => {
-  const { data: district, isLoading } = useGetDistrictQuery();
-  console.log(district);
+import { useGetBranchQuery } from "../../redux/features/branchSlice";
+const BranchManagement = () => {
+  const { data: branch, isLoading } = useGetBranchQuery();
+  console.log(branch);
   if (isLoading) {
     return <div>isLoading</div>;
   }
 
-  const data = district.data || [];
+  const data = branch.data || [];
   const actionOptions = [
     { value: "Delete", label: "Delete" },
     { value: "view", label: "View" },
@@ -25,6 +25,9 @@ const DistrictManagement = () => {
               S.N
             </th>
             <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
+              District Name
+            </th>
+            <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
               Branch ID
             </th>
             <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
@@ -37,13 +40,16 @@ const DistrictManagement = () => {
         </thead>
         <tbody>
           {data.map((item, index) => (
-            <tr key={item.province_id} className="border-b hover:bg-gray-50">
+            <tr key={item.branch_id} className="border-b hover:bg-gray-50">
               <td className="px-4 py-3 text-sm text-slate-600">{index + 1}</td>
               <td className="px-4 py-3 text-sm text-slate-600">
-                {item.district_id}
+                {item.district_name}
               </td>
               <td className="px-4 py-3 text-sm text-slate-600">
-                {item.district_name}
+                {item.branch_id}
+              </td>
+              <td className="px-4 py-3 text-sm text-slate-600">
+                {item.branch_name}
               </td>
               <td className="px-4 py-3 text-sm">
                 <Select
@@ -60,4 +66,4 @@ const DistrictManagement = () => {
   );
 };
 
-export default DistrictManagement;
+export default BranchManagement;
