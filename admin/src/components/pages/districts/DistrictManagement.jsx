@@ -1,13 +1,13 @@
-import Select from "../../components/shared/Select";
-import { useGetProvinceQuery } from "../../redux/features/provinceSlice";
-
-const ProvinceManagement = () => {
-  const { data: province, isLoading } = useGetProvinceQuery();
+import Select from "../../shared/Select";
+import { useGetDistrictQuery } from "../../../redux/features/districtSlice";
+const DistrictManagement = () => {
+  const { data: district, isLoading } = useGetDistrictQuery();
+  console.log(district);
   if (isLoading) {
     return <div>isLoading</div>;
   }
 
-  const data = province.data || [];
+  const data = district.data || [];
   const actionOptions = [
     { value: "Delete", label: "Delete" },
     { value: "view", label: "View" },
@@ -16,7 +16,7 @@ const ProvinceManagement = () => {
   return (
     <div className="w-full bg-white shadow rounded-lg overflow-hidden">
       <div className="text-3xl pb-7 font-bold ">
-        <h1>Province Management Dashboard</h1>
+        <h1 className="text-green">Branch Management Dashboard</h1>
       </div>
       <table className="w-full border-collapse">
         <thead className="bg-slate-100">
@@ -25,10 +25,10 @@ const ProvinceManagement = () => {
               S.N
             </th>
             <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
-              Province ID
+              Branch ID
             </th>
             <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
-              Province Name
+              Branch Name
             </th>
             <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
               Action
@@ -40,10 +40,10 @@ const ProvinceManagement = () => {
             <tr key={item.province_id} className="border-b hover:bg-gray-50">
               <td className="px-4 py-3 text-sm text-slate-600">{index + 1}</td>
               <td className="px-4 py-3 text-sm text-slate-600">
-                {item.province_id}
+                {item.district_id}
               </td>
               <td className="px-4 py-3 text-sm text-slate-600">
-                {item.province_name}
+                {item.district_name}
               </td>
               <td className="px-4 py-3 text-sm">
                 <Select
@@ -60,4 +60,4 @@ const ProvinceManagement = () => {
   );
 };
 
-export default ProvinceManagement;
+export default DistrictManagement;

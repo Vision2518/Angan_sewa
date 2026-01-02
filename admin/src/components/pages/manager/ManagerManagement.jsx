@@ -1,13 +1,13 @@
-import Select from "../../components/shared/Select";
-import { useGetBranchQuery } from "../../redux/features/branchSlice";
-const BranchManagement = () => {
-  const { data: branch, isLoading } = useGetBranchQuery();
-  console.log(branch);
+import Select from "../../shared/Select";
+import { useGetbranchManagerQuery } from "../../../redux/features/managerSlice";
+const ManagerManagement = () => {
+  const { data: manager, isLoading } = useGetbranchManagerQuery();
+  console.log(manager);
   if (isLoading) {
     return <div>isLoading</div>;
   }
 
-  const data = branch.data || [];
+  const data = manager?.data || [];
   const actionOptions = [
     { value: "Delete", label: "Delete" },
     { value: "view", label: "View" },
@@ -16,7 +16,7 @@ const BranchManagement = () => {
   return (
     <div className="w-full bg-white shadow rounded-lg overflow-hidden">
       <div className="text-3xl pb-7 font-bold ">
-        <h1 className="text-green">Branch Management Dashboard</h1>
+        <h1 className="text-green">Manager Management Dashboard</h1>
       </div>
       <table className="w-full border-collapse">
         <thead className="bg-slate-100">
@@ -25,13 +25,10 @@ const BranchManagement = () => {
               S.N
             </th>
             <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
-              District Name
+              Manager ID
             </th>
             <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
-              Branch ID
-            </th>
-            <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
-              Branch Name
+              Manager Email
             </th>
             <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
               Action
@@ -43,14 +40,9 @@ const BranchManagement = () => {
             <tr key={item.branch_id} className="border-b hover:bg-gray-50">
               <td className="px-4 py-3 text-sm text-slate-600">{index + 1}</td>
               <td className="px-4 py-3 text-sm text-slate-600">
-                {item.district_name}
-              </td>
-              <td className="px-4 py-3 text-sm text-slate-600">
                 {item.branch_id}
               </td>
-              <td className="px-4 py-3 text-sm text-slate-600">
-                {item.branch_name}
-              </td>
+              <td className="px-4 py-3 text-sm text-slate-600">{item.email}</td>
               <td className="px-4 py-3 text-sm">
                 <Select
                   options={actionOptions}
@@ -66,4 +58,4 @@ const BranchManagement = () => {
   );
 };
 
-export default BranchManagement;
+export default ManagerManagement;

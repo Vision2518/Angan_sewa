@@ -1,13 +1,14 @@
-import BranchManagement from "../components/pages/BranchManagement";
-import DistrictManagement from "../components/pages/DistrictManagement";
-import ProfileManagement from "../components/pages/ProfileManagement";
-import ProvinceManagement from "../components/pages/ProvinceManagement";
+import BranchManagement from "../components/pages/branch/BranchManagement";
+import DistrictManagement from "../components/pages/districts/DistrictManagement";
+import ProfileManagement from "../components/pages/profile/ProfileManagement";
+import ProvinceManagement from "../components/pages/province/ProvinceManagement";
+import DashboardManagement from "../components/pages/DashboardManagement";
+import ManagerManagement from "../components/pages/manager/ManagerManagement";
 
-const Dashboard = () => <div>Dashboard</div>;
 export const adminRoutes = [
   {
     path: "dashboard",
-    element: <Dashboard />,
+    element: <DashboardManagement />,
   },
   {
     path: "province",
@@ -24,5 +25,9 @@ export const adminRoutes = [
   {
     path: "profile",
     element: <ProfileManagement />,
+  },
+  {
+    path: "manager",
+    element: <ManagerManagement />,
   },
 ];

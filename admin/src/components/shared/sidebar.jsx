@@ -8,10 +8,12 @@ const Sidebar = () => {
   const [signout] = useSignoutMutation();
   const dispatch = useDispatch();
   const menuItems = [
+    { name: "Dashboard Management", path: "/admin/dashboard" },
     { name: "Province", path: "/admin/province" },
     { name: "District", path: "/admin/district" },
     { name: "Branch Management", path: "/admin/branch" },
     { name: "Profile", path: "/admin/profile" },
+    { name: "Manager", path: "/admin/manager" },
   ];
   const handleSignout = async () => {
     try {
