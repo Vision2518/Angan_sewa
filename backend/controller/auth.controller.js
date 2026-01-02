@@ -90,7 +90,9 @@ export const addBranchManager = async (req, res) => {
 };
 export const getBranchManager = async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT  email, role,branch_id FROM users");
+    const [rows] = await db.query(
+      `SELECT  email, role,branch_id FROM users WHERE role="branch_manager"`
+    );
     return res.status(200).json({ data: rows });
   } catch (error) {
     console.log(error);
