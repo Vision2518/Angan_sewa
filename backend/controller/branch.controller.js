@@ -22,16 +22,17 @@ export const addProvince = async (req, res) => {
 //get all provinces
 export const getAllProvinces = async (req, res) => {
   try {
-    const [rows] = await db.query(`
-      SELECT 
-      p.province_id,
-      p.province_name,
-      GROUP_CONCAT(d.district_name) as district
-      FROM province p
-      LEFT JOIN district d
-      ON p.province_id=d.province_id
-      GROUP BY p.province_id,p.province_name
-      `);
+    const [rows] = await db.query(`SELECT 
+  p.province_id,
+  p.province_name,
+  GROUP_concat(d.district_name) as district_name
+FROM province p
+LEFT JOIN district d 
+  ON p.province_id = d.province_id
+GROUP BY 
+  p.province_id,
+  p.province_name;
+`);
     res.status(200).json({
       message: "Sucesssfully retrieved all provinces",
       data: rows,
@@ -92,7 +93,17 @@ export const addDistrict = async (req, res) => {
 //get all districts
 export const getAllDistricts = async (req, res) => {
   try {
-    const [rows] = await db.query(`SELECT * FROM district`);
+    const [rows] = await db.query(`SELECT 
+  d.district_id,
+  d.district_name,
+  GROUP_CONCAT(b.branch_name SEPARATOR ', ') AS branch_name
+FROM district d
+LEFT JOIN branch b
+  ON d.district_id = b.district_id
+GROUP BY 
+  d.district_id,
+  d.district_name;
+`);
     res.status(200).json({
       message: "Sucesssfully retrieved all districts",
       data: rows,
