@@ -1,22 +1,34 @@
 import Select from "../../shared/Select";
 import { useGetDistrictQuery } from "../../../redux/features/districtSlice";
+import { useState } from "react";
+import DetailsModal from "../../shared/Modal";
+
 const DistrictManagement = () => {
-  const { data: district, isLoading } = useGetDistrictQuery();
-  console.log(district);
-  if (isLoading) {
-    return <div>isLoading</div>;
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [showModel, setShowModel] = useState(false);
+  const{data:district, isLoading} = useGetDistrictQuery();
+  if(isLoading){
+    return <div>Loading...</div>;
   }
-
   const data = district.data || [];
+  
   const actionOptions = [
-    { value: "Delete", label: "Delete" },
-    { value: "view", label: "View" },
+    { value: "Delete-District", label: "Delete-District" },
+    { value: "View-Branch", label: "View-Branch" },
   ];
-
+    const handleActionChange = (e, district) => {
+    const action = e.target.value;
+    if (action == "View-Branch") {
+      setSelectedDistrict(district);
+      setShowModel(true);
+    }
+    e.target.value = "";
+  };
   return (
+    <>
     <div className="w-full bg-white shadow rounded-lg overflow-hidden">
-      <div className="text-3xl pb-7 font-bold ">
-        <h1 className="text-green">Branch Management Dashboard</h1>
+      <div className="text-xl pb-7 font-bold">
+        <h1>Districts List</h1>
       </div>
       <table className="w-full border-collapse">
         <thead className="bg-slate-100">
@@ -25,10 +37,10 @@ const DistrictManagement = () => {
               S.N
             </th>
             <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
-              Branch ID
+              District ID
             </th>
             <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
-              Branch Name
+              District Name
             </th>
             <th className="px-4 py-3 text-left text-sm font-semibold text-slate-700">
               Action
@@ -37,7 +49,8 @@ const DistrictManagement = () => {
         </thead>
         <tbody>
           {data.map((item, index) => (
-            <tr key={item.province_id} className="border-b hover:bg-gray-50">
+            <tr key={item.district_id} className="border-b hover:bg-gray-50">
+    
               <td className="px-4 py-3 text-sm text-slate-600">{index + 1}</td>
               <td className="px-4 py-3 text-sm text-slate-600">
                 {item.district_id}
@@ -49,7 +62,7 @@ const DistrictManagement = () => {
                 <Select
                   options={actionOptions}
                   placeholder="Action"
-                  onChange={(e) => console.log(e.target.value)}
+                  onChange={(e) => handleActionChange(e,item)}
                 />
               </td>
             </tr>
@@ -57,7 +70,27 @@ const DistrictManagement = () => {
         </tbody>
       </table>
     </div>
+    <DetailsModal
+       show={showModel}
+       onClose={()=>setShowModel(false)}
+        title={`Branch in ${selectedDistrict?.district_name}`}
+        size="lg"
+      >
+        <div className="space-y-2">
+          {selectedDistrict?.branch_name ? (
+            selectedDistrict.branch_name
+              .split(",")
+              .map((branch, index) => (
+                <div key={index} className="p-3 bg-gray-50 rounded">
+                  <span className="font-medium">{branch}</span>
+                </div>
+              ))
+          ) : (
+            <div>No branch Found</div>
+          )}
+        </div>
+      </DetailsModal>
+    </>
   );
 };
-
 export default DistrictManagement;

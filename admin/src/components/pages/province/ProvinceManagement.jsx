@@ -5,7 +5,7 @@ import DetailsModal from "../../shared/Modal";
 
 const ProvinceManagement = () => {
   const [selectedProvince, setSelectedProvince] = useState(null);
-  const [showModal, setshowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const { data: province, isLoading } = useGetProvinceQuery();
   if (isLoading) {
     return <div>isLoading</div>;
@@ -19,8 +19,8 @@ const ProvinceManagement = () => {
   const handleActionChange = (e, province) => {
     const action = e.target.value;
     if (action === "view") {
-      setSelectedProvince(province.province_id);
-      setshowModal(true);
+      setSelectedProvince(province);
+      setShowModal(true);
     }
     e.target.value = "";
   };
@@ -73,8 +73,22 @@ const ProvinceManagement = () => {
       </div>
       <DetailsModal
         show={showModal}
-        onClose={() => setshowModal(false)}
-      ></DetailsModal>
+        onClose={() => setShowModal(false)}
+        title={`Districts in ${selectedProvince?.province_name}`}
+        size="lg"
+      >
+        <div className="space-y-2">
+          {selectedProvince?.district_name ? (
+            selectedProvince.district_name.split(",").map((district, index) => (
+              <div key={index} className="p-3 bg-gray-50 rounded">
+                <span className="font-medium">{district}</span>
+              </div>
+            ))
+          ) : (
+            <div>No district Found</div>
+          )}
+        </div>
+      </DetailsModal>
     </>
   );
 };
