@@ -1,6 +1,5 @@
 //auth slice
 import { indexSlice } from "./indexSlice";
-
 export const provinceAPIs = indexSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProvince: builder.query({
