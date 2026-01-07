@@ -4,18 +4,45 @@ import DetailsModal from "../../shared/Modal";
 import { useState } from "react";
 import { useGetProvinceQuery } from "../../../redux/features/provinceSlice";
 import Input from "../../shared/Input";
+import { useGetDistrictQuery } from "../../../redux/features/districtSlice";
+import {
+  useGetBranchQuery,
+  useGetPDBQuery,
+} from "../../../redux/features/branchSlice";
 
 const ManagerManagement = () => {
   const [selectedManager, setSelectedManager] = useState(null);
+  const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedBranch, setSelectedBranch] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const { data: manager, isLoading, error } = useGetbranchManagerQuery();
   const { data: provinces } = useGetProvinceQuery();
-  
-  console.log("Manager API Response:", manager);
-  console.log("Is Loading:", isLoading);
-  console.log("Error:", error);
-  console.log(provinces);
+
+  const { data: districts } = useGetPDBQuery(
+    { province_id: selectedProvince },
+    { skip: !selectedProvince }
+  );
+  const { data: branches } = useGetPDBQuery(
+    { district_id: selectedDistrict },
+    { skip: !selectedDistrict }
+  );
+  const provinceOptions =
+    provinces?.data?.map((p) => ({
+      value: p.province_id,
+      label: p.province_name,
+    })) || [];
+  const districtOptions =
+    districts?.data?.map((d) => ({
+      value: d.district_id,
+      label: d.district_name,
+    })) || [];
+  const branchOptions =
+    branches?.data?.map((b) => ({
+      value: b.branch_id,
+      label: b.branch_name,
+    })) || [];
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -30,7 +57,7 @@ const ManagerManagement = () => {
 
   const managers = manager?.data || [];
   console.log("Managers array:", managers);
-  
+
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -119,9 +146,12 @@ const ManagerManagement = () => {
               <label className="block text-sm font-medium mb-3">Province</label>
               <div className="w-full">
                 <Select
-                  // options={provinceOptions}
-                  // value={selectedProvince}
-                  // onChange={handleProvinceChange}
+                  options={provinceOptions}
+                  value={selectedProvince}
+                  onChange={(e) => {
+                    setSelectedProvince(e.target.value);
+                    setSelectedBranch("");
+                  }}
                   placeholder="Select Province"
                 />
               </div>
@@ -131,11 +161,13 @@ const ManagerManagement = () => {
               <label className="block text-sm font-medium mb-3">District</label>
               <div className="w-full">
                 <Select
-                  // options={districtOptions}
-                  // value={selectedDistrict}
-                  // onChange={handleDistrictChange}
-                  placeholder="Select District"
-                  // disabled={!selectedProvince}
+                  options={districtOptions}
+                  value={selectedDistrict}
+                  disabled={!selectedProvince}
+                  onChange={(e) => {
+                    setSelectedDistrict(e.target.value);
+                    setSelectedBranch("");
+                  }}
                 />
               </div>
             </div>
@@ -144,11 +176,13 @@ const ManagerManagement = () => {
               <label className="block text-sm font-medium mb-3">Branch</label>
               <div className="w-full">
                 <Select
-                  // options={branchOptions}
-                  // value={selectedBranch}
-                  // onChange={(e) => setSelectedBranch(e.target.value)}
-                  // placeholder="Select Branch"
-                  // disabled={!selectedDistrict}
+                  options={branchOptions}
+                  value={selectedBranch}
+                  disabled={!selectedDistrict}
+                  onChange={(e) => {
+                    setSelectedBranch(e.target.value);
+                    setSelectedBranch("");
+                  }}
                 />
               </div>
             </div>
