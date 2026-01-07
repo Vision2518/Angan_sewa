@@ -223,3 +223,32 @@ export const updateBranch = async (req, res, next) => {
     }
   } catch (error) {}
 };
+export const getAllPDB = async (req, res) => {
+  const { province_id, district_id } = req.query;
+  try {
+    let query = "";
+    let params = [];
+
+    if (province_id && !district_id) {
+      // Get districts based on province_id
+      query = "SELECT * FROM district WHERE province_id = ?";
+      params = [province_id];
+    } else if (district_id) {
+      // Get branches based on district_id
+      query = "SELECT * FROM branch WHERE district_id = ?";
+      params = [district_id];
+    } else {
+      return res
+        .status(400)
+        .json({ message: "Please provide province_id or district_id" });
+    }
+    const [results] = await db.query(query, params);
+
+    res.status(200).json({
+      message: "Data fetched successfully",
+      data: results,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};

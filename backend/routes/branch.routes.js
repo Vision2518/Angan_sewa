@@ -8,6 +8,7 @@ import {
   deleteProvince,
   getAllBranches,
   getAllDistricts,
+  getAllPDB,
   getAllProvinces,
   updateBranch,
 } from "../controller/branch.controller.js";
@@ -27,6 +28,7 @@ branchRouter.get("/get-district", getAllDistricts);
 branchRouter.delete("/delete-district", deleteDistrict);
 branchRouter.post("/add-branch", addBranch);
 branchRouter.get("/get-branch", getAllBranches);
+branchRouter.get("/pdb", getAllPDB);
 branchRouter.delete(
   "/delete-branch",
   isLogin,
