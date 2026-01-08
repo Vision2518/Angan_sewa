@@ -98,3 +98,27 @@ export const getBranchManager = async (req, res) => {
     console.log(error);
   }
 };
+export const verifyToken = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        res.clearCookie("token");
+        return res.status(401).json({ message: "Token expired or invalid" });
+      }
+      console.log(decoded);
+      res.status(200).json({
+        message: "Token is valid",
+        user: decoded,
+      });
+    });
+    console.log(user);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};

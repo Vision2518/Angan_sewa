@@ -4,6 +4,7 @@ import {
   authLogin,
   getBranchManager,
   signout,
+  verifyToken,
 } from "../controller/auth.controller.js";
 import { isLogin } from "../middlewares/isLogin.js";
 import { authorizeRoles } from "../middlewares/isAuth.js";
@@ -23,4 +24,5 @@ authRouter.get(
   authorizeRoles("admin"),
   getBranchManager
 );
+authRouter.get("/verify-token",isLogin,verifyToken)
 export default authRouter;
