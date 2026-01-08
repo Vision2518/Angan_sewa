@@ -1,5 +1,5 @@
 import Select from "../../shared/Select";
-import { useGetbranchManagerQuery } from "../../../redux/features/managerSlice";
+import { useAddBranchManagerMutation, useGetbranchManagerQuery } from "../../../redux/features/managerSlice";
 import DetailsModal from "../../shared/Modal";
 import { useState } from "react";
 import { useGetProvinceQuery } from "../../../redux/features/provinceSlice";
@@ -18,8 +18,9 @@ const ManagerManagement = () => {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const { data: manager, isLoading, error } = useGetbranchManagerQuery();
+  const [addBranchManager]=useAddBranchManagerMutation();
+  
   const { data: provinces } = useGetProvinceQuery();
-
   const { data: districts } = useGetPDBQuery(
     { province_id: selectedProvince },
     { skip: !selectedProvince }
@@ -44,19 +45,19 @@ const ManagerManagement = () => {
       label: b.branch_name,
     })) || [];
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
   if (error) {
-    console.log("API Error:", error);
+
     return (
       <div>Error loading managers: {error.message || "Unknown error"}</div>
     );
   }
 
   const managers = manager?.data || [];
-  console.log("Managers array:", managers);
+
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -65,6 +66,24 @@ const ManagerManagement = () => {
   const handleActionChange = (e, manager) => {
     const action = e.target.value;
   };
+  const handleSubmit= async (e)=>{
+      e.preventDefault();
+      try {
+        await addBranchManager({
+          branch_id: selectedBranch,
+          email:formData.email,
+          password:formData.password
+
+        }).unwrap();
+      setShowModal(false);
+      setFormData({ email: "", password: "" });
+      setSelectedProvince("");
+      setSelectedDistrict("");
+      setSelectedBranch("");
+      } catch (error) {
+        console.error("Failed to add manager",error)
+      }
+  }
   return (
     <>
       <div>
@@ -140,6 +159,7 @@ const ManagerManagement = () => {
         title="Add Manager"
         size="3xl"
       >
+        <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-6">
           <div className="grid grid-cols-3 gap-6">
             <div>
@@ -181,7 +201,6 @@ const ManagerManagement = () => {
                   disabled={!selectedDistrict}
                   onChange={(e) => {
                     setSelectedBranch(e.target.value);
-                    setSelectedBranch("");
                   }}
                 />
               </div>
@@ -222,9 +241,9 @@ const ManagerManagement = () => {
             </button>
           </div>
         </div>
+      </form>
       </DetailsModal>
     </>
   );
 };
-
 export default ManagerManagement;

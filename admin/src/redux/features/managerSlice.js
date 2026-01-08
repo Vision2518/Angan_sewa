@@ -1,15 +1,23 @@
 import { indexSlice } from "./indexSlice";
 
 export const managerAPIs = indexSlice.injectEndpoints({
-  endpoints: (bulider) => ({
-    getbranchManager: bulider.query({
+  endpoints: (builder) => ({
+    getbranchManager: builder.query({
       query: (data) => ({
         url: "/auth/get-branch-manager",
         method: "GET",
       }),
       providesTags: ["manager"],
     }),
+    addBranchManager: builder.mutation({
+      query: (data) => ({
+        url: "/auth/add-branch-manager",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["manager"],
+    }),
   }),
 });
 
-export const { useGetbranchManagerQuery } = managerAPIs;
+export const { useGetbranchManagerQuery, useAddBranchManagerMutation } = managerAPIs;

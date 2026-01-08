@@ -20,6 +20,14 @@ export const authAPIs = indexSlice.injectEndpoints({
         }),
         invalidatesTags: ["auth"],
       }),
+      verifyToken:builder.query({
+        query:()=>({
+          url:"/auth/verify-token",
+          method:"GET",
+        }),
+        invalidatesTags:["auth"],
+      }) 
+
   }),
 });
-export const { useLoginMutation,useSignoutMutation } = authAPIs;
+export const { useLoginMutation,useSignoutMutation,useVerifyTokenQuery} = authAPIs;
