@@ -6,6 +6,8 @@ import DetailsModal from "../../shared/Modal";
 const ProvinceManagement = () => {
   const [selectedProvince, setSelectedProvince] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deletingProvince, setDeletingProvince] = useState(false);
   const { data: province, isLoading } = useGetProvinceQuery();
   if (isLoading) {
     return <div>isLoading</div>;
@@ -21,6 +23,9 @@ const ProvinceManagement = () => {
     if (action === "view") {
       setSelectedProvince(province);
       setShowModal(true);
+    } else if (action === "Delete") {
+      setShowDeleteModal(true);
+      setDeletingProvince(province);
     }
     e.target.value = "";
   };
@@ -87,6 +92,34 @@ const ProvinceManagement = () => {
           ) : (
             <div>No district Found</div>
           )}
+        </div>
+      </DetailsModal>
+      <DetailsModal
+        show={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        title="Delete Province"
+        size="md"
+      >
+        <div className="space-y-4">
+          <p className="text-gray-700">
+            Are you sure you want to delete this province?{" "}
+            <strong>{deletingProvince?.province_name}</strong>
+          </p>
+          <div className="flex justify-end space-x-3">
+            <button
+              onClick={() => setShowDeleteModal(false)}
+              className="px-4 py-2 text-gray-600 border border-gray-300 rounded hover:bg-gray-50"
+            >
+              Cancel
+            </button>
+            <button
+              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700
+                  disabled:bg-red-400"
+            >
+              Delete
+              {/*{deleteLoading ? "Deleting...":"Delete"}*/}
+            </button>
+          </div>
         </div>
       </DetailsModal>
     </>
