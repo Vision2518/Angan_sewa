@@ -1,9 +1,5 @@
 import { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import Services from "./Services";
-import Gallery from "./Gallery";
-import About from "./About";
-import Contact from "./Contact";
 import Select from "../../components/shared/Select";
 import { useNavigate } from "react-router-dom";
 import {
@@ -48,7 +44,6 @@ const Home = () => {
       label: b.branch_name,
       slug: b.branch_slug,
     })) || [];
-  console.log(availablePlaces);
   // const availablePlaces = selectedDistrict
   //   ? placesByDistrict[selectedDistrict] || []
   //   : [];

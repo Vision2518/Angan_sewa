@@ -5,7 +5,7 @@ import storage from "redux-persist/lib/storage";
 import { indexSlice } from "./features/indexSlice";
 
 const persistConfig = {
-  key: "root",
+  key: "auth",        // ✅ changed key to "auth" 
   storage,
   whitelist: ["user"],
 };
@@ -19,8 +19,8 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      immutableCheck: false,     // ✅ fully disabled
-      serializableCheck: false,  // ✅ fully disabled — not just ignoring actions
+      immutableCheck: false,
+      serializableCheck: false,
     }).concat(indexSlice.middleware),
 });
 

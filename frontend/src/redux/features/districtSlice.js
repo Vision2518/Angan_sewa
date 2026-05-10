@@ -10,7 +10,6 @@ export const districtApi = indexSlice.injectEndpoints({
       providesTags: ["district"],
     }),
 
-    // ✅ Fixed: province_id now correctly passed into the URL
     getDistrictByProvince: builder.query({
       query: (province_id) => ({
         url: `/branch/get-districts/${province_id}`,
@@ -26,11 +25,22 @@ export const districtApi = indexSlice.injectEndpoints({
       }),
       providesTags: ["district"],
     }),
+
+    // NEW ENDPOINT: This handles the filtering for the cards
+    getBranchesByProvince: builder.query({
+      query: ({ province_id, district_id }) => ({
+        url: `/branch/get-filteredBranches`,
+        params: { province_id, district_id },
+        method: "GET",
+      }),
+      providesTags: ["district"],
+    }),
   }),
 });
 
 export const {
   useGetAllDistrictQuery,
-  useGetDistrictByProvinceQuery,  // ✅ RTK auto-generates this from "getDistrictByProvince"
+  useGetDistrictByProvinceQuery,
   useGetBranchByDistrictQuery,
+  useGetBranchesByProvinceQuery, // Now this will be available for export
 } = districtApi;
