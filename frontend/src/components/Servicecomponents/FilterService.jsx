@@ -7,7 +7,6 @@ import {
 } from "../../redux/features/districtSlice";
 import { useGetAllServicesQuery } from "../../redux/features/ServiceSlice";
 import ServiceCard from "./ServiceCard";
-
 const FilterService = () => {
   const IMG_URL = import.meta.env.VITE_IMG_URL;
   const [selectedProvince, setSelectedProvince] = useState("");
@@ -31,7 +30,7 @@ const FilterService = () => {
   const branches = branchData?.data || [];
 
   // 4. ✅ Fetch ALL services once — no params
-  const { data: allServices, isLoading, isError } = useGetAllServicesQuery();
+  const { data: allServices, isLoading, isError } = useGetAllServicesQuery(undefined);
   const allServicesList = allServices?.data || [];
 
   // 5. ✅ Filter locally

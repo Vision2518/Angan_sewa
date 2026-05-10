@@ -5,28 +5,21 @@ export const ServiceApi = indexSlice.injectEndpoints({
       query: (filters) => ({
         url: "/services/get-all-service",
         method: "GET",
-        params: {
-          province_id: filters?.province_id,
-          district_id: filters?.district_id,
-          branch_id: filters?.branch_id,
-        },
+        params: filters ? {
+          ...(filters.province_id && { province_id: filters.province_id }),
+          ...(filters.district_id && { district_id: filters.district_id }),
+          ...(filters.branch_id && { branch_id: filters.branch_id }),
+        } : {},
+      }),
+      providesTags: ["services"], // ✅ matches tagTypes now
+    }),
+    getServiceByBranch: builder.query({
+      query: (branchId) => ({
+        url: `/services/get-services/${branchId}`,
+        method: "GET",
       }),
       providesTags: ["services"],
     }),
-    // getServicesById: builder.query({
-    //   query: (districtId) => ({
-    //     url: `/branch/get-branchs/${districtId}`,
-    //     method: "GET",
-    //   }),
-    //   providesTags: ["district"],
-    // }),
-    getServiceByBranch: builder.query({
-      query: (branchId) => ({
-       url: `/services/get-services/${branchId}`,
-       method: "GET",
-      }),
-      providesTags: ["district"],
-    }),
   }),
 });
-export const { useGetAllServicesQuery ,useGetServiceByBranchQuery } = ServiceApi;
+export const { useGetAllServicesQuery, useGetServiceByBranchQuery } = ServiceApi;

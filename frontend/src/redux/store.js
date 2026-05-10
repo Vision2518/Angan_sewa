@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/authState";
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
+import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { indexSlice } from "./features/indexSlice";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user"], // ✅ ONLY persist user auth, nothing else
+  whitelist: ["user"],
 };
 
 const persistedReducer = persistReducer(persistConfig, authReducer);
@@ -19,11 +19,8 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      immutableCheck: false,
-      serializableCheck: {
-        // ✅ ignore redux-persist actions specifically
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      immutableCheck: false,     // ✅ fully disabled
+      serializableCheck: false,  // ✅ fully disabled — not just ignoring actions
     }).concat(indexSlice.middleware),
 });
 

@@ -8,5 +8,7 @@ export const indexSlice = createApi({
   baseQuery,
   tagTypes: ["auth", "inquery", "district", "serivices", "province"],
    keepUnusedDataFor: 30, // ✅ clears cached data after 30 seconds
+   refetchOnFocus: false,         // ✅ add these
+  refetchOnReconnect: false,
   endpoints: () => ({}),
 });
