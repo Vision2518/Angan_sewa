@@ -518,21 +518,20 @@ export const getBranchByDistrict = async (req, res, next) => {
 
 export const filteredBranches = async (req, res, next) => {
   try {
-    const { province_id, district_id } = req.params;
+    // Access data from req.query because they are sent as ?province_id=...
+    const { province_id, district_id } = req.query;
 
-    // १. यदि केही छानिएको छैन भने सबै ब्रान्च देखाउने Query
     let query = "SELECT * FROM branch";
     let params = [];
 
-    // २. यदि District छानिएको छ भने (सबैभन्दा सटीक फिल्टर)
-    if (district_id) {
+    // Logic: District is the most specific, so check it first
+    if (district_id && district_id !== "" && district_id !== "undefined") {
       query += " WHERE district_id = ?";
       params = [district_id];
-    }
-    // ३. यदि Province मात्र छानिएको छ भने त्यो Province का सबै ब्रान्च देखाउने
-    else if (province_id) {
-      query +=
-        " WHERE district_id IN (SELECT district_id FROM district WHERE province_id = ?)";
+    } 
+    // Fallback to Province if District isn't selected
+    else if (province_id && province_id !== "" && province_id !== "undefined") {
+      query += " WHERE district_id IN (SELECT district_id FROM district WHERE province_id = ?)";
       params = [province_id];
     }
 
