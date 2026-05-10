@@ -1,6 +1,6 @@
 // src/components/Services.jsx
 import React from "react";
-import { useGetServiceByBranchQuery } from "../../redux/features/districtSlice";
+import { useGetServiceByBranchQuery } from "../../redux/features/ServiceSlice";
 import { useLocation } from "react-router-dom";
 
 const Services = () => {

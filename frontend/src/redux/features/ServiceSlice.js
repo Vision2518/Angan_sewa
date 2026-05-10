@@ -20,13 +20,13 @@ export const ServiceApi = indexSlice.injectEndpoints({
     //   }),
     //   providesTags: ["district"],
     // }),
-    // getServiceByBranch: builder.query({
-    //   query: (branchId) => ({
-    //     url: `/services/get-services/${branchId}`,
-    //     method: "GET",
-    //   }),
-    //   providesTags: ["district"],
-    // }),
+    getServiceByBranch: builder.query({
+      query: (branchId) => ({
+       url: `/services/get-services/${branchId}`,
+       method: "GET",
+      }),
+      providesTags: ["district"],
+    }),
   }),
 });
-export const { useGetAllServicesQuery } = ServiceApi;
+export const { useGetAllServicesQuery ,useGetServiceByBranchQuery } = ServiceApi;

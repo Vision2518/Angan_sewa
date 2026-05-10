@@ -301,8 +301,6 @@ export const getAllDistrict = async (req, res, next) => {
 export const getDistrictByProvinceID = async (req, res, next) => {
   try {
     const { province_id } = req.params;
-    console.log(province_id);
-
     // 🔹 validate
     if (!province_id) {
       return res.status(400).json({

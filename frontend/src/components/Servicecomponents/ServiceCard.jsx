@@ -1,49 +1,137 @@
-import React from "react";
+import React, { useState } from "react";
+import { skipToken } from "@reduxjs/toolkit/query/react";
+import { useGetProvinceQuery } from "../../redux/features/provinceSlice";
+import {
+  useGetDistrictByProvinceQuery,
+  useGetBranchByDistrictQuery,
+} from "../../redux/features/districtSlice";
+import { useGetAllServicesQuery } from "../../redux/features/ServiceSlice";
+import ServiceCard from "./ServiceCard";
 
-const ServiceCard = ({ allServices = [], image_url, children }) => {
+const FilterService = () => {
+  const IMG_URL = import.meta.env.VITE_IMG_URL;
+  const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedBranch, setSelectedBranch] = useState("");
+
+  // 1. Provinces
+  const { data: allProvinces } = useGetProvinceQuery();
+  const allprovince = allProvinces?.data || [];
+
+  // 2. Districts
+  const { data: districtData } = useGetDistrictByProvinceQuery(
+    selectedProvince ? selectedProvince : skipToken
+  );
+  const districts = districtData?.data || [];
+
+  // 3. Branches
+  const { data: branchData } = useGetBranchByDistrictQuery(
+    selectedDistrict ? selectedDistrict : skipToken
+  );
+  const branches = branchData?.data || [];
+
+  // 4. All services — fetch once, filter locally
+  const { data: allServices, isLoading, isError } = useGetAllServicesQuery();
+  const allServicesList = allServices?.data || [];
+
+  // ✅ Frontend filtering
+  const servicesList = allServicesList.filter((service) => {
+    if (selectedProvince && String(service.province_id) !== String(selectedProvince)) return false;
+    if (selectedDistrict && String(service.district_id) !== String(selectedDistrict)) return false;
+    if (selectedBranch && String(service.branch_id) !== String(selectedBranch)) return false;
+    return true;
+  });
 
   return (
-    <div className="bg-white p-4">
-      <div className="max-w-6xl mx-auto">
-        {/* Heading */}
-        <div className="text-center max-w-xl mx-auto">
-          <h2 className="text-3xl font-bold text-slate-900 inline-block">
-            {children || "Our Services"}
-          </h2>
+    <section className="py-12 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="bg-white p-6 rounded-2xl shadow-sm grid gap-4 md:grid-cols-4">
+
+          {/* Province */}
+          <select
+            className="border rounded-lg px-4 py-2"
+            value={selectedProvince}
+            onChange={(e) => {
+              setSelectedProvince(e.target.value);
+              setSelectedDistrict("");
+              setSelectedBranch("");
+            }}
+          >
+            <option value="">Select Province</option>
+            {allprovince.map((p) => (
+              <option key={p.province_id} value={p.province_id}>
+                {p.province_name}
+              </option>
+            ))}
+          </select>
+
+          {/* District */}
+          <select
+            key={`district-${selectedProvince}`}
+            className="border rounded-lg px-4 py-2"
+            disabled={!selectedProvince || districts.length === 0}
+            value={selectedDistrict}
+            onChange={(e) => {
+              setSelectedDistrict(e.target.value);
+              setSelectedBranch("");
+            }}
+          >
+            <option value="">Select District</option>
+            {districts.map((d) => (
+              <option key={d.district_id} value={d.district_id}>
+                {d.district_name}
+              </option>
+            ))}
+          </select>
+
+          {/* Branch */}
+          <select
+            key={`branch-${selectedDistrict}`}
+            className="border rounded-lg px-4 py-2"
+            disabled={!selectedDistrict || branches.length === 0}
+            value={selectedBranch}
+            onChange={(e) => setSelectedBranch(e.target.value)}
+          >
+            <option value="">Select Branch</option>
+            {branches.map((b) => (
+              <option key={b.branch_id} value={b.branch_id}>
+                {b.branch_name}
+              </option>
+            ))}
+          </select>
+
+          {/* Reset */}
+          <button
+            className="bg-indigo-600 text-white rounded-lg px-4 py-2 hover:bg-indigo-700 disabled:opacity-40"
+            disabled={!selectedProvince}
+            onClick={() => {
+              setSelectedProvince("");
+              setSelectedDistrict("");
+              setSelectedBranch("");
+            }}
+          >
+            Reset
+          </button>
         </div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12 max-lg:max-w-3xl max-md:max-w-md mx-auto">
-          {allServices.map((service) => (
-            <div
-              key={service.service_id}
-              className="bg-white cursor-pointer rounded-lg overflow-hidden group relative before:absolute before:inset-0 before:z-10 before:bg-black before:opacity-30"
-            >
-              <img
-                src={`${image_url}/${service.service_image}`}
-                alt={service.service_name}
-                className="w-full h-96 object-cover group-hover:scale-110 transition-all duration-300"
-              />
-
-              <div className="bg-linear-to-t from-black/60 via-black/60 to-transparent p-6 absolute bottom-0 left-0 right-0 z-20">
-                <span className="text-sm block mb-2 text-slate-300 font-semibold">
-                  {new Date(service.created_at).toDateString()}
-                </span>
-
-                <h3 className="text-xl font-semibold text-white">
-                  {service.service_name}
-                </h3>
-
-                <p className="text-sm text-gray-200 mt-1">
-                  {service.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Results */}
+        <section className="mt-8">
+          {isLoading && (
+            <p className="text-center text-gray-500 py-8">Loading services...</p>
+          )}
+          {isError && (
+            <p className="text-center text-red-500 py-8">Failed to load services.</p>
+          )}
+          {!isLoading && servicesList.length === 0 && (
+            <p className="text-center text-gray-500 py-8">No services found.</p>
+          )}
+          {!isLoading && servicesList.length > 0 && (
+            <ServiceCard allServices={servicesList} image_url={IMG_URL} />
+          )}
+        </section>
       </div>
-    </div>
+    </section>
   );
 };
 
-export default ServiceCard;
+export default FilterService;
