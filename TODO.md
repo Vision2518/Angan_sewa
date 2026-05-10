@@ -1,0 +1,3 @@
+- [x] Fix Services endpoint mismatch (frontend -> backend)
+- [x] Fix frontend crash: ServiceCard expects an array but gets undefined
+- [ ] Re-test Services page rendering
