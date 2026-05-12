@@ -15,11 +15,13 @@ const FilterService = () => {
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedBranch, setSelectedBranch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   // 1. Core Data
   const { data: allProvinces } = useGetProvinceQuery();
   const { data: allServices } = useGetAllServicesQuery();
-  const allServicesList = allServices?.data || [];
+  const allServicesList = useMemo(() => allServices?.data || [], [allServices]);
 
   // 2. Dropdown Data (Cascading)
   const { data: districtData } = useGetDistrictByProvinceQuery(selectedProvince || skipToken);
@@ -60,7 +62,22 @@ const FilterService = () => {
       // This is what makes the cards change as soon as you click a Province
       return allowedBranchIds.includes(serviceBranchId);
     });
-  }, [allServicesList, selectedProvince, selectedDistrict, selectedBranch, allowedBranchIds, loadingFilter]);
+  }, [allServicesList, selectedProvince, selectedBranch, allowedBranchIds, loadingFilter]);
+
+  const totalServices = servicesList.length;
+  const totalPages = Math.ceil(totalServices / itemsPerPage);
+  const visiblePage = totalPages > 0 ? Math.min(currentPage, totalPages) : 1;
+  const startIndex = (visiblePage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, totalServices);
+
+  // Paginate the already-filtered services so search/filter behavior stays unchanged.
+  const paginatedServices = servicesList.slice(startIndex, endIndex);
+
+  const handlePageChange = (pageNumber) => {
+    // Prevent navigation outside the available page range.
+    if (pageNumber < 1 || pageNumber > totalPages) return;
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className="p-4">
@@ -73,6 +90,7 @@ const FilterService = () => {
             setSelectedProvince(e.target.value);
             setSelectedDistrict(""); // Reset downstream
             setSelectedBranch("");
+            setCurrentPage(1);
           }}
           className="border rounded-lg px-4 py-2"
         >
@@ -89,6 +107,7 @@ const FilterService = () => {
           onChange={(e) => {
             setSelectedDistrict(e.target.value);
             setSelectedBranch(""); // Reset downstream
+            setCurrentPage(1);
           }}
           className="border rounded-lg px-4 py-2 disabled:bg-gray-100"
         >
@@ -102,7 +121,10 @@ const FilterService = () => {
         <select
           value={selectedBranch}
           disabled={!selectedDistrict}
-          onChange={(e) => setSelectedBranch(e.target.value)}
+          onChange={(e) => {
+            setSelectedBranch(e.target.value);
+            setCurrentPage(1);
+          }}
           className="border rounded-lg px-4 py-2 disabled:bg-gray-100"
         >
           <option value="">Select Branch</option>
@@ -117,6 +139,7 @@ const FilterService = () => {
             setSelectedProvince("");
             setSelectedDistrict("");
             setSelectedBranch("");
+            setCurrentPage(1);
           }}
         >
           Reset
@@ -127,7 +150,55 @@ const FilterService = () => {
         {loadingFilter ? (
           <div className="text-center py-20 text-indigo-600 font-bold">Loading Services...</div>
         ) : servicesList.length > 0 ? (
-          <ServiceCard allServices={servicesList} image_url={IMG_URL} />
+          <>
+            <ServiceCard allServices={paginatedServices} image_url={IMG_URL} />
+
+            <div className="max-w-6xl mx-auto px-4 mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm font-medium text-gray-600 text-center sm:text-left">
+                Showing {startIndex + 1}-{endIndex} of {totalServices} services
+              </p>
+
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <button
+                  type="button"
+                  disabled={visiblePage === 1}
+                  onClick={() => handlePageChange(visiblePage - 1)}
+                  className="px-4 py-2 text-sm font-semibold rounded-lg border border-gray-300 text-gray-700 transition disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 enabled:hover:bg-gray-50"
+                >
+                  Previous
+                </button>
+
+                {Array.from({ length: totalPages }, (_, index) => {
+                  const pageNumber = index + 1;
+                  const isActivePage = visiblePage === pageNumber;
+
+                  return (
+                    <button
+                      key={pageNumber}
+                      type="button"
+                      onClick={() => handlePageChange(pageNumber)}
+                      className={`min-w-10 px-3 py-2 text-sm font-semibold rounded-lg border transition ${
+                        isActivePage
+                          ? "border-indigo-600 bg-indigo-600 text-white"
+                          : "border-gray-300 text-gray-700 hover:bg-gray-50"
+                      }`}
+                    >
+                      {pageNumber}
+                    </button>
+                  );
+                })}
+
+                <button
+                  type="button"
+                  disabled={visiblePage === totalPages}
+                  onClick={() => handlePageChange(visiblePage + 1)}
+                  className="px-4 py-2 text-sm font-semibold rounded-lg border border-gray-300 text-gray-700 transition disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 enabled:hover:bg-gray-50"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </>
         ) : (
           <div className="text-center py-20 text-gray-500 font-semibold">
             No services found in this location.
