@@ -6,6 +6,8 @@ import {
 } from "../../../../redux/features/districtSlice";
 
 import FeaturedBranchesList from "./FeaturedBranchesList";
+import FeaturedBranchesSection from "./FeaturedBranchesSection";
+
 
 const FeaturedBranchesContainer = () => {
   const navigate = useNavigate();
