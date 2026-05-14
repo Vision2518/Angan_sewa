@@ -1,8 +1,10 @@
 import React from "react";
 import { galleryData } from "../static/Gallery";
 import GalleryCard from "./GalleryCard";
+import Pagination from "../pagination";
 
 const GalleryGrid = () => {
+  
   return (
     <div className="bg-white py-12 px-4">
       <div className="max-w-7xl mx-auto">
@@ -15,6 +17,14 @@ const GalleryGrid = () => {
             <GalleryCard key={item.gallery_id} item={item} />
           ))}
         </div>
+        <Pagination
+          currentPage={2}
+          totalPages={4}
+          totalItems={40}
+          startIndex={1}
+          endIndex={7}
+          onPageChange
+        />
       </div>
     </div>
   );
