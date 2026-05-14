@@ -10,7 +10,6 @@ import GallerySlider from "../../components/Gallerycomponents/GallerySlider";
 import Hero from "../../components/Homecomponents/Hero";
 import Testimonials from "../../components/Homecomponents/Testonomials";
 import CustomerScroll from "../../components/Homecomponents/TrustedCostumer";
-
 import FeaturedServices from "../../components/Homecomponents/FeaturedServices";
 import HowItWorks from "../../components/Homecomponents/HowItWorks";
 import TrustStrip from "../../components/Homecomponents/TrustStrip";
@@ -51,8 +50,7 @@ const Home = () => {
           <HowItWorks />
           <TrustStrip />
           <GallerySlider />
-          <Testimonials />
-          <CustomerScroll />
+          
           <LeadCapture />
           <FAQAccordion />
           <section className="py-16 bg-white">
@@ -63,6 +61,8 @@ const Home = () => {
               </div>
             </div>
           </section>
+          <Testimonials />
+          <CustomerScroll />
         </div>
       </>
     );
@@ -126,8 +126,6 @@ const Home = () => {
 
           {/* existing sections */}
           <GallerySlider />
-          <Testimonials />
-          <CustomerScroll />
 
           {/* lead capture + FAQ */}
           <LeadCapture />
@@ -196,8 +194,10 @@ const Home = () => {
           </section>
 
           {/* Optional: use districts variable to prevent unused lint if needed */}
-          <div className="hidden">{districts.length}</div>
+          {/* <div className="hidden">{districts.length}</div> */}
         </div>
+        <Testimonials />
+        <CustomerScroll />
       </div>
     </>
   );
