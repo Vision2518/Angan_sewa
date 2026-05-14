@@ -1,10 +1,6 @@
 import React from "react";
 
-const FeaturedBranchesSection = ({
-  featuredBranches,
-  onBranchClick,
-  isEmpty,
-}) => {
+const FeaturedBranchesSection = ({ children, isEmpty }) => {
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-6">
@@ -34,11 +30,9 @@ const FeaturedBranchesSection = ({
           <div className="text-center text-gray-600">
             No branch data available yet.
           </div>
-        ) : featuredBranches?.length ? (
-          <div>{/* list rendered by container */}</div>
-        ) : null}
-
-        {/* Container injects list below via children pattern if needed */}
+        ) : (
+          children
+        )}
       </div>
     </section>
   );
