@@ -14,7 +14,7 @@ export const ServiceApi = indexSlice.injectEndpoints({
         } = filters || {};
 
         return {
-          url: "/services/get-all-service",
+          url: "/services/get-allservice",
           method: "GET",
           params: {
             page,

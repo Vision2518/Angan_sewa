@@ -7,7 +7,7 @@ import {
   getServices,
   getServicesByBranchId,
   getServicesBySlug,
-  publicGetServices,
+  getAllServices,
   updateService,
 } from "../controllers/services.controller.js";
 import { uploadService } from "../utils/multerHandler.js";
@@ -18,7 +18,7 @@ const serviceRouter = express.Router();
 
 // Public Routes
 serviceRouter.get("/get-all-service", getAllServicesWithBranch);
-serviceRouter.get("/get-service", publicGetServices);
+serviceRouter.get("/get-allservice", getAllServices);
 serviceRouter.get("/get-service/:id", getServiceById);
 serviceRouter.get("/get-services/:branchId", getServicesByBranchId);
 serviceRouter.get("/get/:slug", getServicesBySlug);

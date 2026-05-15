@@ -218,28 +218,61 @@ export const getServices = async (req, res, next) => {
   }
 };
 // api for public services
-export const publicGetServices = async (req, res, next) => {
+export const getAllServices = async (req, res, next) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 6;
+    const offset = (page - 1) * limit;
+
     const { province_id, district_id, branch_id } = req.query;
-    // console.log(req.query);
-    let query = "";
+
+    let condition = "WHERE 1=1";
     let params = [];
-    if (province_id && !district_id && !branch_id) {
-      query = "select * from district where province_id=?";
-      params = [province_id];
-    } else if (province_id && district_id && !branch_id) {
-      query = "select * from branch where district_id =?";
-      params = [district_id];
-    } else if (province_id && district_id && branch_id) {
-      query = "select * from services where branch_id =?";
-      params = [branch_id];
-    } else {
-      query = "select * from services order by created_at desc";
+
+    // DEFAULT = no filter → still works
+    if (province_id) {
+      condition += " AND province_id = ?";
+      params.push(province_id);
     }
-    const [result] = await db.execute(query, params);
-    return res.status(200).json({
-      message: "service displayed succesfully",
-      data: result,
+
+    if (district_id) {
+      condition += " AND district_id = ?";
+      params.push(district_id);
+    }
+
+    if (branch_id) {
+      condition += " AND branch_id = ?";
+      params.push(branch_id);
+    }
+
+    // COUNT
+    const [countResult] = await db.query(
+      `SELECT COUNT(*) AS total FROM services ${condition}`,
+      params
+    );
+
+    const total = countResult[0].total;
+
+    // DATA
+    const [rows] = await db.query(
+      `SELECT * FROM services
+       ${condition}
+       ORDER BY created_at DESC
+       LIMIT ? OFFSET ?`,
+      [...params, limit, offset]
+    );
+
+    res.json({
+      success: true,
+      data: rows,
+      pagination: {
+        totalItems: total,
+        totalPages: Math.ceil(total / limit),
+        currentPage: page,
+        limit,
+        hasNextPage: page < Math.ceil(total / limit),
+        hasPreviousPage: page > 1,
+      },
     });
   } catch (error) {
     next(error);
