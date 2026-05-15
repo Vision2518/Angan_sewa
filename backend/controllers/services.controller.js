@@ -171,9 +171,15 @@ export const deleteService = async (req, res, next) => {
 };
 
 // Get By Branch
-export const getServicesByBranchId = async (req, res, next) => {
+export const getServicesByBranch = async (req, res, next) => {
   try {
-    const { branchId } = req.params;
+    const branchId = req.user.branch_id;
+
+    const page = Number(req.query.page) || 1;
+    const limit = 10;
+
+    // offset calculate
+    const offset = (page - 1) * limit;
 
     // ✅ validation
     if (!branchId) {
@@ -183,12 +189,24 @@ export const getServicesByBranchId = async (req, res, next) => {
       });
     }
 
-    const [rows] = await db.execute(
-      "SELECT * FROM services WHERE branch_id = ?",
+    // ✅ total count
+    const [countResult] = await db.query(
+      "SELECT COUNT(*) AS total FROM services WHERE branch_id = ?",
       [branchId],
     );
 
-    // ✅ यदि data छैन भने पनि handle गर
+    const total = countResult[0].total;
+
+    // ✅ paginated data
+    const [rows] = await db.query(
+      `SELECT * 
+       FROM services 
+       WHERE branch_id = ?
+       LIMIT ? OFFSET ?`,
+      [branchId, limit, offset],
+    );
+
+    // ✅ no data
     if (rows.length === 0) {
       return res.status(404).json({
         success: false,
@@ -198,6 +216,10 @@ export const getServicesByBranchId = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
       count: rows.length,
       data: rows,
     });
@@ -205,6 +227,8 @@ export const getServicesByBranchId = async (req, res, next) => {
     next(error);
   }
 };
+
+
 
 // Admin List (Commented logic simplified)
 export const getServices = async (req, res, next) => {
@@ -283,32 +307,5 @@ export const getAllServicesWithBranch = async (req, res, next) => {
   } catch (error) {
     console.error("Error fetching services with branch:", error);
     next(error); // Error handling middleware मा पठाउने
-  }
-};
-export const vision = async (req, res, next) => {
-  try {
-    const { province_id, district_id, branch_id } = req.query;
-    // console.log(req.query);
-    let query = "";
-    let params = [];
-    if (province_id && !district_id && !branch_id) {
-      query = "select * from district where province_id=?";
-      params = [province_id];
-    } else if (province_id && district_id && !branch_id) {
-      query = "select * from branch where district_id =?";
-      params = [district_id];
-    } else if (province_id && district_id && branch_id) {
-      query = "select * from services where branch_id =?";
-      params = [branch_id];
-    } else {
-      query = "select * from services order by created_at desc";
-    }
-    const [result] = await db.execute(query, params);
-    return res.status(200).json({
-      message: "service displayed succesfully",
-      data: result,
-    });
-  } catch (error) {
-    next(error);
   }
 };
