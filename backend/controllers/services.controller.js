@@ -224,42 +224,19 @@ export const getAllServices = async (req, res, next) => {
     const limit = parseInt(req.query.limit) || 6;
     const offset = (page - 1) * limit;
 
-    const { province_id, district_id, branch_id } = req.query;
-
-    let condition = "WHERE 1=1";
-    let params = [];
-
-    // DEFAULT = no filter → still works
-    if (province_id) {
-      condition += " AND province_id = ?";
-      params.push(province_id);
-    }
-
-    if (district_id) {
-      condition += " AND district_id = ?";
-      params.push(district_id);
-    }
-
-    if (branch_id) {
-      condition += " AND branch_id = ?";
-      params.push(branch_id);
-    }
-
-    // COUNT
+    // TOTAL COUNT
     const [countResult] = await db.query(
-      `SELECT COUNT(*) AS total FROM services ${condition}`,
-      params
+      "SELECT COUNT(*) AS total FROM services"
     );
 
     const total = countResult[0].total;
 
-    // DATA
+    // PAGINATED DATA ONLY
     const [rows] = await db.query(
       `SELECT * FROM services
-       ${condition}
        ORDER BY created_at DESC
        LIMIT ? OFFSET ?`,
-      [...params, limit, offset]
+      [limit, offset]
     );
 
     res.json({
