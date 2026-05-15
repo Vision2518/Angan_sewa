@@ -1,122 +1,112 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { skipToken } from "@reduxjs/toolkit/query/react";
+
 import { useGetProvinceQuery } from "../../redux/features/provinceSlice";
 import { useGetAllServicesQuery } from "../../redux/features/ServiceSlice";
+
 import {
   useGetDistrictByProvinceQuery,
   useGetBranchByDistrictQuery,
-  useGetBranchesByProvinceQuery,
 } from "../../redux/features/districtSlice";
 
 import ServiceCard from "./ServiceCard";
 import Pagination from "../pagination";
-import  usePagination  from "../usePagination";
+
 const FilterService = () => {
   const IMG_URL = import.meta.env.VITE_IMG_URL;
 
+  // ======================
+  // STATES
+  // ======================
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedBranch, setSelectedBranch] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [page, setPage] = useState(1);
 
-  const itemsPerPage = 6;
+  const limit = 6;
 
-  // Core data
+  // ======================
+  // MAIN API (BACKEND PAGINATION)
+  // ======================
+  const { data: allServices, isFetching: loadingServices } =
+    useGetAllServicesQuery({
+      page,
+      limit,
+      province_id: selectedProvince,
+      district_id: selectedDistrict,
+      branch_id: selectedBranch,
+    });
+
+  const services = allServices?.data || [];
+  const pagination = allServices?.pagination || {};
+console.log("pagination:", pagination);
+  // ======================
+  // DROPDOWN DATA
+  // ======================
   const { data: allProvinces } = useGetProvinceQuery();
-  const { data: allServices } = useGetAllServicesQuery();
 
-  const allServicesList = useMemo(
-    () => allServices?.data || [],
-    [allServices]
+  const { data: districtData } = useGetDistrictByProvinceQuery(
+    selectedProvince || skipToken,
   );
 
-  // Cascading dropdowns
-  const { data: districtData } =
-    useGetDistrictByProvinceQuery(
-      selectedProvince || skipToken
-    );
+  const { data: branchData } = useGetBranchByDistrictQuery(
+    selectedDistrict || skipToken,
+  );
 
-  const { data: branchData } =
-    useGetBranchByDistrictQuery(
-      selectedDistrict || skipToken
-    );
+  // ======================
+  // PAGE CHANGE
+  // ======================
+  const handlePageChange = (newPage) => {
+    if (newPage < 1 || newPage > (pagination.totalPages || 1)) return;
 
-  const { data: filteredBranchData, isFetching: loadingFilter } =
-    useGetBranchesByProvinceQuery(
-      selectedProvince
-        ? {
-            province_id: selectedProvince,
-            district_id: selectedDistrict,
-          }
-        : skipToken
-    );
-
-  // Allowed branch IDs
-  const allowedBranchIds = useMemo(() => {
-    return (
-      filteredBranchData?.data?.map((b) =>
-        String(b.branch_id)
-      ) || []
-    );
-  }, [filteredBranchData]);
-
-  // FILTER SERVICES
-  const servicesList = useMemo(() => {
-    if (!selectedProvince) return allServicesList;
-    if (loadingFilter) return [];
-
-    return allServicesList.filter((service) => {
-      const serviceBranchId = String(service.branch_id);
-
-      if (selectedBranch) {
-        return serviceBranchId === String(selectedBranch);
-      }
-
-      return allowedBranchIds.includes(serviceBranchId);
-    });
-  }, [
-    allServicesList,
-    selectedProvince,
-    selectedBranch,
-    allowedBranchIds,
-    loadingFilter,
-  ]);
-
-  const handlePageChange = (pageNumber) => {
-    if (
-      pageNumber < 1 ||
-      pageNumber > totalPages
-    )
-      return;
-    setCurrentPage(pageNumber);
+    setPage(newPage);
   };
 
+  // ======================
+  // FILTER HANDLERS
+  // ======================
+  const handleProvinceChange = (e) => {
+    setSelectedProvince(e.target.value);
+    setSelectedDistrict("");
+    setSelectedBranch("");
+    setPage(1);
+  };
+
+  const handleDistrictChange = (e) => {
+    setSelectedDistrict(e.target.value);
+    setSelectedBranch("");
+    setPage(1);
+  };
+
+  const handleBranchChange = (e) => {
+    setSelectedBranch(e.target.value);
+    setPage(1);
+  };
+
+  const handleReset = () => {
+    setSelectedProvince("");
+    setSelectedDistrict("");
+    setSelectedBranch("");
+    setPage(1);
+  };
+
+  // ======================
+  // UI
+  // ======================
   return (
     <div className="p-4">
-
       {/* FILTER SECTION */}
       <div className="bg-white p-6 rounded-2xl shadow-sm grid gap-4 md:grid-cols-4">
-
         {/* Province */}
         <select
           value={selectedProvince}
-          onChange={(e) => {
-            setSelectedProvince(e.target.value);
-            setSelectedDistrict("");
-            setSelectedBranch("");
-            setCurrentPage(1);
-          }}
+          onChange={handleProvinceChange}
           className="border rounded-lg px-4 py-2"
         >
-          <option value="">
-            Select Province
-          </option>
+          <option value="">Select Province</option>
 
           {allProvinces?.data?.map((p) => (
-            <option
-              key={p.province_id}
-              value={p.province_id}
-            >
+            <option key={p.province_id} value={p.province_id}>
               {p.province_name}
             </option>
           ))}
@@ -126,22 +116,13 @@ const FilterService = () => {
         <select
           value={selectedDistrict}
           disabled={!selectedProvince}
-          onChange={(e) => {
-            setSelectedDistrict(e.target.value);
-            setSelectedBranch("");
-            setCurrentPage(1);
-          }}
+          onChange={handleDistrictChange}
           className="border rounded-lg px-4 py-2 disabled:bg-gray-100"
         >
-          <option value="">
-            Select District
-          </option>
+          <option value="">Select District</option>
 
           {districtData?.data?.map((d) => (
-            <option
-              key={d.district_id}
-              value={d.district_id}
-            >
+            <option key={d.district_id} value={d.district_id}>
               {d.district_name}
             </option>
           ))}
@@ -151,35 +132,22 @@ const FilterService = () => {
         <select
           value={selectedBranch}
           disabled={!selectedDistrict}
-          onChange={(e) => {
-            setSelectedBranch(e.target.value);
-            setCurrentPage(1);
-          }}
+          onChange={handleBranchChange}
           className="border rounded-lg px-4 py-2 disabled:bg-gray-100"
         >
-          <option value="">
-            Select Branch
-          </option>
+          <option value="">Select Branch</option>
 
           {branchData?.data?.map((b) => (
-            <option
-              key={b.branch_id}
-              value={b.branch_id}
-            >
+            <option key={b.branch_id} value={b.branch_id}>
               {b.branch_name}
             </option>
           ))}
         </select>
 
-        {/* Reset */}
+        {/* RESET */}
         <button
           className="bg-indigo-600 text-white rounded-lg px-4 py-2"
-          onClick={() => {
-            setSelectedProvince("");
-            setSelectedDistrict("");
-            setSelectedBranch("");
-            setCurrentPage(1);
-          }}
+          onClick={handleReset}
         >
           Reset
         </button>
@@ -187,27 +155,30 @@ const FilterService = () => {
 
       {/* CONTENT */}
       <div className="mt-8">
-
-        {loadingFilter ? (
+        {/* LOADING */}
+        {loadingServices ? (
           <div className="text-center py-20 text-indigo-600 font-bold">
             Loading Services...
           </div>
-        ) : servicesList.length > 0 ? (
+        ) : services.length > 0 ? (
           <>
-            <ServiceCard
-              allServices={paginatedServices}
-              image_url={IMG_URL}
-            />
+            {/* SERVICE LIST */}
+            <ServiceCard allServices={services} image_url={IMG_URL} />
 
-            {/* Pagination Component (ONLY UI NOW) */}
-            <Pagination
-              currentPage={visiblePage}
-              totalPages={totalPages}
-              totalItems={totalServices}
-              startIndex={startIndex}
-              endIndex={endIndex}
-              onPageChange={handlePageChange}
-            />
+            {/* PAGINATION */}
+            <div className="mt-6">
+              <Pagination
+                currentPage={pagination.currentPage}
+                totalPages={pagination.totalPages}
+                totalItems={pagination.totalItems}
+                startIndex={(pagination.currentPage - 1) * pagination.limit}
+                endIndex={
+                  (pagination.currentPage - 1) * pagination.limit +
+                  services.length
+                }
+                onPageChange={handlePageChange}
+              />
+            </div>
           </>
         ) : (
           <div className="text-center py-20 text-gray-500 font-semibold">

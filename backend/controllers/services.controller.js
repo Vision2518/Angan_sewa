@@ -171,15 +171,9 @@ export const deleteService = async (req, res, next) => {
 };
 
 // Get By Branch
-export const getServicesByBranch = async (req, res, next) => {
+export const getServicesByBranchId = async (req, res, next) => {
   try {
-    const branchId = req.user.branch_id;
-
-    const page = Number(req.query.page) || 1;
-    const limit = 10;
-
-    // offset calculate
-    const offset = (page - 1) * limit;
+    const { branchId } = req.params;
 
     // ✅ validation
     if (!branchId) {
@@ -189,24 +183,12 @@ export const getServicesByBranch = async (req, res, next) => {
       });
     }
 
-    // ✅ total count
-    const [countResult] = await db.query(
-      "SELECT COUNT(*) AS total FROM services WHERE branch_id = ?",
+    const [rows] = await db.execute(
+      "SELECT * FROM services WHERE branch_id = ?",
       [branchId],
     );
 
-    const total = countResult[0].total;
-
-    // ✅ paginated data
-    const [rows] = await db.query(
-      `SELECT * 
-       FROM services 
-       WHERE branch_id = ?
-       LIMIT ? OFFSET ?`,
-      [branchId, limit, offset],
-    );
-
-    // ✅ no data
+    // ✅ यदि data छैन भने पनि handle गर
     if (rows.length === 0) {
       return res.status(404).json({
         success: false,
@@ -216,10 +198,6 @@ export const getServicesByBranch = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      page,
-      limit,
-      total,
-      totalPages: Math.ceil(total / limit),
       count: rows.length,
       data: rows,
     });
@@ -227,8 +205,6 @@ export const getServicesByBranch = async (req, res, next) => {
     next(error);
   }
 };
-
-
 
 // Admin List (Commented logic simplified)
 export const getServices = async (req, res, next) => {

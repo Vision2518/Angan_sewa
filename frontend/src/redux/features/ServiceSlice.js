@@ -1,18 +1,34 @@
 import { indexSlice } from "./indexSlice";
+
 export const ServiceApi = indexSlice.injectEndpoints({
   endpoints: (builder) => ({
+
     getAllServices: builder.query({
-      query: (filters) => ({
-        url: "/services/get-all-service",
-        method: "GET",
-        params: filters ? {
-          ...(filters.province_id && { province_id: filters.province_id }),
-          ...(filters.district_id && { district_id: filters.district_id }),
-          ...(filters.branch_id && { branch_id: filters.branch_id }),
-        } : {},
-      }),
-      providesTags: ["services"], // ✅ matches tagTypes now
+      query: (filters) => {
+        const {
+          page = 1,
+          limit = 6,
+          province_id,
+          district_id,
+          branch_id,
+        } = filters || {};
+
+        return {
+          url: "/services/get-all-service",
+          method: "GET",
+          params: {
+            page,
+            limit,
+            ...(province_id && { province_id }),
+            ...(district_id && { district_id }),
+            ...(branch_id && { branch_id }),
+          },
+        };
+      },
+
+      providesTags: ["services"],
     }),
+
     getServiceByBranch: builder.query({
       query: (branchId) => ({
         url: `/services/get-services/${branchId}`,
@@ -20,6 +36,11 @@ export const ServiceApi = indexSlice.injectEndpoints({
       }),
       providesTags: ["services"],
     }),
+
   }),
 });
-export const { useGetAllServicesQuery, useGetServiceByBranchQuery } = ServiceApi;
+
+export const {
+  useGetAllServicesQuery,
+  useGetServiceByBranchQuery,
+} = ServiceApi;
