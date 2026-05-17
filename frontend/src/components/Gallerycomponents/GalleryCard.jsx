@@ -1,17 +1,17 @@
 import React from "react";
-
 const GalleryCard = ({ item }) => {
+  const imageUrl =
+  item.image && item.image.length > 0
+    ? `http://localhost:5000/${item.image.split(",")[0]}`
+    : "/placeholder.png";
   return (
     <div className="rounded-lg overflow-hidden group shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-700" style={{ backgroundColor: "#0a1628" }}>
       {/* Image Container */}
       <div className="relative overflow-hidden h-64 bg-gray-200">
-      <img
-  src={item.image || "/placeholder.png"}
-  alt="gallery"
-  onError={(e) => {
-    e.target.src = "/placeholder.png";
-  }}
-/>
+        <img
+          src={imageUrl}
+          className="w-full h-full object-cover"
+        />
         {/* Date Badge - Top Right */}
         <div className="absolute top-3 right-3 px-3 py-1.5 text-white text-xs font-bold rounded-md shadow-lg" style={{ backgroundColor: "#FF6B35" }}>
           {new Date(item.gallery_date).toLocaleDateString("en-US", {
@@ -20,11 +20,9 @@ const GalleryCard = ({ item }) => {
             day: "numeric",
           })}
         </div>
-
         {/* Overlay on Hover */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
       </div>
-
       {/* Content Container */}
       <div className="p-6">
         {/* Meta Info - Branch ID & Location */}
@@ -37,18 +35,15 @@ const GalleryCard = ({ item }) => {
              {item.location}
           </span>
         </div>
-
         {/* Title */}
         <h3 className="text-lg font-bold text-white mb-3 group-hover:text-orange-400 transition-colors duration-300 line-clamp-2">
           {item.title}
         </h3>
-
         {/* Description */}
         <p className="text-sm text-gray-300 line-clamp-2 mb-4">
           Staff ID <span className="font-semibold text-gray-200">{item.staff_id}</span> was present at this event located in{" "}
           <span className="font-semibold text-gray-200">{item.location}</span>.
         </p>
-
         {/* View More Link */}
         <button className="mt-4 font-semibold text-sm transition-all duration-300 flex items-center gap-2" style={{ color: "#FF6B35" }}>
           VIEW GALLERY
@@ -58,5 +53,4 @@ const GalleryCard = ({ item }) => {
     </div>
   );
 };
-
 export default GalleryCard;

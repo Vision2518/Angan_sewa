@@ -19,10 +19,10 @@ const galleryRouter = express.Router();
 // Gallery CRUD operations
 galleryRouter.post(
   "/add-gallery",
-  isLogin,
-  authorizeRoles("admin", "manager"),
+  //isLogin,
+  //authorizeRoles("admin", "manager"),
   uploadGallery.array("images", 20),
-  authorizeBranchAccess,
+  // authorizeBranchAccess,
   addGallery
 );
 galleryRouter.get(
