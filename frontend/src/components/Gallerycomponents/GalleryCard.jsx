@@ -5,12 +5,13 @@ const GalleryCard = ({ item }) => {
     <div className="rounded-lg overflow-hidden group shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-700" style={{ backgroundColor: "#0a1628" }}>
       {/* Image Container */}
       <div className="relative overflow-hidden h-64 bg-gray-200">
-        <img
-          src={item.image}
-          alt={item.title}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-        />
-
+      <img
+  src={item.image || "/placeholder.png"}
+  alt="gallery"
+  onError={(e) => {
+    e.target.src = "/placeholder.png";
+  }}
+/>
         {/* Date Badge - Top Right */}
         <div className="absolute top-3 right-3 px-3 py-1.5 text-white text-xs font-bold rounded-md shadow-lg" style={{ backgroundColor: "#FF6B35" }}>
           {new Date(item.gallery_date).toLocaleDateString("en-US", {
@@ -33,7 +34,7 @@ const GalleryCard = ({ item }) => {
           </span>
           <span className="text-gray-500 text-xs">•</span>
           <span className="text-gray-300 text-xs font-medium">
-            📍 {item.location}
+             {item.location}
           </span>
         </div>
 

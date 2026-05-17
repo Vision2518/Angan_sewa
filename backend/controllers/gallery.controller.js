@@ -89,18 +89,50 @@ export const getGalleryById = async (req, res, next) => {
     next(error);
   }
 };
-
+//public api
 // Get all gallery entries
 export const getAllGallery = async (req, res, next) => {
   try {
-    const [galleries] = await db.execute(
-      "SELECT * FROM gallery ORDER BY created_at DESC"
+
+    let page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 6;
+
+    if (page < 1) page = 1;
+    if (limit < 1) limit = 6;
+
+    const offset = (page - 1) * limit;
+
+    // total count
+    const [countResult] = await db.query(
+      "SELECT COUNT(*) AS total FROM gallery"
     );
 
-    res.status(200).json({
-      message: "All galleries fetched successfully",
-      data: galleries,
+    const total = countResult[0].total;
+
+    // paginated data
+    const [rows] = await db.query(
+      `
+      SELECT *
+      FROM gallery
+      ORDER BY created_at DESC
+      LIMIT ? OFFSET ?
+      `,
+      [limit, offset]
+    );
+
+    res.json({
+      success: true,
+
+      data: rows,
+
+      pagination: {
+        totalItems: total,
+        totalPages: Math.ceil(total / limit),
+        currentPage: page,
+        limit,
+      },
     });
+
   } catch (error) {
     next(error);
   }

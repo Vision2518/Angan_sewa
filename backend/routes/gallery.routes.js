@@ -40,7 +40,7 @@ galleryRouter.delete(
 
 // Additional gallery routes
 galleryRouter.get("/get-gallery/:id", getGalleryById);
-galleryRouter.get("/get-allGallery", getAllGallery);
+galleryRouter.get("/get-all-gallery", getAllGallery);
 galleryRouter.get("/branch/:branch_id/gallery", getGalleryByBranch);
 galleryRouter.patch(
   "/update-gallery/:id",

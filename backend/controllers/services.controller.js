@@ -220,37 +220,109 @@ export const getServices = async (req, res, next) => {
 // api for public services
 export const getAllServices = async (req, res, next) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 6;
+    // ======================
+    // QUERY VALUES
+    // ======================
+    const {
+      province_id,
+      district_id,
+      branch_id,
+    } = req.query;
+
+    let page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 6;
+
+    if (page < 1) page = 1;
+    if (limit < 1) limit = 6;
+
     const offset = (page - 1) * limit;
 
-    // TOTAL COUNT
+    // ======================
+    // DYNAMIC FILTERS
+    // ======================
+    let whereClause = "";
+    let params = [];
+
+    // FILTER BY BRANCH
+    if (branch_id) {
+      whereClause = "WHERE services.branch_id = ?";
+      params.push(branch_id);
+    }
+
+    // FILTER BY DISTRICT
+    else if (district_id) {
+      whereClause = `
+        WHERE services.branch_id IN (
+          SELECT branch_id
+          FROM branch
+          WHERE district_id = ?
+        )
+      `;
+      params.push(district_id);
+    }
+
+    // FILTER BY PROVINCE
+    else if (province_id) {
+      whereClause = `
+        WHERE services.branch_id IN (
+          SELECT b.branch_id
+          FROM branch b
+          JOIN district d
+          ON b.district_id = d.district_id
+          WHERE d.province_id = ?
+        )
+      `;
+      params.push(province_id);
+    }
+
+    // ======================
+    // TOTAL COUNT QUERY
+    // ======================
     const [countResult] = await db.query(
-      "SELECT COUNT(*) AS total FROM services"
+      `
+      SELECT COUNT(*) AS total
+      FROM services
+      ${whereClause}
+      `,
+      params
     );
 
     const total = countResult[0].total;
+    const totalPages = Math.ceil(total / limit);
 
-    // PAGINATED DATA ONLY
+    // ======================
+    // MAIN DATA QUERY
+    // ======================
     const [rows] = await db.query(
-      `SELECT * FROM services
-       ORDER BY created_at DESC
-       LIMIT ? OFFSET ?`,
-      [limit, offset]
+      `
+      SELECT *
+      FROM services
+      ${whereClause}
+      ORDER BY created_at DESC
+      LIMIT ? OFFSET ?
+      `,
+      [...params, limit, offset]
     );
 
+    // ======================
+    // RESPONSE
+    // ======================
     res.json({
       success: true,
+
       data: rows,
+
       pagination: {
         totalItems: total,
-        totalPages: Math.ceil(total / limit),
+        totalPages,
         currentPage: page,
         limit,
-        hasNextPage: page < Math.ceil(total / limit),
+
+        hasNextPage: page < totalPages,
         hasPreviousPage: page > 1,
       },
     });
+
   } catch (error) {
     next(error);
   }
