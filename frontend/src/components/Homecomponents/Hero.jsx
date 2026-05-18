@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Select from "../shared/Select";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,13 @@ import {
   useGetAllDistrictQuery,
   useGetBranchByDistrictQuery,
 } from "../../redux/features/districtSlice";
+
+const HERO_IMAGES = [
+  "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1920&h=1080&fit=crop",
+  "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=1920&h=1080&fit=crop",
+  "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1920&h=1080&fit=crop",
+  "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1920&h=1080&fit=crop",
+];
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -33,25 +40,20 @@ const Hero = () => {
       slug: b.branch_slug,
     })) || [];
 
-  const images = [
-    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1920&h=1080&fit=crop",
-    "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=1920&h=1080&fit=crop",
-    "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1920&h=1080&fit=crop",
-    "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1920&h=1080&fit=crop",
-  ];
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % images.length);
-  };
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % HERO_IMAGES.length);
+  }, []);
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + images.length) % images.length);
+    setCurrentSlide(
+      (prev) => (prev - 1 + HERO_IMAGES.length) % HERO_IMAGES.length
+    );
   };
 
   useEffect(() => {
     const interval = setInterval(nextSlide, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [nextSlide]);
 
   const handlePlaceChange = (e) => {
     const branchId = e.target.value;
@@ -71,7 +73,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-black/40 z-10"></div>
 
       {/* Images */}
-      {images.map((image, index) => (
+      {HERO_IMAGES.map((image, index) => (
         <div
           key={index}
           className={`absolute inset-0 transition-opacity duration-1000 ${
@@ -103,6 +105,7 @@ const Hero = () => {
                   setSelectedPlace("");
                 }}
                 placeholder="Select district"
+                disabled={isLoading}
               />
 
               <Select
@@ -133,7 +136,7 @@ const Hero = () => {
 
       {/* Dots */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-        {images.map((_, index) => (
+        {HERO_IMAGES.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}

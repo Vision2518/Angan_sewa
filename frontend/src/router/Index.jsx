@@ -5,6 +5,7 @@ import NotFound from "../components/NotFound";
 import { PublicRoutes } from "./PublicRoutes";
 import { PublicLayout } from "../layout/PublicLayout";
 import { adminRoutes } from "./AdminRoutes";
+
 export const indexRouter = createBrowserRouter([
   {
     path: "/admin",
@@ -12,7 +13,7 @@ export const indexRouter = createBrowserRouter([
     children: adminRoutes,
   },
   {
-    path: "",
+    path: "/",
     element: <PublicLayout />,
     children: PublicRoutes,
   },

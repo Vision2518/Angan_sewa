@@ -3,12 +3,13 @@ const Select = ({
   value,
   onChange,
   placeholder = "Select an option",
-  onClick,
+  ...selectProps
 }) => {
   return (
     <select
       value={value}
       onChange={onChange}
+      {...selectProps}
       className=" w-full  px-3 py-3 border border-gray-300 rounded text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
     >
       <option value="">{placeholder}</option>

@@ -1,16 +1,42 @@
-// src/components/Services.jsx
-import React from "react";
+import { skipToken } from "@reduxjs/toolkit/query/react";
 import { useGetServiceByBranchQuery } from "../../redux/features/ServiceSlice";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 const Services = () => {
+  const { place } = useParams();
   const { state } = useLocation();
   const branchId = state?.branchId;
-  console.log(branchId);
-  const { data, isLoading, error } = useGetServiceByBranchQuery(branchId);
+  const { data, isLoading, error } = useGetServiceByBranchQuery(
+    branchId ?? skipToken
+  );
 
   if (isLoading) {
     return <div>Loading...........</div>;
+  }
+
+  if (!branchId) {
+    return (
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h2 className="text-3xl font-bold mb-4">Our Services</h2>
+          <p className="text-gray-600">
+            Select a branch from the homepage to view services
+            {place ? ` in ${place}` : ""}.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h2 className="text-3xl font-bold mb-4">Our Services</h2>
+          <p className="text-red-600">Unable to load services for this branch.</p>
+        </div>
+      </section>
+    );
   }
 
   const services = data?.data || [];

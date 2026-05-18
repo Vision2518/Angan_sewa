@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import { useGetProvinceQuery } from "../../redux/features/provinceSlice";
 import { useGetAllServicesQuery } from "../../redux/features/ServiceSlice";
@@ -38,13 +38,6 @@ const FilterService = () => {
   const pagination = data?.pagination || {};
 
   // ======================
-  // RESET PAGE ON FILTER CHANGE (HYBRID CORE)
-  // ======================
-  useEffect(() => {
-    setPage(1);
-  }, [selectedProvince, selectedDistrict, selectedBranch]);
-
-  // ======================
   // DROPDOWN DATA
   // ======================
   const { data: allProvinces } = useGetProvinceQuery();
@@ -72,21 +65,25 @@ const FilterService = () => {
     setSelectedProvince(e.target.value);
     setSelectedDistrict("");
     setSelectedBranch("");
+    setPage(1);
   };
 
   const handleDistrictChange = (e) => {
     setSelectedDistrict(e.target.value);
     setSelectedBranch("");
+    setPage(1);
   };
 
   const handleBranchChange = (e) => {
     setSelectedBranch(e.target.value);
+    setPage(1);
   };
 
   const handleReset = () => {
     setSelectedProvince("");
     setSelectedDistrict("");
     setSelectedBranch("");
+    setPage(1);
   };
 
   // ======================
