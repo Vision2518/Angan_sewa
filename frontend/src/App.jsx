@@ -1,8 +1,6 @@
 import { RouterProvider } from "react-router-dom";
-
 import { ToastContainer } from "react-toastify";
 import { indexRouter } from "./router/Index";
-
 const App = () => {
   return (
     <>
@@ -11,5 +9,4 @@ const App = () => {
     </>
   );
 };
-
 export default App;

@@ -8,21 +8,23 @@ const GalleryCard = ({ item }) => {
     <div className="rounded-lg overflow-hidden group shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-700" style={{ backgroundColor: "#0a1628" }}>
       {/* Image Container */}
       <div className="relative overflow-hidden h-64 bg-gray-200">
-        <img
-          src={imageUrl}
-          className="w-full h-full object-cover"
-        />
-        {/* Date Badge - Top Right */}
-        <div className="absolute top-3 right-3 px-3 py-1.5 text-white text-xs font-bold rounded-md shadow-lg" style={{ backgroundColor: "#FF6B35" }}>
-          {new Date(item.gallery_date).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })}
-        </div>
-        {/* Overlay on Hover */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-      </div>
+  <img
+    src={imageUrl}
+    className="w-full h-full object-cover"
+    alt={item.title}
+  />
+
+  {/* Date Badge */}
+  <div className="absolute top-3 right-3 px-3 py-1.5 text-white text-xs font-bold rounded-md shadow-lg bg-orange-500">
+    {new Date(item.gallery_date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    })}
+  </div>
+
+  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+</div>
       {/* Content Container */}
       <div className="p-6">
         {/* Meta Info - Branch ID & Location */}
