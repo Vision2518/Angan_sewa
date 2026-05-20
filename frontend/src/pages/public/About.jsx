@@ -215,11 +215,11 @@ const About = () => {
 
           <div className="flex flex-col sm:flex-row justify-center gap-4">
 
-            <button className="px-6 py-3 bg-orange-500 hover:bg-orange-600 rounded-lg font-semibold">
+            <button className="px-6 py-3 bg-orange-500 hover:bg-orange-600  font-semibold">
               Find Services
             </button>
 
-            <button className="px-6 py-3 border border-orange-500 rounded-lg">
+            <button className="px-6 py-3 border border-orange-500 ">
               View Branches
             </button>
 

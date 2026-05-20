@@ -23,6 +23,21 @@ const HERO_IMAGES = [
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  // TYPEWRITER
+  const words = [
+    "Electricians",
+    "Plumbers",
+    "Cleaners",
+    "Technicians",
+    "Carpenters",
+  ];
+
+  const [text, setText] = useState("");
+  const [wordIndex, setWordIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [cursor, setCursor] = useState(true);
+
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedPlace, setSelectedPlace] = useState("");
 
@@ -54,9 +69,7 @@ const Hero = () => {
   }, []);
 
   const prevSlide = () => {
-    setCurrentSlide(
-      (p) => (p - 1 + HERO_IMAGES.length) % HERO_IMAGES.length
-    );
+    setCurrentSlide((p) => (p - 1 + HERO_IMAGES.length) % HERO_IMAGES.length);
   };
 
   useEffect(() => {
@@ -64,8 +77,39 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, [nextSlide]);
 
+  // TYPEWRITER EFFECT
+  useEffect(() => {
+    const currentWord = words[wordIndex];
+
+    const timer = setTimeout(() => {
+      if (!isDeleting) {
+        setText(currentWord.substring(0, text.length + 1));
+
+        if (text === currentWord) {
+          setTimeout(() => setIsDeleting(true), 900);
+        }
+      } else {
+        setText(currentWord.substring(0, text.length - 1));
+
+        if (text === "") {
+          setIsDeleting(false);
+          setWordIndex((p) => (p + 1) % words.length);
+        }
+      }
+    }, 120);
+
+    return () => clearTimeout(timer);
+  }, [text, isDeleting, wordIndex]);
+
+  // cursor blink
+  useEffect(() => {
+    const interval = setInterval(() => setCursor((p) => !p), 500);
+    return () => clearInterval(interval);
+  }, []);
+
   const handleExplore = () => {
     const branch = availablePlaces.find((p) => p.id === selectedPlace);
+
     if (branch) {
       navigate(`/services/${branch.slug}`, {
         state: { branchId: branch.id },
@@ -74,144 +118,119 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative w-full h-screen min-h-[650px] overflow-hidden bg-gray-900">
-      
-      {/* Background Dimming Overlay */}
+    <div className="relative w-full h-screen overflow-hidden bg-gray-900">
+
+      {/* overlay */}
       <div className="absolute inset-0 bg-black/60 z-10" />
 
-      {/* Background Images */}
+      {/* background images */}
       {HERO_IMAGES.map((img, i) => (
         <div
           key={img}
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+          className={`absolute inset-0 transition-opacity duration-1000 ${
             currentSlide === i ? "opacity-100" : "opacity-0"
           }`}
         >
-          <img
-            src={img}
-            className="w-full h-full object-cover"
-            alt={`Background slide ${i + 1}`}
-          />
+          <img src={img} className="w-full h-full object-cover" />
         </div>
       ))}
 
-      {/* Main Content Wrapper */}
-      {/* ADJUSTED: pt-2 sm:pt-4 md:pt-6 forces the entire container tightly upward against the top window frame */}
-      <div className="absolute inset-0 z-20 flex flex-col justify-start items-center px-4 md:px-8 h-full pt-2 sm:pt-4 md:pt-6">
-        <div className="max-w-5xl w-full text-center text-white flex flex-col">
-          
-          {/* SECTION 1: Top Aligned Headers */}
-          <div className="flex-shrink-0">
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tight mb-1 sm:mb-2 leading-tight drop-shadow-md">
-              Trusted Home Services <br />
-              <span className="text-orange-400">At Your Doorstep</span>
-            </h1>
+      {/* content */}
+      <div className="absolute inset-0 z-20 flex flex-col justify-start items-center px-4 pt-6">
 
-            <p className="text-base sm:text-lg md:text-2xl font-medium text-gray-200 mb-0.5 tracking-wide">
-              Electricians • Plumbers • Cleaners • Technicians
-            </p>
+        <div className="max-w-5xl w-full text-center text-white">
 
-            <p className="text-xs sm:text-sm md:text-base text-gray-300 font-medium">
-              Fast booking • Verified professionals • Near your location
-            </p>
-          </div>
+          {/* MAIN HEADING */}
+          <h1 className="text-4xl md:text-6xl font-black leading-tight">
+            Trusted Home Services <br />
 
-          {/* SECTION 2: Tightened Booking Card */}
-          {/* ADJUSTED: Changed margin-top to mt-4 md:mt-6 to close up internal content gap */}
-          <div className="w-full mx-auto bg-white/70 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 p-5 md:p-6 text-gray-800 mt-4 sm:mt-5 md:mt-6 transform transition-all">
-            
-            <p className="text-xs sm:text-sm font-semibold text-black uppercase tracking-wider mb-4 text-left">
+            <span className="text-orange-400">
+              {text}
+              <span className={`${cursor ? "opacity-100" : "opacity-0"}`}>
+                |
+              </span>
+            </span>
+
+            <br />
+            At Your Doorstep
+          </h1>
+
+          {/* ENHANCED TEXT */}
+          <p className="mt-3 text-lg md:text-2xl text-gray-200 font-medium">
+            Fast, Verified & Reliable Home Services Platform
+          </p>
+
+      
+          {/* CARD */}
+          <div className="mt-2 bg-white/70 backdrop-blur-md rounded-2xl shadow-xl p-5 md:p-6 text-gray-800">
+
+            {/* REQUIRED TEXT (KEPT) */}
+            <p className="text-l font-semibold text-center mb-4 text-black-700">
               Select your location to continue
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-              
-              {/* District Select */}
-              <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3 border border-gray-200 transition focus-within:bg-white focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-200">
-                <FaMapMarkerAlt className="text-orange-500 text-lg flex-shrink-0" />
-                <div className="w-full text-left">
-                  <Select
-                    options={districts}
-                    value={selectedDistrict}
-                    onChange={(e) => {
-                      setSelectedDistrict(e.target.value);
-                      setSelectedPlace("");
-                    }}
-                    placeholder="Choose District"
-                    disabled={isLoading}
-                  />
-                </div>
+            <div className="grid md:grid-cols-3 gap-4">
+
+              {/* district */}
+              <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
+                <FaMapMarkerAlt className="text-orange-500" />
+                <Select
+                  options={districts}
+                  value={selectedDistrict}
+                  onChange={(e) => {
+                    setSelectedDistrict(e.target.value);
+                    setSelectedPlace("");
+                  }}
+                  placeholder="Choose District"
+                  disabled={isLoading}
+                />
               </div>
 
-              {/* Branch Select */}
-              <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3 border border-gray-200 transition focus-within:bg-white focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-200">
-                <FaBuilding className="text-orange-500 text-lg flex-shrink-0" />
-                <div className="w-full text-left">
-                  <Select
-                    options={availablePlaces}
-                    value={selectedPlace}
-                    onChange={(e) => setSelectedPlace(e.target.value)}
-                    placeholder="Choose Branch"
-                    disabled={!selectedDistrict}
-                  />
-                </div>
+              {/* branch */}
+              <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
+                <FaBuilding className="text-orange-500" />
+                <Select
+                  options={availablePlaces}
+                  value={selectedPlace}
+                  onChange={(e) => setSelectedPlace(e.target.value)}
+                  placeholder="Choose Branch"
+                  disabled={!selectedDistrict}
+                />
               </div>
 
-              {/* Action Button */}
+              {/* button */}
               <button
                 onClick={handleExplore}
                 disabled={!selectedPlace}
-                className={`h-[50px] w-full rounded-xl font-bold tracking-wide text-base transition-all duration-200 shadow-md ${
+                className={`rounded-xl font-bold transition ${
                   selectedPlace
-                    ? "bg-orange-500 hover:bg-orange-600 text-white hover:shadow-lg active:scale-[0.98] cursor-pointer"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    ? "bg-orange-500 hover:bg-orange-600 text-white"
+                    : "bg-gray-300 text-gray-500"
                 }`}
               >
                 Explore Services
               </button>
+
             </div>
 
-            {/* Stepper Helper Footer */}
-            <p className="text-s text-pure-black mt-4 text-center font-medium">
-               Select Area &rarr; Choose local branch &rarr; Discover services
+            {/* STEP TEXT (KEPT) */}
+            <p className="text-l text-center mt-4 text-gray-600 font-medium">
+              Select Area → Choose Branch → Discover Services
             </p>
+
           </div>
-          
         </div>
       </div>
 
-      {/* Navigation Arrows */}
-      <button
-        onClick={prevSlide}
-        className="hidden sm:flex absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full z-20 shadow-lg transition active:scale-95 cursor-pointer"
-        aria-label="Previous image"
-      >
-        <FaChevronLeft size={16} />
+      {/* arrows */}
+      <button onClick={prevSlide} className="absolute left-4 top-1/2 z-20 text-white">
+        <FaChevronLeft />
       </button>
 
-      <button
-        onClick={nextSlide}
-        className="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full z-20 shadow-lg transition active:scale-95 cursor-pointer"
-        aria-label="Next image"
-      >
-        <FaChevronRight size={16} />
+      <button onClick={nextSlide} className="absolute right-4 top-1/2 z-20 text-white">
+        <FaChevronRight />
       </button>
 
-      {/* Slider Carousel Dots */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-        {HERO_IMAGES.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrentSlide(i)}
-            className={`rounded-full transition-all duration-300 cursor-pointer ${
-              i === currentSlide
-                ? "w-8 h-2 bg-orange-500"
-                : "w-2 h-2 bg-white/50 hover:bg-white"
-            }`}
-            aria-label={`Show slide ${i + 1}`}
-          />
-        ))}
-      </div>
     </div>
   );
 };

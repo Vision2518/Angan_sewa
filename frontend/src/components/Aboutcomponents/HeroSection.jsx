@@ -50,7 +50,7 @@ const AboutHero = () => {
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           {/* Primary Button - Orange */}
           <button
-            className="px-8 py-3 font-semibold text-base rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 text-white group"
+            className="px-8 py-3 font-semibold text-base  shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 text-white group"
             style={{ backgroundColor: "#FF6B35" }}
           >
             Explore Services
@@ -59,7 +59,7 @@ const AboutHero = () => {
 
           {/* Secondary Button - Outline */}
           <button
-            className="px-8 py-3 font-semibold text-base rounded-lg transition-all duration-300 border-2 hover:bg-white/5 hover:-translate-y-1"
+            className="px-8 py-3 font-semibold text-base  transition-all duration-300 border-2 hover:bg-white/5 hover:-translate-y-1"
             style={{ borderColor: "#FF6B35", color: "#FF6B35" }}
           >
             Contact Us

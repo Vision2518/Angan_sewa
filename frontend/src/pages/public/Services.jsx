@@ -33,7 +33,7 @@ const Services = () => {
           </p>
           <div className="mt-8">
             <button
-              className="px-8 py-3 font-semibold text-base rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 text-white group"
+              className="px-8 py-3 font-semibold text-base  shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 text-white group"
               style={{ backgroundColor: "#FF6B35" }}
             >
               Browse All Services

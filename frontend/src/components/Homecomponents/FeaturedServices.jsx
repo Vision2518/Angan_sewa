@@ -46,7 +46,7 @@ const FeaturedServices = () => {
 
           <button
             onClick={() => navigate("/services")}
-            className="px-8 py-3 font-semibold rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-white"
+            className="px-8 py-3 font-semibold  shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-white"
             style={{ backgroundColor: "#FF6B35" }}
           >
             See What We Offer

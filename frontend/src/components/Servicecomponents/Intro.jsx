@@ -39,7 +39,7 @@ const AboutAaganSewa = () => {
 
           {/* CTA Button */}
           <button
-            className="px-8 py-3 font-semibold rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-white group"
+            className="px-8 py-3 font-semibold  shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-white group"
             style={{ backgroundColor: "#FF6B35" }}
           >
             Find  Nearby Expert
