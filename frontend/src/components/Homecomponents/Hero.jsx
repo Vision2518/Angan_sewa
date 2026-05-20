@@ -1,7 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import {
+  FaChevronLeft,
+  FaChevronRight,
+  FaMapMarkerAlt,
+  FaBuilding,
+} from "react-icons/fa";
+
 import Select from "../shared/Select";
 import { useNavigate } from "react-router-dom";
+
 import {
   useGetAllDistrictQuery,
   useGetBranchByDistrictQuery,
@@ -19,34 +26,36 @@ const Hero = () => {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedPlace, setSelectedPlace] = useState("");
 
-  const { isLoading, data } = useGetAllDistrictQuery();
-  const { data: branchData } = useGetBranchByDistrictQuery(selectedDistrict, {
-    skip: !selectedDistrict,
-  });
-
   const navigate = useNavigate();
+
+  const { isLoading, data } = useGetAllDistrictQuery();
+
+  const { data: branchData } = useGetBranchByDistrictQuery(
+    selectedDistrict,
+    { skip: !selectedDistrict }
+  );
 
   const districts =
     data?.data?.map((d) => ({
-      value: d.district_id,
+      value: String(d.district_id),
       label: d.district_name,
     })) || [];
 
   const availablePlaces =
     branchData?.data?.map((b) => ({
-      id: b.branch_id,
-      value: b.branch_id,
+      id: String(b.branch_id),
+      value: String(b.branch_id),
       label: b.branch_name,
       slug: b.branch_slug,
     })) || [];
 
   const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % HERO_IMAGES.length);
+    setCurrentSlide((p) => (p + 1) % HERO_IMAGES.length);
   }, []);
 
   const prevSlide = () => {
     setCurrentSlide(
-      (prev) => (prev - 1 + HERO_IMAGES.length) % HERO_IMAGES.length
+      (p) => (p - 1 + HERO_IMAGES.length) % HERO_IMAGES.length
     );
   };
 
@@ -55,11 +64,8 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, [nextSlide]);
 
-  const handlePlaceChange = (e) => {
-    const branchId = e.target.value;
-    const branch = availablePlaces.find((p) => p.id === Number(branchId));
-    setSelectedPlace(branchId);
-
+  const handleExplore = () => {
+    const branch = availablePlaces.find((p) => p.id === selectedPlace);
     if (branch) {
       navigate(`/services/${branch.slug}`, {
         state: { branchId: branch.id },
@@ -68,81 +74,141 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative w-full h-[500px] overflow-hidden">
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/40 z-10"></div>
+    <div className="relative w-full h-screen min-h-[650px] overflow-hidden bg-gray-900">
+      
+      {/* Background Dimming Overlay */}
+      <div className="absolute inset-0 bg-black/60 z-10" />
 
-      {/* Images */}
-      {HERO_IMAGES.map((image, index) => (
+      {/* Background Images */}
+      {HERO_IMAGES.map((img, i) => (
         <div
-          key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentSlide ? "opacity-100" : "opacity-0"
+          key={img}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+            currentSlide === i ? "opacity-100" : "opacity-0"
           }`}
         >
-          <img src={image} alt="" className="w-full h-full object-cover" />
+          <img
+            src={img}
+            className="w-full h-full object-cover"
+            alt={`Background slide ${i + 1}`}
+          />
         </div>
       ))}
 
-      {/* Content */}
-      <div className="absolute inset-0 flex items-center justify-center z-20">
-        <div className="text-center px-6 text-white">
-          <h1 className="text-5xl font-bold mb-4">Aangan Sewa</h1>
-          <p className="text-xl mb-2">Quality home services, on demand</p>
-          <p className="text-lg mb-8">
-            Experienced professionals at your doorstep
-          </p>
+      {/* Main Content Wrapper */}
+      {/* ADJUSTED: pt-2 sm:pt-4 md:pt-6 forces the entire container tightly upward against the top window frame */}
+      <div className="absolute inset-0 z-20 flex flex-col justify-start items-center px-4 md:px-8 h-full pt-2 sm:pt-4 md:pt-6">
+        <div className="max-w-5xl w-full text-center text-white flex flex-col">
+          
+          {/* SECTION 1: Top Aligned Headers */}
+          <div className="flex-shrink-0">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tight mb-1 sm:mb-2 leading-tight drop-shadow-md">
+              Trusted Home Services <br />
+              <span className="text-orange-400">At Your Doorstep</span>
+            </h1>
 
-          <div className="max-w-2xl mx-auto bg-white text-black rounded-lg p-6">
-            <p className="mb-4">Where do you need a service?</p>
+            <p className="text-base sm:text-lg md:text-2xl font-medium text-gray-200 mb-0.5 tracking-wide">
+              Electricians • Plumbers • Cleaners • Technicians
+            </p>
 
-            <div className="flex gap-4">
-              <Select
-                options={districts}
-                value={selectedDistrict}
-                onChange={(e) => {
-                  setSelectedDistrict(e.target.value);
-                  setSelectedPlace("");
-                }}
-                placeholder="Select district"
-                disabled={isLoading}
-              />
-
-              <Select
-                options={availablePlaces}
-                value={selectedPlace}
-                onChange={handlePlaceChange}
-                placeholder="Select place"
-              />
-            </div>
+            <p className="text-xs sm:text-sm md:text-base text-gray-300 font-light">
+              Fast booking • Verified professionals • Near your location
+            </p>
           </div>
+
+          {/* SECTION 2: Tightened Booking Card */}
+          {/* ADJUSTED: Changed margin-top to mt-4 md:mt-6 to close up internal content gap */}
+          <div className="w-full mx-auto bg-white/70 backdrop-blur-md rounded-2xl shadow-2xl border border-white/20 p-5 md:p-6 text-gray-800 mt-4 sm:mt-5 md:mt-6 transform transition-all">
+            
+            <p className="text-xs sm:text-sm font-semibold text-black uppercase tracking-wider mb-4 text-left">
+              Select your location to continue
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+              
+              {/* District Select */}
+              <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3 border border-gray-200 transition focus-within:bg-white focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-200">
+                <FaMapMarkerAlt className="text-orange-500 text-lg flex-shrink-0" />
+                <div className="w-full text-left">
+                  <Select
+                    options={districts}
+                    value={selectedDistrict}
+                    onChange={(e) => {
+                      setSelectedDistrict(e.target.value);
+                      setSelectedPlace("");
+                    }}
+                    placeholder="Choose District"
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
+
+              {/* Branch Select */}
+              <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3 border border-gray-200 transition focus-within:bg-white focus-within:border-orange-500 focus-within:ring-2 focus-within:ring-orange-200">
+                <FaBuilding className="text-orange-500 text-lg flex-shrink-0" />
+                <div className="w-full text-left">
+                  <Select
+                    options={availablePlaces}
+                    value={selectedPlace}
+                    onChange={(e) => setSelectedPlace(e.target.value)}
+                    placeholder="Choose Branch"
+                    disabled={!selectedDistrict}
+                  />
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <button
+                onClick={handleExplore}
+                disabled={!selectedPlace}
+                className={`h-[50px] w-full rounded-xl font-bold tracking-wide text-base transition-all duration-200 shadow-md ${
+                  selectedPlace
+                    ? "bg-orange-500 hover:bg-orange-600 text-white hover:shadow-lg active:scale-[0.98] cursor-pointer"
+                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                }`}
+              >
+                Explore Services
+              </button>
+            </div>
+
+            {/* Stepper Helper Footer */}
+            <p className="text-s text-pure-black mt-4 text-center font-medium">
+               Select Area &rarr; Choose local branch &rarr; Discover services
+            </p>
+          </div>
+          
         </div>
       </div>
 
-      {/* Arrows */}
+      {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full z-20"
+        className="hidden sm:flex absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full z-20 shadow-lg transition active:scale-95 cursor-pointer"
+        aria-label="Previous image"
       >
-        <FaChevronLeft />
+        <FaChevronLeft size={16} />
       </button>
 
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full z-20"
+        className="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full z-20 shadow-lg transition active:scale-95 cursor-pointer"
+        aria-label="Next image"
       >
-        <FaChevronRight />
+        <FaChevronRight size={16} />
       </button>
 
-      {/* Dots */}
+      {/* Slider Carousel Dots */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-        {HERO_IMAGES.map((_, index) => (
+        {HERO_IMAGES.map((_, i) => (
           <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full ${
-              index === currentSlide ? "bg-orange-500" : "bg-gray-300"
+            key={i}
+            onClick={() => setCurrentSlide(i)}
+            className={`rounded-full transition-all duration-300 cursor-pointer ${
+              i === currentSlide
+                ? "w-8 h-2 bg-orange-500"
+                : "w-2 h-2 bg-white/50 hover:bg-white"
             }`}
+            aria-label={`Show slide ${i + 1}`}
           />
         ))}
       </div>

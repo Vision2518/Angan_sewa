@@ -18,22 +18,16 @@ const Home = () => {
         <div className="relative w-full h-125 overflow-hidden ">
           <Hero />
         </div>
-
         <div className="">
           <AboutAaganSewa />
-
           <FeaturedServices />
           <HowItWorks />
           <TrustStrip />
-
           <GallerySlider />
-
           <LeadCapture />
           <FAQAccordion />
-
           <FeaturedBranches />
         </div>
-
         <Testimonials />
         <CustomerScroll />
       </div>
