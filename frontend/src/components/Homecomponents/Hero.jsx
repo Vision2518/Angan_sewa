@@ -111,7 +111,7 @@ const Hero = () => {
               Electricians • Plumbers • Cleaners • Technicians
             </p>
 
-            <p className="text-xs sm:text-sm md:text-base text-gray-300 font-light">
+            <p className="text-xs sm:text-sm md:text-base text-gray-300 font-medium">
               Fast booking • Verified professionals • Near your location
             </p>
           </div>

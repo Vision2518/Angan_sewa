@@ -42,7 +42,7 @@ const AboutAaganSewa = () => {
             className="px-8 py-3 font-semibold rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-white group"
             style={{ backgroundColor: "#FF6B35" }}
           >
-            Explore Services
+            Find  Nearby Expert
             <span className="inline-block transition-transform group-hover:translate-x-1 ml-1">→</span>
           </button>
         </div>

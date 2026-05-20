@@ -27,7 +27,7 @@ const CustomerScroll = () => {
       {/* Header */}
       <div className="text-center mb-12">
         <h2 className="text-4xl md:text-5xl font-bold mb-3" style={{ color: "#0a1628" }}>
-          Our Trusted Customers
+          People We've Served
         </h2>
       </div>
 

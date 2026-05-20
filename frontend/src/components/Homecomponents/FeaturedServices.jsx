@@ -49,7 +49,7 @@ const FeaturedServices = () => {
             className="px-8 py-3 font-semibold rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-white"
             style={{ backgroundColor: "#FF6B35" }}
           >
-            Browse All Services
+            See What We Offer
             <span className="inline-block ml-2">→</span>
           </button>
         </div>

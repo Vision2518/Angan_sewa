@@ -22,7 +22,7 @@ const LeadCapture = () => {
                 className="text-4xl md:text-5xl font-bold"
                 style={{ color: "white" }}
               >
-                Request a <span style={{ color: "#FF6B35" }}>Call</span>
+                Get <span style={{ color: "#FF6B35" }}>Assistance</span>
               </h2>
               <p className="text-gray-200 mt-4 leading-relaxed">
                 Tell us your district and service. We’ll connect you with the
