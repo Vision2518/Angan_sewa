@@ -2,225 +2,201 @@ import React from "react";
 import AboutHero from "../../components/Aboutcomponents/HeroSection";
 
 const About = () => {
-  const missionVisionData = [
-    {
-      title: "Our Mission",
-      description:
-        "To help users access service information based on their district and connect them with the correct local branch quickly and clearly.",
-      highlights: [
-        "Organized service access by location",
-        "Reduce confusion in selecting services",
-        "Improve connection with local branches",
-      ],
-    },
-    {
-      title: "Our Vision",
-      description:
-        "To build a structured and reliable system for accessing local services through a simple and accessible digital platform.",
-      highlights: [
-        "Clear service structure across regions",
-        "Consistent and reliable information",
-        "Accessible platform for all users",
-      ],
-    },
-  ];
-
-  const coreValues = [
-    {
-      name: "Clarity",
-      description: "Information is presented in a simple and understandable way.",
-    },
-    {
-      name: "Relevance",
-      description: "Users only see services available in their selected location.",
-    },
-    {
-      name: "Simplicity",
-      description: "Interface designed to reduce complexity and improve usability.",
-    },
-    {
-      name: "Reliability",
-      description: "Data is structured and managed to maintain accuracy.",
-    },
-  ];
-
-  const keyFeatures = [
-    {
-      title: "Branch-Based System",
-      description: "Services are organized by district and local branch structure",
-    },
-    {
-      title: "Guided Navigation",
-      description: "Users are helped step-by-step to find relevant services",
-    },
-    {
-      title: "Simple Interface",
-      description: "Clean and responsive design for all devices",
-    },
-    {
-      title: "Secure Handling",
-      description: "User information is managed with standard security practices",
-    },
-  ];
-
   return (
-    <div className="w-full bg-white">
+    <div className="w-full bg-white text-gray-900">
 
       {/* HERO */}
       <AboutHero />
-      {/*why exists */}
-      <section className="py-12 md:py-16 px-6 bg-white">
-  <div className="max-w-4xl mx-auto text-center">
 
-    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
-      Why Aagan Sewa Exists
-    </h2>
+      {/* STORY SECTION */}
+      <section className="py-14 md:py-20 px-6">
+        <div className="max-w-4xl mx-auto">
 
-    <div className="w-16 h-1 bg-orange-500 mx-auto mt-4 mb-8" />
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight">
+              Why Aagan Sewa Was Created
+            </h2>
 
-    <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-      In many areas, people often struggle to find the right service or the correct local branch.
-      Information is scattered, unclear, or depends on word of mouth.
-    </p>
+            <div className="w-16 h-1 bg-orange-500 mx-auto mt-5" />
+          </div>
 
-    <p className="text-gray-600 text-base md:text-lg leading-relaxed mt-4">
-      Aagan Sewa was created to organize this information in a simple way — so users can select their location,
-      see only relevant services, and connect directly with the right branch without confusion.
-    </p>
+          <div className="space-y-6 text-gray-700 text-base md:text-lg leading-relaxed">
 
-    <p className="text-gray-600 text-base md:text-lg leading-relaxed mt-4">
-      The goal is not to add complexity, but to make access to local services more structured, clear, and accessible.
-    </p>
+            <p>
+              Finding the right local service should be simple. But in many places,
+              people still struggle to know which branch to contact, which services
+              are available in their area, or where to even begin.
+            </p>
 
-  </div>
-</section>
+            <p>
+              Information is often scattered across different sources, shared by
+              word of mouth, or difficult to verify. Users spend unnecessary time
+              searching, asking others, or visiting the wrong place.
+            </p>
 
-      {/* MISSION & VISION */}
-      <section className="py-12 md:py-16 px-6 bg-gray-50">
+            <p>
+              Aagan Sewa was built to reduce that confusion.
+            </p>
+
+            <p>
+              The platform helps users discover services based on their district
+              and connect with the correct local branch through a more structured
+              and accessible system.
+            </p>
+
+            <p>
+              Instead of overwhelming users with too much information,
+              Aagan Sewa focuses on clarity — showing only what is relevant
+              to a user’s selected location.
+            </p>
+
+            <p>
+              The goal is simple:
+              make local service information easier to access,
+              easier to understand,
+              and easier to trust.
+            </p>
+
+          </div>
+        </div>
+      </section>
+
+      {/* PURPOSE SECTION */}
+      <section className="py-14 md:py-18 px-6 bg-gray-50">
         <div className="max-w-6xl mx-auto">
 
-          {/* Section Title */}
-          <div className="text-center mb-8 md:mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
-              Our Purpose
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+              What We Aim To Improve
             </h2>
-            <div className="w-16 h-1 bg-orange-500 mx-auto mt-4" />
+
+            <p className="text-gray-600 mt-4 text-base md:text-lg max-w-2xl mx-auto">
+              Aagan Sewa is designed to create a clearer connection between
+              users, local branches, and available services.
+            </p>
+
+            <div className="w-16 h-1 bg-orange-500 mx-auto mt-5" />
           </div>
 
-          {/* Grid */}
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
 
-            {missionVisionData.map((item, i) => (
-              <div
-                key={i}
-                className="bg-white p-6 md:p-8 rounded-xl shadow-md border border-gray-100"
-              >
-                <h3 className="text-2xl font-semibold text-gray-900 mb-4 tracking-tight">
-                  {item.title}
-                </h3>
+            <div className="bg-white rounded-xl p-6 border border-gray-100">
+              <h3 className="text-xl font-semibold mb-3">
+                Clear Service Discovery
+              </h3>
 
-                <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-5">
-                  {item.description}
-                </p>
+              <p className="text-gray-600 leading-relaxed">
+                Users can explore services available in their selected district
+                without navigating unnecessary information.
+              </p>
+            </div>
 
-                <ul className="space-y-2 text-gray-600 text-sm md:text-base">
-                  {item.highlights.map((h, idx) => (
-                    <li key={idx}>• {h}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+            <div className="bg-white rounded-xl p-6 border border-gray-100">
+              <h3 className="text-xl font-semibold mb-3">
+                Better Local Connection
+              </h3>
+
+              <p className="text-gray-600 leading-relaxed">
+                The platform helps connect users with the appropriate branch
+                responsible for their location.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl p-6 border border-gray-100">
+              <h3 className="text-xl font-semibold mb-3">
+                Simpler Access
+              </h3>
+
+              <p className="text-gray-600 leading-relaxed">
+                A clean and guided interface reduces confusion and makes the
+                experience easier for all users.
+              </p>
+            </div>
 
           </div>
         </div>
       </section>
 
-      {/* CORE VALUES */}
-      <section className="py-12 md:py-16 px-6">
+      {/* VALUES */}
+      <section className="py-14 md:py-18 px-6">
+        <div className="max-w-6xl mx-auto">
 
-        <div className="max-w-6xl mx-auto text-center mb-8 md:mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
-            Core Values
-          </h2>
-          <p className="text-gray-600 mt-3 text-base md:text-lg">
-            Principles that guide how the platform is designed and used
-          </p>
-          <div className="w-16 h-1 bg-orange-500 mx-auto mt-4" />
-        </div>
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+              Principles Behind The Platform
+            </h2>
 
-        <div className="max-w-6xl mx-auto grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="w-16 h-1 bg-orange-500 mx-auto mt-5" />
+          </div>
 
-          {coreValues.map((v, i) => (
-            <div
-              key={i}
-              className="p-6 bg-gray-50 rounded-lg border border-gray-100"
-            >
-              <h4 className="text-lg font-semibold text-gray-900 mb-2 tracking-tight">
-                {v.name}
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
+
+            <div className="bg-gray-50 border border-gray-100 rounded-lg p-5">
+              <h4 className="font-semibold mb-2 text-lg">
+                Clarity
               </h4>
-              <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                {v.description}
+
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Information should be easy to understand and easy to find.
               </p>
             </div>
-          ))}
 
-        </div>
-      </section>
-
-      {/* FEATURES */}
-      <section className="py-12 md:py-16 px-6 bg-gray-50">
-
-        <div className="max-w-6xl mx-auto text-center mb-8 md:mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
-            Platform Overview
-          </h2>
-          <p className="text-gray-600 mt-3 text-base md:text-lg">
-            Key aspects of how Aagan Sewa operates
-          </p>
-          <div className="w-16 h-1 bg-orange-500 mx-auto mt-4" />
-        </div>
-
-        <div className="max-w-6xl mx-auto grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-
-          {keyFeatures.map((f,i) => (
-            <div
-              key={i}
-              className="bg-white p-6 rounded-lg border border-gray-100"
-            >
-              <h4 className="font-semibold text-lg text-gray-900 mb-2 tracking-tight">
-                {f.title}
+            <div className="bg-gray-50 border border-gray-100 rounded-lg p-5">
+              <h4 className="font-semibold mb-2 text-lg">
+                Simplicity
               </h4>
-              <p className="text-sm md:text-base text-gray-600">
-                {f.description}
+
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Users should reach important information with minimal steps.
               </p>
             </div>
-          ))}
 
+            <div className="bg-gray-50 border border-gray-100 rounded-lg p-5">
+              <h4 className="font-semibold mb-2 text-lg">
+                Relevance
+              </h4>
+
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Services shown should match the user’s selected location.
+              </p>
+            </div>
+
+            <div className="bg-gray-50 border border-gray-100 rounded-lg p-5">
+              <h4 className="font-semibold mb-2 text-lg">
+                Reliability
+              </h4>
+
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Information should remain structured and consistent.
+              </p>
+            </div>
+
+          </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-12 md:py-16 px-6 bg-gray-900 text-white">
+      <section className="py-16 md:py-20 px-6 bg-gray-900 text-white">
 
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-3xl mx-auto text-center">
 
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
-            Access Services Based on Your Location
+          <h2 className="text-3xl md:text-4xl font-bold leading-tight">
+            Explore Services Available In Your Area
           </h2>
 
-          <p className="text-gray-300 text-base md:text-lg mb-10 leading-relaxed">
-            Aagan Sewa helps users find service information from their nearest
-            branch in a structured and simple way.
+          <p className="text-gray-300 mt-5 text-base md:text-lg leading-relaxed">
+            Select your district, connect with your nearest branch,
+            and discover services relevant to your location.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
 
-            <button className="px-6 py-3 bg-orange-500 hover:bg-orange-600  font-semibold">
-              Find Services Near You
+            <button className="px-7 py-3 rounded-lg bg-orange-500 hover:bg-orange-600 transition font-semibold">
+              Find Services
             </button>
 
-            <button className="px-6 py-3 border border-orange-500 ">
-              View Available Branches
+            <button className="px-7 py-3 rounded-lg border border-orange-400 hover:bg-white/5 transition">
+              View Branches
             </button>
 
           </div>
