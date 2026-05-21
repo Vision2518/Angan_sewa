@@ -13,9 +13,6 @@ import Pagination from "../pagination";
 const FilterService = () => {
   const IMG_URL = import.meta.env.VITE_IMG_URL;
 
-  // ======================
-  // STATES
-  // ======================
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedBranch, setSelectedBranch] = useState("");
@@ -23,9 +20,6 @@ const FilterService = () => {
 
   const limit = 6;
 
-  // ======================
-  // MAIN API (HYBRID)
-  // ======================
   const { data, isFetching } = useGetAllServicesQuery({
     page,
     limit,
@@ -37,9 +31,6 @@ const FilterService = () => {
   const services = data?.data || [];
   const pagination = data?.pagination || {};
 
-  // ======================
-  // DROPDOWN DATA
-  // ======================
   const { data: allProvinces } = useGetProvinceQuery();
 
   const { data: districtData } = useGetDistrictByProvinceQuery(
@@ -50,33 +41,9 @@ const FilterService = () => {
     selectedDistrict || skipToken
   );
 
-  // ======================
-  // PAGE CHANGE
-  // ======================
   const handlePageChange = (newPage) => {
     if (newPage < 1 || newPage > (pagination.totalPages || 1)) return;
     setPage(newPage);
-  };
-
-  // ======================
-  // FILTER HANDLERS
-  // ======================
-  const handleProvinceChange = (e) => {
-    setSelectedProvince(e.target.value);
-    setSelectedDistrict("");
-    setSelectedBranch("");
-    setPage(1);
-  };
-
-  const handleDistrictChange = (e) => {
-    setSelectedDistrict(e.target.value);
-    setSelectedBranch("");
-    setPage(1);
-  };
-
-  const handleBranchChange = (e) => {
-    setSelectedBranch(e.target.value);
-    setPage(1);
   };
 
   const handleReset = () => {
@@ -86,82 +53,126 @@ const FilterService = () => {
     setPage(1);
   };
 
-  // ======================
-  // UI
-  // ======================
   return (
-    <div className="p-4">
+    <div className="px-4 md:px-10 py-10">
 
-      {/* FILTERS */}
-      <div className="bg-white p-6 rounded-2xl shadow-sm grid gap-4 md:grid-cols-4">
+      {/* 🔥 SECTION HEADER (NEW UX LAYER) */}
+      <div className="text-center mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+          Find Services in Your Area
+        </h2>
 
-        {/* Province */}
-        <select
-          value={selectedProvince}
-          onChange={handleProvinceChange}
-          className="border rounded-lg px-4 py-2"
-        >
-          <option value="">Select Province</option>
-          {allProvinces?.data?.map((p) => (
-            <option key={p.province_id} value={p.province_id}>
-              {p.province_name}
-            </option>
-          ))}
-        </select>
-
-        {/* District */}
-        <select
-          value={selectedDistrict}
-          disabled={!selectedProvince}
-          onChange={handleDistrictChange}
-          className="border rounded-lg px-4 py-2 disabled:bg-gray-100"
-        >
-          <option value="">Select District</option>
-          {districtData?.data?.map((d) => (
-            <option key={d.district_id} value={d.district_id}>
-              {d.district_name}
-            </option>
-          ))}
-        </select>
-
-        {/* Branch */}
-        <select
-          value={selectedBranch}
-          disabled={!selectedDistrict}
-          onChange={handleBranchChange}
-          className="border rounded-lg px-4 py-2 disabled:bg-gray-100"
-        >
-          <option value="">Select Branch</option>
-          {branchData?.data?.map((b) => (
-            <option key={b.branch_id} value={b.branch_id}>
-              {b.branch_name}
-            </option>
-          ))}
-        </select>
-
-        {/* Reset */}
-        <button
-          className="bg-indigo-600 text-white rounded-lg px-4 py-2"
-          onClick={handleReset}
-        >
-          Reset
-        </button>
+        <p className="text-gray-600 mt-2">
+          Select your location to discover trusted local professionals near you
+        </p>
       </div>
 
-      {/* CONTENT */}
-      <div className="mt-8">
+      {/* 🔥 SEARCH BAR STYLE FILTER CARD */}
+      <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg border border-gray-100 p-5 md:p-6">
 
-        {/* LOADING */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+
+          {/* Province */}
+          <div>
+            <label className="text-sm text-gray-600 mb-1 block">
+              Province
+            </label>
+            <select
+              value={selectedProvince}
+              onChange={(e) => {
+                setSelectedProvince(e.target.value);
+                setSelectedDistrict("");
+                setSelectedBranch("");
+                setPage(1);
+              }}
+              className="w-full border border-gray-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-orange-200 focus:border-orange-400 outline-none"
+            >
+              <option value="">Select Province</option>
+              {allProvinces?.data?.map((p) => (
+                <option key={p.province_id} value={p.province_id}>
+                  {p.province_name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* District */}
+          <div>
+            <label className="text-sm text-gray-600 mb-1 block">
+              District
+            </label>
+            <select
+              value={selectedDistrict}
+              disabled={!selectedProvince}
+              onChange={(e) => {
+                setSelectedDistrict(e.target.value);
+                setSelectedBranch("");
+                setPage(1);
+              }}
+              className="w-full border border-gray-200 rounded-xl px-3 py-2 disabled:bg-gray-100 focus:ring-2 focus:ring-orange-200 focus:border-orange-400 outline-none"
+            >
+              <option value="">Select District</option>
+              {districtData?.data?.map((d) => (
+                <option key={d.district_id} value={d.district_id}>
+                  {d.district_name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Branch */}
+          <div>
+            <label className="text-sm text-gray-600 mb-1 block">
+              Branch
+            </label>
+            <select
+              value={selectedBranch}
+              disabled={!selectedDistrict}
+              onChange={(e) => {
+                setSelectedBranch(e.target.value);
+                setPage(1);
+              }}
+              className="w-full border border-gray-200 rounded-xl px-3 py-2 disabled:bg-gray-100 focus:ring-2 focus:ring-orange-200 focus:border-orange-400 outline-none"
+            >
+              <option value="">Select Branch</option>
+              {branchData?.data?.map((b) => (
+                <option key={b.branch_id} value={b.branch_id}>
+                  {b.branch_name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* CTA + Reset */}
+          <div className="flex gap-2">
+            <button
+              onClick={handleReset}
+              className="w-1/2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl py-2 text-sm font-medium"
+            >
+              Reset
+            </button>
+
+            <button
+              onClick={() => setPage(1)}
+              className="w-1/2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl py-2 text-sm font-semibold"
+            >
+              Find
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* RESULTS */}
+      <div className="mt-10">
+
         {isFetching ? (
-          <div className="text-center py-20 text-indigo-600 font-bold">
-            Loading Services...
+          <div className="text-center py-20 text-orange-500 font-semibold">
+            Loading services...
           </div>
         ) : services.length > 0 ? (
           <>
-            {/* SERVICE LIST */}
             <ServiceCard allServices={services} image_url={IMG_URL} />
 
-            {/* PAGINATION */}
             <div className="mt-6">
               <Pagination
                 currentPage={pagination.currentPage || 1}
@@ -179,8 +190,13 @@ const FilterService = () => {
             </div>
           </>
         ) : (
-          <div className="text-center py-20 text-gray-500 font-semibold">
-            No services found in this location.
+          <div className="text-center py-20">
+            <p className="text-gray-500 font-medium">
+              No services found for this location
+            </p>
+            <p className="text-sm text-gray-400 mt-2">
+              Try selecting a different district or branch
+            </p>
           </div>
         )}
       </div>
