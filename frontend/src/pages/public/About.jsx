@@ -100,7 +100,7 @@ const About = () => {
         <div className="max-w-6xl mx-auto">
 
           {/* Section Title */}
-          <div className="text-center mb-12 md:mb-14">
+          <div className="text-center mb-8 md:mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
               Our Purpose
             </h2>
@@ -108,7 +108,7 @@ const About = () => {
           </div>
 
           {/* Grid */}
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-6">
 
             {missionVisionData.map((item, i) => (
               <div
@@ -138,7 +138,7 @@ const About = () => {
       {/* CORE VALUES */}
       <section className="py-12 md:py-16 px-6">
 
-        <div className="max-w-6xl mx-auto text-center mb-12 md:mb-14">
+        <div className="max-w-6xl mx-auto text-center mb-8 md:mb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
             Core Values
           </h2>
@@ -168,9 +168,9 @@ const About = () => {
       </section>
 
       {/* FEATURES */}
-      <section className="py-16 md:py-20 px-6 bg-gray-50">
+      <section className="py-12 md:py-16 px-6 bg-gray-50">
 
-        <div className="max-w-6xl mx-auto text-center mb-12 md:mb-14">
+        <div className="max-w-6xl mx-auto text-center mb-8 md:mb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
             Platform Overview
           </h2>
@@ -182,7 +182,7 @@ const About = () => {
 
         <div className="max-w-6xl mx-auto grid sm:grid-cols-2 md:grid-cols-4 gap-6">
 
-          {keyFeatures.map((f, i) => (
+          {keyFeatures.map((f,i) => (
             <div
               key={i}
               className="bg-white p-6 rounded-lg border border-gray-100"
@@ -200,7 +200,7 @@ const About = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-16 md:py-20 px-6 bg-gray-900 text-white">
+      <section className="py-12 md:py-16 px-6 bg-gray-900 text-white">
 
         <div className="max-w-4xl mx-auto text-center">
 
@@ -216,11 +216,11 @@ const About = () => {
           <div className="flex flex-col sm:flex-row justify-center gap-4">
 
             <button className="px-6 py-3 bg-orange-500 hover:bg-orange-600  font-semibold">
-              Find Services
+              Find Services Near You
             </button>
 
             <button className="px-6 py-3 border border-orange-500 ">
-              View Branches
+              View Available Branches
             </button>
 
           </div>
