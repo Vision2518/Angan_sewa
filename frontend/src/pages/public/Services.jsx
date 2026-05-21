@@ -24,12 +24,15 @@ const Services = () => {
 
         <div className="relative z-10 max-w-5xl px-6 text-center">
           <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-            Aagan Sewa Services
+         Find  Nearby trusted local services
           </h1>
           <p className="text-lg md:text-xl text-gray-100 max-w-3xl mx-auto leading-relaxed">
-            Explore public and government services available across different
-            Aagan Sewa branches. Find the service you need and connect with our
-            local managers for quick assistance.
+           Search by location and connect with trusted local professionals in minutes.
+          </p>
+           <p className="text-lg md:text-xl text-gray-100 max-w-3xl mx-auto leading-relaxed">
+            <span className="text-orange-500">✓</span> Verified local professionals  
+            <span className="text-orange-500">✓</span> Fast response  
+            <span className="text-orange-500">✓</span> Nearby availability
           </p>
           <div className="mt-8">
             <button
