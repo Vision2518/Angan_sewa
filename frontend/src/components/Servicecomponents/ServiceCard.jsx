@@ -14,28 +14,48 @@ const ServiceCard = ({ allServices = [], image_url, children }) => {
           {allServices.map((service) => (
             <div
               key={service.service_id}
-              className="bg-white cursor-pointer rounded-lg overflow-hidden group relative before:absolute before:inset-0 before:z-10 before:bg-black before:opacity-30"
+              className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col"
             >
-              <img
-                src={`${image_url}/${service.service_image}`}
-                alt={service.service_name}
-                className="w-full h-96 object-cover group-hover:scale-110 transition-all duration-300"
-                onError={(e) => {
-                  e.target.onerror = null; // ✅ prevents infinite error loop
-                  e.target.src = "/placeholder.jpg";
-                }}
-              />
+              <div className="relative w-full h-44 overflow-hidden bg-gray-100">
+                <img
+                  src={`${image_url}/${service.service_image}`}
+                  alt={service.service_name}
+                  className="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "/placeholder.jpg";
+                  }}
+                />
+              </div>
+              <div className="p-4 flex flex-col gap-3">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[11px] px-2 py-0.5 bg-green-100 text-green-700 rounded-full font-medium">
+                    Verified Service
+                  </span>
 
-              <div className="bg-linear-to-t from-black/60 via-black/60 to-transparent p-6 absolute bottom-0 left-0 right-0 z-20">
-                <span className="text-sm block mb-2 text-slate-300 font-semibold">
-                  {new Date(service.created_at).toDateString()}
-                </span>
-                <h3 className="text-xl font-semibold text-white">
+                  <span className="text-[11px] px-2 py-0.5 bg-orange-100 text-orange-600 rounded-full font-medium">
+                    Fast Response
+                  </span>
+                </div>
+
+                {/* Service Name */}
+                <h3 className="text-lg font-semibold text-gray-900 leading-snug -tracking-tight">
                   {service.service_name}
                 </h3>
-                <p className="text-sm text-gray-200 mt-1">
-                  {service.description}
+
+                {/* Optional short description */}
+                <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
+                  {service.description && service.description.length > 40
+                    ? service.description
+                    : "Reliable professional service available at your selected branch with quick response and support."}
                 </p>
+                {/* CTA */}
+                <button className="mt-2 text-sm font-semibold text-orange-500 hover:text-orange-600 self-start flex items-center gap-1">
+                  View Details
+                  <span className="transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
+                </button>
               </div>
             </div>
           ))}

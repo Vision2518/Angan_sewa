@@ -34,11 +34,11 @@ const FilterService = () => {
   const { data: allProvinces } = useGetProvinceQuery();
 
   const { data: districtData } = useGetDistrictByProvinceQuery(
-    selectedProvince || skipToken
+    selectedProvince || skipToken,
   );
 
   const { data: branchData } = useGetBranchByDistrictQuery(
-    selectedDistrict || skipToken
+    selectedDistrict || skipToken,
   );
 
   const handlePageChange = (newPage) => {
@@ -52,10 +52,22 @@ const FilterService = () => {
     setSelectedBranch("");
     setPage(1);
   };
+  const SkeletonCard = () => {
+    return (
+      <div className="bg-white rounded-xl overflow-hidden shadow-sm animate-pulse">
+        <div className="h-44 bg-gray-200" />
+        <div className="p-4 space-y-3">
+          <div className="h-4 bg-gray-200 rounded w-3/4" />
+          <div className="h-3 bg-gray-200 rounded w-1/2" />
+          <div className="h-3 bg-gray-200 rounded w-full" />
+          <div className="h-8 bg-gray-200 rounded w-24 mt-2" />
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="px-4 md:px-10 py-10">
-
       {/* 🔥 SECTION HEADER (NEW UX LAYER) */}
       <div className="text-center mb-8">
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
@@ -69,14 +81,10 @@ const FilterService = () => {
 
       {/* 🔥 SEARCH BAR STYLE FILTER CARD */}
       <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg border border-gray-100 p-5 md:p-6">
-
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-
           {/* Province */}
           <div>
-            <label className="text-sm text-gray-600 mb-1 block">
-              Province
-            </label>
+            <label className="text-sm text-gray-600 mb-1 block">Province</label>
             <select
               value={selectedProvince}
               onChange={(e) => {
@@ -98,9 +106,7 @@ const FilterService = () => {
 
           {/* District */}
           <div>
-            <label className="text-sm text-gray-600 mb-1 block">
-              District
-            </label>
+            <label className="text-sm text-gray-600 mb-1 block">District</label>
             <select
               value={selectedDistrict}
               disabled={!selectedProvince}
@@ -122,9 +128,7 @@ const FilterService = () => {
 
           {/* Branch */}
           <div>
-            <label className="text-sm text-gray-600 mb-1 block">
-              Branch
-            </label>
+            <label className="text-sm text-gray-600 mb-1 block">Branch</label>
             <select
               value={selectedBranch}
               disabled={!selectedDistrict}
@@ -164,10 +168,11 @@ const FilterService = () => {
 
       {/* RESULTS */}
       <div className="mt-10">
-
         {isFetching ? (
-          <div className="text-center py-20 text-orange-500 font-semibold">
-            Loading services...
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
           </div>
         ) : services.length > 0 ? (
           <>
@@ -182,7 +187,8 @@ const FilterService = () => {
                   ((pagination.currentPage || 1) - 1) * (pagination.limit || 6)
                 }
                 endIndex={
-                  ((pagination.currentPage || 1) - 1) * (pagination.limit || 6) +
+                  ((pagination.currentPage || 1) - 1) *
+                    (pagination.limit || 6) +
                   services.length
                 }
                 onPageChange={handlePageChange}
