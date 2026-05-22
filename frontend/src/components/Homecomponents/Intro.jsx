@@ -1,5 +1,4 @@
 import React from "react";
-
 const AboutAaganSewa = () => {
   return (
     <section className="w-full py-20 px-6" style={{ backgroundColor: "#f8fafc" }}>

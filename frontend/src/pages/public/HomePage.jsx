@@ -1,4 +1,4 @@
-import AboutAaganSewa from "../../components/Servicecomponents/Intro";
+import AboutAaganSewa from "../../components/Homecomponents/Intro";
 import GallerySlider from "../../components/Gallerycomponents/GallerySlider";
 import Hero from "../../components/Homecomponents/Hero";
 import Testimonials from "../../components/Homecomponents/Testonomials";

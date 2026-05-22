@@ -1,6 +1,11 @@
 import React from "react";
 
-const ServiceCard = ({ allServices = [], image_url, children }) => {
+const ServiceCard = ({
+  allServices = [],
+  image_url,
+  children,
+  hasFilters = false,
+}) => {
   return (
     <div className="bg-white p-4">
       <div className="max-w-6xl mx-auto">
@@ -42,13 +47,26 @@ const ServiceCard = ({ allServices = [], image_url, children }) => {
                 <h3 className="text-lg font-semibold text-gray-900 leading-snug -tracking-tight">
                   {service.service_name}
                 </h3>
-
-                {/* Optional short description */}
+                {/* Description (smart fallback) */}
                 <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
                   {service.description && service.description.length > 40
                     ? service.description
-                    : "Reliable professional service available at your selected branch with quick response and support."}
+                    : hasFilters
+                      ? "Available at your selected branch. Tap to view contact, timing, and service details."
+                      : "Available across multiple locations. Select your location to see exact availability and nearest branch."}
                 </p>
+                {/* Info Hint */}
+                <p className="text-[11px] text-gray-400 mt-1">
+                  Includes contact info • availability • branch details
+                </p>
+
+                {/* CTA */}
+                <button className="mt-2 text-sm font-semibold text-orange-500 hover:text-orange-600 self-start flex items-center gap-1">
+                  View Service Details
+                  <span className="transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
+                </button>
                 {/* CTA */}
                 <button className="mt-2 text-sm font-semibold text-orange-500 hover:text-orange-600 self-start flex items-center gap-1">
                   View Details

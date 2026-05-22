@@ -27,7 +27,11 @@ const FilterService = () => {
     district_id: selectedDistrict,
     branch_id: selectedBranch,
   });
-
+ const hasFilters = !!(
+  selectedProvince ||
+  selectedDistrict ||
+  selectedBranch
+);
   const services = data?.data || [];
   const pagination = data?.pagination || {};
 
@@ -52,6 +56,7 @@ const FilterService = () => {
     setSelectedBranch("");
     setPage(1);
   };
+
   const SkeletonCard = () => {
     return (
       <div className="bg-white rounded-xl overflow-hidden shadow-sm animate-pulse">
@@ -165,6 +170,13 @@ const FilterService = () => {
           </div>
         </div>
       </div>
+      {/*recommnedation message */}
+      <div className="mb-6 p-4 rounded-xl bg-orange-50 border border-orange-100 text-center">
+        <p className="text-sm text-gray-700 font-medium">
+          You are viewing general services. For more accurate and nearby
+          results, please select your province, district, and branch above.
+        </p>
+      </div>
 
       {/* RESULTS */}
       <div className="mt-10">
@@ -176,8 +188,13 @@ const FilterService = () => {
           </div>
         ) : services.length > 0 ? (
           <>
-            <ServiceCard allServices={services} image_url={IMG_URL} />
-
+            <ServiceCard
+              allServices={services}
+              image_url={IMG_URL}
+              hasFilters={
+                selectedProvince || selectedDistrict || selectedBranch
+              }
+            />
             <div className="mt-6">
               <Pagination
                 currentPage={pagination.currentPage || 1}
