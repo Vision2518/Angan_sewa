@@ -1,5 +1,4 @@
 import About from "../pages/public/About";
-
 import Blog from "../pages/public/Blog";
 import Services from "../pages/public/Services";
 import Contact from "../pages/public/Contact";
@@ -7,7 +6,7 @@ import Login from "../pages/public/Login";
 import Home from "../pages/public/HomePage";
 import Gallery from "../pages/public/Gallery";
 import BranchServices from "../pages/public/BranchServices";
-
+import ServiceDetails from "../components/Servicecomponents/ServiceDetails";
 export const PublicRoutes = [
   {
     index: true,
@@ -28,6 +27,10 @@ export const PublicRoutes = [
   {
     path: "services",
     element: <Services />,
+  },
+  {
+ path:"services/:id",
+    element: <ServiceDetails />
   },
   {
     path: "gallery",

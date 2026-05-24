@@ -2,7 +2,6 @@ import { indexSlice } from "./indexSlice";
 
 export const ServiceApi = indexSlice.injectEndpoints({
   endpoints: (builder) => ({
-
     getAllServices: builder.query({
       query: (filters) => {
         const {
@@ -36,11 +35,14 @@ export const ServiceApi = indexSlice.injectEndpoints({
       }),
       providesTags: ["services"],
     }),
-
+    getServiceById: builder.query({
+      query: (id) => `/services/get-service/${id}`,
+    }),
   }),
 });
 
 export const {
   useGetAllServicesQuery,
   useGetServiceByBranchQuery,
+  useGetServiceByIdQuery,
 } = ServiceApi;

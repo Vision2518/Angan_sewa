@@ -27,11 +27,7 @@ const FilterService = () => {
     district_id: selectedDistrict,
     branch_id: selectedBranch,
   });
- const hasFilters = !!(
-  selectedProvince ||
-  selectedDistrict ||
-  selectedBranch
-);
+  const hasFilters = !!(selectedProvince || selectedDistrict || selectedBranch);
   const services = data?.data || [];
   const pagination = data?.pagination || {};
 
@@ -173,11 +169,11 @@ const FilterService = () => {
       {/*recommnedation message */}
       <div className="mb-6 p-4 rounded-xl bg-orange-50 border border-orange-100 text-center">
         <p className="text-sm text-gray-700 font-medium">
-          You are viewing general services. For more accurate and nearby
-          results, please select your province, district, and branch above.
+          {hasFilters
+            ? "Showing services for your selected location. You can adjust filters above anytime."
+            : "You are viewing general services. For more accurate and nearby results, please select your province, district, and branch above."}
         </p>
       </div>
-
       {/* RESULTS */}
       <div className="mt-10">
         {isFetching ? (

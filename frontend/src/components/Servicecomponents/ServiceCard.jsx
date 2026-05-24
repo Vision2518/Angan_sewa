@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ServiceCard = ({
   allServices = [],
@@ -16,7 +17,9 @@ const ServiceCard = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12 max-lg:max-w-3xl max-md:max-w-md mx-auto">
-          {allServices.map((service) => (
+          {allServices.map((service) => 
+          {
+            return(
             <div
               key={service.service_id}
               className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col"
@@ -42,9 +45,11 @@ const ServiceCard = ({
                     Fast Response
                   </span>
                 </div>
-
+                <p className="text-xs text-gray-400 font-medium">
+                  Trusted local service
+                </p>
                 {/* Service Name */}
-                <h3 className="text-lg font-semibold text-gray-900 leading-snug -tracking-tight">
+                <h3 className="text-xl font-bold text-gray-900 leading-snug tracking-tight">
                   {service.service_name}
                 </h3>
                 {/* Description (smart fallback) */}
@@ -52,31 +57,18 @@ const ServiceCard = ({
                   {service.description && service.description.length > 40
                     ? service.description
                     : hasFilters
-                      ? "Available at your selected branch. Tap to view contact, timing, and service details."
-                      : "Available across multiple locations. Select your location to see exact availability and nearest branch."}
+                      ? "Available at your selected branch. Tap to view contact and service details."
+                      : "Find trusted local professionals. Select a location to view exact availability near you."}
                 </p>
-                {/* Info Hint */}
-                <p className="text-[11px] text-gray-400 mt-1">
-                  Includes contact info • availability • branch details
-                </p>
-
                 {/* CTA */}
-                <button className="mt-2 text-sm font-semibold text-orange-500 hover:text-orange-600 self-start flex items-center gap-1">
-                  View Service Details
-                  <span className="transition-transform group-hover:translate-x-1">
-                    →
-                  </span>
-                </button>
-                {/* CTA */}
-                <button className="mt-2 text-sm font-semibold text-orange-500 hover:text-orange-600 self-start flex items-center gap-1">
-                  View Details
-                  <span className="transition-transform group-hover:translate-x-1">
-                    →
-                  </span>
-                </button>
+                <Link
+                  to={`/services/${service.service_id}`}
+                  className="mt-2 text-sm font-semibold text-orange-500 hover:text-orange-600 cursor-pointer self-start flex items-center gap-1"
+                >View Details</Link>
               </div>
             </div>
-          ))}
+          )}
+          )}
         </div>
       </div>
     </div>
