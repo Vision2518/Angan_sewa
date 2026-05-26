@@ -21,7 +21,7 @@ export const addGallery = async (req, res, next) => {
     // Check if branch exists
     const [branch] = await db.execute(
       "SELECT * FROM branch WHERE branch_id = ?",
-      [branch_id]
+      [branch_id],
     );
     if (branch.length === 0) {
       for (const i of images) {
@@ -47,7 +47,7 @@ export const addGallery = async (req, res, next) => {
     await db.execute(
       `INSERT INTO gallery (title, gallery_date, location, branch_id, image)
        VALUES (?, ?, ?, ?,  ?)`,
-      [title, gallery_date, location, branch_id, imageStiring]
+      [title, gallery_date, location, branch_id, imageStiring],
     );
 
     res.status(201).json({
@@ -67,14 +67,14 @@ export const addGallery = async (req, res, next) => {
 export const getGalleryById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    
+
     if (!id) {
       return res.status(400).json({ message: "Please provide gallery ID" });
     }
 
     const [result] = await db.execute(
       "SELECT * FROM gallery WHERE gallery_id = ?",
-      [id]
+      [id],
     );
 
     if (result.length === 0) {
@@ -93,7 +93,6 @@ export const getGalleryById = async (req, res, next) => {
 // Get all gallery entries
 export const getAllGallery = async (req, res, next) => {
   try {
-
     let page = parseInt(req.query.page) || 1;
     let limit = parseInt(req.query.limit) || 6;
 
@@ -104,7 +103,7 @@ export const getAllGallery = async (req, res, next) => {
 
     // total count
     const [countResult] = await db.query(
-      "SELECT COUNT(*) AS total FROM gallery"
+      "SELECT COUNT(*) AS total FROM gallery",
     );
 
     const total = countResult[0].total;
@@ -117,7 +116,7 @@ export const getAllGallery = async (req, res, next) => {
       ORDER BY created_at DESC
       LIMIT ? OFFSET ?
       `,
-      [limit, offset]
+      [limit, offset],
     );
 
     res.json({
@@ -132,7 +131,6 @@ export const getAllGallery = async (req, res, next) => {
         limit,
       },
     });
-
   } catch (error) {
     next(error);
   }
@@ -142,14 +140,14 @@ export const getAllGallery = async (req, res, next) => {
 export const getGalleryByBranch = async (req, res, next) => {
   try {
     const { branch_id } = req.params;
-    
+
     if (!branch_id) {
       return res.status(400).json({ message: "Please provide branch ID" });
     }
 
     const [result] = await db.execute(
       "SELECT * FROM gallery WHERE branch_id = ? ORDER BY created_at DESC",
-      [branch_id]
+      [branch_id],
     );
 
     res.status(200).json({
@@ -175,7 +173,7 @@ export const updateGallery = async (req, res, next) => {
 
     const [existing] = await db.execute(
       "SELECT * FROM gallery WHERE gallery_id = ?",
-      [id]
+      [id],
     );
 
     if (existing.length === 0) {
@@ -199,7 +197,7 @@ export const updateGallery = async (req, res, next) => {
         imagePaths.push(outputPath);
       }
       imagePath = imagePaths.join(",");
-      
+
       // Remove old images
       if (oldGallery.image) {
         const oldImages = oldGallery.image.split(",");
@@ -218,7 +216,7 @@ export const updateGallery = async (req, res, next) => {
         branch_id || oldGallery.branch_id,
         imagePath,
         id,
-      ]
+      ],
     );
 
     res.status(200).json({ message: "Gallery updated successfully" });
@@ -239,12 +237,12 @@ export const getGallery = async (req, res, next) => {
     if (role === "manager") {
       const [id] = await db.execute(
         "select  branch_id from users where email=? ",
-        [email]
+        [email],
       );
       const userBranch_id = id[0].branch_id;
       const [galleries] = await db.execute(
         "SELECT * FROM gallery WHERE branch_id=? ORDER BY created_at DESC",
-        [userBranch_id]
+        [userBranch_id],
       );
       return res.status(200).json({
         message: "Gallery fetched successfully",
@@ -253,7 +251,7 @@ export const getGallery = async (req, res, next) => {
     }
     if (role === "admin") {
       const [galleries] = await db.execute(
-        "SELECT * FROM gallery ORDER BY created_at DESC"
+        "SELECT * FROM gallery ORDER BY created_at DESC",
       );
 
       if (galleries.length === 0)
@@ -319,7 +317,7 @@ export const deleteGallery = async (req, res, next) => {
     const { id } = req.params;
     const [existing] = await db.execute(
       "SELECT * FROM gallery WHERE gallery_id = ?",
-      [id]
+      [id],
     );
     if (existing.length === 0)
       return res.status(404).json({ message: "Gallery entry not found" });

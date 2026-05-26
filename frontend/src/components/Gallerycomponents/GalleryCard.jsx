@@ -6,6 +6,11 @@ const GalleryCard = ({ item }) => {
     item.image && item.image.length > 0
       ? `http://localhost:5000/${item.image.split(",")[0]}`
       : "/placeholder.png";
+  const images = item.image
+  ? item.image.split(",").map(img =>
+      `${import.meta.env.VITE_IMG_URL}/${img}`
+    )
+  : ["/placeholder.png"];
   const [open, setOpen] = useState(false);
   const formatGalleryDescription = (item) => {
     if (!item) return "";
@@ -68,7 +73,7 @@ const GalleryCard = ({ item }) => {
         {/* View More Link */}
         <button
           className="mt-4 font-semibold text-sm transition-all duration-300 flex items-center gap-2 cursor-pointer"
-          style={{ color: "#FF6B35" }}
+          style={{ color: "#FF6B35" }}  onClick={() => setOpen(true)}
         >
           View More Photos
           <span className="group-hover:translate-x-1 transition-transform duration-300">
@@ -78,7 +83,7 @@ const GalleryCard = ({ item }) => {
       </div>
       {open && (
         <ImageLightbox
-          images={[imageUrl]}
+          images={images}
           index={0}
           onClose={() => setOpen(false)}
         />
