@@ -2,21 +2,16 @@ import React from "react";
 
 const CustomerScroll = () => {
   const customers = [
-    { name: "Ram Shrestha", img: "https://i.pravatar.cc/150?u=ram" },
-    { name: "Sita Thapa", img: "https://i.pravatar.cc/150?u=sita" },
-    { name: "Hari Pandey", img: "https://i.pravatar.cc/150?u=hari" },
+    { name: "Rastriya Banijya Bank", img: "https://www.rbb.com.np/uploads/config/1731390437-339067.png" },
     { name: "Gita Rai", img: "https://i.pravatar.cc/150?u=gita" },
     { name: "Anil Gurung", img: "https://i.pravatar.cc/150?u=anil" },
     { name: "Pratiksha KC", img: "https://i.pravatar.cc/150?u=pkc" },
+      { name: "Nepal gUnj Medical College kohalpur", img: "https://www.ngmc.edu.np/frontend/images/logo.png" },
     { name: "Suman Lama", img: "https://i.pravatar.cc/150?u=suman" },
     { name: "Nabina Sharma", img: "https://i.pravatar.cc/150?u=nabina" },
     { name: "Rohan Chaudhary", img: "https://i.pravatar.cc/150?u=rohan" },
+     { name: "Central Plaza Kohalpur", img: "https://www.hotelcentralplaza.com/images/preference/7l2Dd-logo.jpg" },
     { name: "Ishwor Neupane", img: "https://i.pravatar.cc/150?u=ishwor" },
-    { name: "Maya Tamang", img: "https://i.pravatar.cc/150?u=maya" },
-    { name: "Suresh Magar", img: "https://i.pravatar.cc/150?u=suresh" },
-    { name: "Deepa Joshi", img: "https://i.pravatar.cc/150?u=deepa" },
-    { name: "Binod Acharya", img: "https://i.pravatar.cc/150?u=binod" },
-    { name: "Kabita Yadav", img: "https://i.pravatar.cc/150?u=kabita" },
   ];
 
   // Seamless loop ko lagi array double garne
@@ -27,7 +22,7 @@ const CustomerScroll = () => {
       {/* Header */}
       <div className="text-center mb-12">
         <h2 className="text-4xl md:text-5xl font-bold mb-3" style={{ color: "#0a1628" }}>
-          People We've Served
+          Clients We've Served
         </h2>
       </div>
 

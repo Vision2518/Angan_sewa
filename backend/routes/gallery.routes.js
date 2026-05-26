@@ -26,10 +26,10 @@ galleryRouter.post(
   addGallery
 );
 galleryRouter.get(
-  "/get-gallery",
-  isLogin,
-  authorizeRoles("admin", "manager"),
-  getGallery
+  "/get-gallery", getGallery
+  // isLogin,
+  // authorizeRoles("admin", "manager"),
+ 
 );
 galleryRouter.delete(
   "/delete-gallery/:id",

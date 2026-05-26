@@ -138,7 +138,7 @@ const Hero = () => {
       {/* content */}
       <div className="absolute inset-0 z-20 flex flex-col justify-start items-center px-4 pt-6">
 
-        <div className="max-w-5xl w-full text-center text-white">
+        <div className="max-w-5xl w-full  text-white mx-20">
 
           {/* MAIN HEADING */}
           <h1 className="text-4xl md:text-6xl font-black leading-tight">

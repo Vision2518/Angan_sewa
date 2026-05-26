@@ -42,7 +42,7 @@ const Navbar = () => {
     "px-4 py-2 font-bold text-gray-700 hover:bg-orange-500 hover:text-white transition-all duration-200 flex items-center cursor-pointer text-[13px] uppercase tracking-wider";
 
   return (
-    <header className="bg-white border-b border-gray-200 relative z-50">
+    <header className="bg-white border-b border-gray-200  sticky top-0 z-50">
       <div className="flex items-center justify-between max-w-7xl mx-auto px-6 h-25">
         {/* Logo - Paila kai size ma back! */}
         <NavLink to="/">

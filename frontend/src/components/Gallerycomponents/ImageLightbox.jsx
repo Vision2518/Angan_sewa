@@ -1,6 +1,8 @@
-import { useEffect } from "react";
+import { useEffect} from "react";
+
 const ImageLightbox = ({ images = [], index = 0, onClose }) => {
   if (!images.length) return null;
+  
   const currentImage = images[index];
   // close on ESC
   useEffect(() => {
