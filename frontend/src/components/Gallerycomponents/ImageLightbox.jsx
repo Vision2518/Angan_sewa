@@ -10,7 +10,7 @@ const ImageLightbox = ({ images = [], onClose }) => {
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+   <div className="fixed inset-0 z-50 flex items-center justify-center">
 
       {/* BACKDROP */}
       <div
@@ -18,23 +18,45 @@ const ImageLightbox = ({ images = [], onClose }) => {
         onClick={onClose}
       />
 
-      {/* MODAL */}
-      <div className="relative bg-white w-full max-w-5xl max-h-[85vh] overflow-y-auto rounded-xl p-4 z-10">
+<div className="fixed inset-0 z-50 flex items-center justify-center">
 
-        {/* CLOSE */}
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 bg-black/10 hover:bg-black/20 p-2 rounded-full"
-        >
-          <FaTimes className="text-orange-400" />
-        </button>
+  {/* BACKDROP */}
+  <div
+    className="absolute inset-0 bg-black/80"
+    onClick={onClose}
+  />
 
-        {/* TITLE */}
-        <h2 className="text-lg font-semibold mb-4 text-gray-800">
-          Gallery Images
-        </h2>
+  {/* MODAL BOX */}
+  <div className="relative bg-white w-full max-w-5xl rounded-xl shadow-xl overflow-hidden z-10">
 
-        {/* GRID */}
+    {/* HEADER */}
+    <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+
+      {/* TITLE */}
+      <div className="flex items-center space-x-3">
+        <div className="w-1 h-6 bg-red-500 rounded-full"></div>
+
+        <div>
+          <h3 className="text-lg md:text-xl font-bold text-gray-900">
+            {"Gallery"}
+          </h3>
+          <div className="w-10 h-0.5 bg-red-500 mt-1 rounded-full"></div>
+        </div>
+      </div>
+
+      {/* CLOSE BUTTON */}
+      <button
+        onClick={onClose}
+        className="group p-2 rounded-lg hover:bg-red-50 transition"
+      >
+        <FaTimes className="h-5 w-5 text-red-400 transition-transform hover:rotate-180 duration-300" />
+      </button>
+    </div>
+
+    {/* BODY (YOU WILL PUT GRID HERE LATER) */}
+    <div className="p-4">
+      {/* IMAGE GRID GOES HERE */}
+      {/* GRID */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {images.map((img, i) => (
             <img
@@ -43,9 +65,13 @@ const ImageLightbox = ({ images = [], onClose }) => {
               className="w-full h-40 object-cover rounded-lg hover:scale-105 transition"
             />
           ))}
+    </div>
+
+  </div>
+</div>
+        
         </div>
       </div>
-    </div>
   );
 };
 
