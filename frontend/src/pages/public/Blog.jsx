@@ -1,5 +1,4 @@
 import { Calendar, ArrowRight } from "lucide-react";
-
 const Blog = () => {
   return (
     <div className="w-full text-gray-800">

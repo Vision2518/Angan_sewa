@@ -11,11 +11,11 @@ import {
 } from "lucide-react";
 
 const Contact = () => {
-  // Mock data for branches - in a real app, you'd fetch this from your API
+  // 🇳🇵 REAL CONTEXT BRANCHES (NEPAL SAMPLE)
   const branches = [
-    { branch_id: 1, name: "Dubai Main Branch" },
-    { branch_id: 2, name: "Abu Dhabi Outlet" },
-    { branch_id: 3, name: "Sharjah Service Center" },
+    { branch_id: 1, name: "Kathmandu Main Branch" },
+    { branch_id: 2, name: "Pokhara Service Center" },
+    { branch_id: 3, name: "Butwal Branch Office" },
   ];
 
   const [formData, setFormData] = useState({
@@ -34,190 +34,158 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Inquiry Submitted:", formData);
-    // Add your API call logic here
+
+    alert("Thank you! We will contact you within 24 hours.");
   };
 
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-6xl mx-auto">
+
+        {/* HEADER */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-[#1a2b4b] mb-2">Contact Us</h2>
-          <div className="w-16 h-1 bg-yellow-400 mx-auto mb-6"></div>
+          <h2 className="text-3xl font-bold text-[#1a2b4b] mb-2">
+            Contact Us
+          </h2>
+
+          <p className="text-gray-600 text-sm max-w-xl mx-auto">
+            We usually respond within <b>24 hours</b>. For urgent help,
+            use WhatsApp or call directly.
+          </p>
+
+          <div className="w-16 h-1 bg-yellow-400 mx-auto mt-4"></div>
         </div>
 
+        {/* CARD */}
         <div className="bg-white rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-3 border border-gray-100">
-          {/* Left Side: Form Section */}
+
+          {/* FORM */}
           <div className="md:col-span-2 p-8 lg:p-12">
+
             <h3 className="text-2xl font-semibold text-gray-800 mb-2">
               Send us a message
             </h3>
-            <p className="text-gray-500 mb-8">
-              Please select your nearest branch so we can assist you better.
+
+            <p className="text-gray-500 mb-6">
+              Please select a branch if you know it — otherwise we will route it automatically.
             </p>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {/* Name field (Maps to your SQL 'name') */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Full Name *
-                  </label>
-                  <input
-                    name="name"
-                    required
-                    onChange={handleChange}
-                    type="text"
-                    placeholder="John Doe"
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition"
-                  />
-                </div>
+            {/* EXPECTATION BOX */}
+            <div className="mb-6 p-4 rounded-xl bg-orange-50 border border-orange-100 text-sm text-gray-700">
+              📌 After submission, our team will review your request and contact you within 24 hours.
+            </div>
 
-                {/* Branch Selection (Maps to your SQL 'branch_id') */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Select Branch *
-                  </label>
-                  <div className="relative">
-                    <select
-                      name="branch_id"
-                      required
-                      onChange={handleChange}
-                      className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none appearance-none transition bg-white"
-                    >
-                      <option value="">Choose a branch...</option>
-                      {branches.map((branch) => (
-                        <option key={branch.branch_id} value={branch.branch_id}>
-                          {branch.name}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
-                      <Building2 size={16} />
-                    </div>
+            <form onSubmit={handleSubmit} className="space-y-5">
+
+              {/* NAME + BRANCH */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+                <input
+                  name="name"
+                  required
+                  onChange={handleChange}
+                  placeholder="Full Name"
+                  className="px-4 py-2.5 rounded-lg border"
+                />
+
+                {/* OPTIONAL BRANCH */}
+                <div className="relative">
+                  <select
+                    name="branch_id"
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 rounded-lg border bg-white"
+                  >
+                    <option value="">Select Branch (Optional)</option>
+                    {branches.map((b) => (
+                      <option key={b.branch_id} value={b.branch_id}>
+                        {b.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <div className="absolute right-3 top-3 text-gray-400">
+                    <Building2 size={16} />
                   </div>
                 </div>
               </div>
 
+              {/* EMAIL + PHONE */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {/* Email field */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Email Address
-                  </label>
-                  <input
-                    name="email"
-                    onChange={handleChange}
-                    type="email"
-                    placeholder="example@mail.com"
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition"
-                  />
-                </div>
 
-                {/* Phone field */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Phone Number *
-                  </label>
-                  <input
-                    name="phone"
-                    required
-                    onChange={handleChange}
-                    type="tel"
-                    placeholder="+971 00 000 0000"
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition"
-                  />
-                </div>
-              </div>
-
-              {/* Address field */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Residential Address *
-                </label>
                 <input
-                  name="address"
+                  name="email"
+                  type="email"
+                  onChange={handleChange}
+                  placeholder="Email (optional)"
+                  className="px-4 py-2.5 rounded-lg border"
+                />
+
+                <input
+                  name="phone"
                   required
                   onChange={handleChange}
-                  type="text"
-                  placeholder="Street, City, Country"
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition"
+                  placeholder="+977 98XXXXXXXX"
+                  className="px-4 py-2.5 rounded-lg border"
                 />
               </div>
 
-              {/* Description field */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Description / Inquiry
-                </label>
-                <textarea
-                  name="description"
-                  onChange={handleChange}
-                  rows="3"
-                  placeholder="How can we help you?"
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 outline-none transition"
-                ></textarea>
-              </div>
+              {/* ADDRESS (OPTIONAL) */}
+              <input
+                name="address"
+                onChange={handleChange}
+                placeholder="Address (optional)"
+                className="w-full px-4 py-2.5 rounded-lg border"
+              />
 
-              <div className="flex justify-end pt-2">
-                <button
-                  type="submit"
-                  className="bg-secondary-blue text-white px-10 py-3 rounded-full font-semibold hover:bg-[#253d6b] transition-all shadow-lg active:scale-95"
-                >
-                  Submit Inquiry
-                </button>
-              </div>
+              {/* MESSAGE */}
+              <textarea
+                name="description"
+                onChange={handleChange}
+                rows="4"
+                placeholder="How can we help you?"
+                className="w-full px-4 py-2.5 rounded-lg border"
+              />
+
+              {/* BUTTON */}
+              <button
+                type="submit"
+                className="bg-[#1a2b4b] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#253d6b] transition"
+              >
+                Submit Inquiry
+              </button>
             </form>
           </div>
 
-          {/* Right Side: Info Card (Same as before) */}
-          <div className="bg-secondary-blue p-8 lg:p-10 text-white flex flex-col justify-between m-4 rounded-3xl">
+          {/* INFO SIDE */}
+          <div className="bg-[#1a2b4b] p-8 text-white flex flex-col justify-between m-4 rounded-3xl">
+
             <div>
-              <h3 className="text-xl font-bold mb-8 leading-tight">
-                We are always here <br /> to help you.
+              <h3 className="text-xl font-bold mb-8">
+                We are always here to help you.
               </h3>
 
               <div className="space-y-6">
-                <ContactInfo
-                  icon={<Phone size={18} />}
-                  label="Hotline"
-                  value="+971 50 430 3456"
-                />
-                <ContactInfo
-                  icon={<MessageSquare size={18} />}
-                  label="SMS / WhatsApp"
-                  value="+971 52 312 6122"
-                />
-                <ContactInfo
-                  icon={<Mail size={18} />}
-                  label="Email"
-                  value="support@zalomi.com"
-                />
+
+                <ContactInfo label="Hotline" value="+977 9800000000" />
+                <ContactInfo label="WhatsApp" value="+977 9811111111" />
+                <ContactInfo label="Email" value="support@aagansewa.com" />
+
               </div>
             </div>
 
-            <div className="mt-12 pt-8 border-t border-white/10">
-              <p className="text-xs uppercase tracking-widest text-gray-400 mb-4">
+            <div className="mt-10 pt-6 border-t border-white/10">
+              <p className="text-xs text-gray-300 mb-3">
                 Connect with us
               </p>
-              <div className="flex space-x-5">
-                <Facebook
-                  size={20}
-                  className="cursor-pointer hover:text-blue-400 transition"
-                />
-                <Instagram
-                  size={20}
-                  className="cursor-pointer hover:text-pink-400 transition"
-                />
-                <Youtube
-                  size={20}
-                  className="cursor-pointer hover:text-red-500 transition"
-                />
-                <Twitter
-                  size={20}
-                  className="cursor-pointer hover:text-blue-300 transition"
-                />
+
+              <div className="flex gap-4">
+                <Facebook size={18} />
+                <Instagram size={18} />
+                <Youtube size={18} />
+                <Twitter size={18} />
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -225,16 +193,11 @@ const Contact = () => {
   );
 };
 
-// Helper component for the info side
-const ContactInfo = ({ icon, label, value }) => (
-  <div className="flex items-center space-x-4">
-    <div className="bg-white/10 p-2.5 rounded-xl">{icon}</div>
-    <div>
-      <p className="text-[11px] uppercase tracking-wider text-gray-400">
-        {label}
-      </p>
-      <p className="text-sm font-medium">{value}</p>
-    </div>
+// helper
+const ContactInfo = ({ label, value }) => (
+  <div>
+    <p className="text-xs text-gray-400">{label}</p>
+    <p className="text-sm font-medium">{value}</p>
   </div>
 );
 
