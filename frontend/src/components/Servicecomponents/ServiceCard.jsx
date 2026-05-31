@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 
 const ServiceCard = ({
   allServices = [],
-  image_url,
   children,
-  hasFilters = false,
 }) => {
   return (
     <div className="bg-white p-4">
@@ -17,58 +15,31 @@ const ServiceCard = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12 max-lg:max-w-3xl max-md:max-w-md mx-auto">
-          {allServices.map((service) => 
-          {
-            return(
-            <div
-              key={service.service_id}
-              className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col"
-            >
-              <div className="relative w-full h-44 overflow-hidden bg-gray-100">
-                <img
-                  src={`${image_url}/${service.service_image}`}
-                  alt={service.service_name}
-                  className="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-300"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "/placeholder.jpg";
-                  }}
-                />
-              </div>
-              <div className="p-4 flex flex-col gap-3">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[11px] px-2 py-0.5 bg-green-100 text-green-700 rounded-full font-medium">
-                    Verified Service
-                  </span>
-
-                  <span className="text-[11px] px-2 py-0.5 bg-orange-100 text-orange-600 rounded-full font-medium">
-                    Fast Response
-                  </span>
-                </div>
-                <p className="text-xs text-gray-400 font-medium">
-                  Trusted local service
-                </p>
-                {/* Service Name */}
-                <h3 className="text-xl font-bold text-gray-900 leading-snug tracking-tight">
+          {allServices.map((service) => {
+            return (
+              <div className="bg-white relative rounded-xl shadow-md  transition-all duration-300 p-5 flex flex-col gap-3 border-2 border-gray-200 hover:border-orange-200 hover:shadow-orange-100">
+                {/* LEFT ACCENT STRIP */}
+                <div className="absolute left-0 top-6 bottom-6 h-29 w-1 bg-orange-400 rounded-r-full"></div>
+                {/* TITLE */}
+                <h3 className="text-lg font-semibold text-gray-900">
                   {service.service_name}
                 </h3>
-                {/* Description (smart fallback) */}
-                <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
-                  {service.description && service.description.length > 40
-                    ? service.description
-                    : hasFilters
-                      ? "Available at your selected branch. Tap to view contact and service details."
-                      : "Find trusted local professionals. Select a location to view exact availability near you."}
+
+                {/* SHORT TAGLINE (optional minimal hint) */}
+                <p className="text-sm text-gray-500">
+                  Click below to view full details and contact info
                 </p>
+
                 {/* CTA */}
                 <Link
                   to={`/services/${service.service_id}`}
-                  className="mt-2 text-sm font-semibold text-orange-500 hover:text-orange-600 cursor-pointer self-start flex items-center gap-1"
-                >View Details</Link>
+                  className="mt-2 inline-flex self-start items-center gap-1 text-sm font-semibold text-orange-600  px-3 py-1.5 rounded-lg hover:bg-orange-50 transition-all duration-200 shadow-sm"
+                >
+                  View Details →
+                </Link>
               </div>
-            </div>
-          )}
-          )}
+            );
+          })}
         </div>
       </div>
     </div>

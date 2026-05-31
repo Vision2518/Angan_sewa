@@ -1,14 +1,9 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams} from "react-router-dom";
 import { useGetServiceByIdQuery } from "../../redux/features/ServiceSlice";
-
 const ServiceDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
-
   const { data, isLoading } = useGetServiceByIdQuery(id);
-
   const service = data?.data || data;
-
   // SAFE DATA LAYER
   const cleanService = {
     id: service?.service_id || id,
@@ -23,7 +18,6 @@ const ServiceDetails = () => {
     phone: service?.phone || null,
     whatsapp: service?.whatsapp || null,
   };
-
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -34,15 +28,7 @@ const ServiceDetails = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
-      {/* BACK BUTTON */}
-      <div className="p-4">
-        <button
-          onClick={() => navigate(-1)}
-          className="text-sm text-gray-600 hover:text-black"
-        >
-          ← Back
-        </button>
-      </div>
+      
 
       {/* MAIN CONTENT */}
       <div className="max-w-5xl mx-auto px-4 space-y-6">
