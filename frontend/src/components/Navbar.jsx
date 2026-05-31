@@ -1,28 +1,54 @@
 import { useState } from "react";
 import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 import logo1 from "../assets/logo.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 const AGENCIES = [
   {
-    province: "Koshi ",
-    districts: ["Jhapa", "Morang", "Sunsari", "Ilam"],
+    province: "Koshi",
+    districts: [
+      { district_id: 1, district_name: "Jhapa" },
+      { district_id: 2, district_name: "Morang" },
+      { district_id: 3, district_name: "Sunsari" },
+      { district_id: 21, district_name: "Ilam" },
+    ],
   },
   {
-    province: "Madhesh ",
-    districts: ["Janakpur", "Birgunj", "Sarlahi", "Siraha"],
+    province: "Madhesh",
+    districts: [
+      { district_id: 5, district_name: "Janakpur" },
+      { district_id: 6, district_name: "Birgunj" },
+      { district_id: 7, district_name: "Sarlahi" },
+      { district_id: 8, district_name: "Siraha" },
+    ],
   },
   {
-    province: "Bagmati ",
-    districts: ["Kathmandu", "Lalitpur", "Bhaktapur", "Chitwan"],
+    province: "Bagmati",
+    districts: [
+      { district_id: 9, district_name: "Kathmandu" },
+      { district_id: 10, district_name: "Lalitpur" },
+      { district_id: 11, district_name: "Bhaktapur" },
+      { district_id: 12, district_name: "Chitwan" },
+    ],
   },
   {
-    province: "Gandaki ",
-    districts: ["Pokhara", "Lamjung", "Gorkha", "Baglung"],
+    province: "Gandaki",
+    districts: [
+      { district_id: 13, district_name: "Pokhara" },
+      { district_id: 14, district_name: "Lamjung" },
+      { district_id: 15, district_name: "Gorkha" },
+      { district_id: 16, district_name: "Baglung" },
+    ],
   },
   {
-    province: "Lumbini ",
-    districts: ["Butwal", "Dang", "Kapilvastu", "Palpa"],
+    province: "Lumbini",
+    districts: [
+      { district_id: 17, district_name: "Butwal" },
+      { district_id: 18, district_name: "Dang" },
+      { district_id: 19, district_name: "Kapilvastu" },
+      { district_id: 20, district_name: "Palpa" },
+      { district_id: 4, district_name: "Banke" },
+    ],
   },
 ];
 
@@ -95,12 +121,13 @@ const Navbar = () => {
                     </h4>
                     <div className="flex flex-col gap-2">
                       {item.districts.map((d) => (
-                        <p
-                          key={d}
+                        <Link
+                          to={`/services?district=${d.district_id}`}
+                          onClick={() => setBranchOpen(false)}
                           className="text-[14px] text-gray-600 hover:text-orange-600 hover:pl-2 transition-all cursor-pointer font-medium tracking-wide"
                         >
-                          {d}
-                        </p>
+                          {d.district_name}
+                        </Link>
                       ))}
                     </div>
                   </div>

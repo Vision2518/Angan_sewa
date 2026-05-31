@@ -1,23 +1,30 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { skipToken } from "@reduxjs/toolkit/query/react";
+import { useSearchParams } from "react-router-dom";
 import { useGetProvinceQuery } from "../../redux/features/provinceSlice";
 import { useGetAllServicesQuery } from "../../redux/features/ServiceSlice";
 import {
   useGetDistrictByProvinceQuery,
   useGetBranchByDistrictQuery,
 } from "../../redux/features/districtSlice";
-
 import ServiceCard from "./ServiceCard";
 import Pagination from "../pagination";
 
 const FilterService = () => {
+  const [searchParams] = useSearchParams();
   const IMG_URL = import.meta.env.VITE_IMG_URL;
-
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
+  
   const [selectedBranch, setSelectedBranch] = useState("");
-  const [page, setPage] = useState(1);
+  
+  useEffect(() => {
+  const district = searchParams.get("district") || "";
+  setSelectedDistrict(district);
+}, [searchParams]);
 
+  const [page, setPage] = useState(1);
+  
   const limit = 6;
 
   const { data, isFetching } = useGetAllServicesQuery({
