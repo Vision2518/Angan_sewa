@@ -136,7 +136,7 @@ const Hero = () => {
       ))}
 
       {/* content */}
-      <div className="absolute inset-0 z-20 flex flex-col justify-start items-center px-4 pt-6">
+      <div className="h-1200 absolute inset-0 z-20 flex flex-col justify-start items-center px-4 pt-7 pb-2">
 
         <div className="max-w-5xl w-full  text-white mx-20">
 
@@ -202,7 +202,7 @@ const Hero = () => {
               <button
                 onClick={handleExplore}
                 disabled={!selectedPlace}
-                className={`rounded-xl font-bold transition ${
+                className={`px-2 py-0 rounded-xl justify-self-center font-bold transition ${
                   selectedPlace
                     ? "bg-orange-500 hover:bg-orange-600 text-white"
                     : "bg-gray-300 text-gray-500"

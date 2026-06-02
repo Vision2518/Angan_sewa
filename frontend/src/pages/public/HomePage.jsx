@@ -15,7 +15,7 @@ const Home = () => {
   return (
     <>
       <div className=" ">
-        <div className="relative w-full h-125 overflow-hidden ">
+        <div className="relative w-full h-140 overflow-hidden ">
           <Hero />
         </div>
         <div className="">
