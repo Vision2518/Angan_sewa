@@ -10,7 +10,7 @@ const TrustStrip = () => {
 
   return (
     <section className="py-16 bg-[#0a1628]">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-12">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
           <div className="max-w-xl">
             <h2 className="text-4xl md:text-5xl font-bold" style={{ color: "white" }}>

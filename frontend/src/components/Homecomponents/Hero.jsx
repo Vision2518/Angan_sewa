@@ -136,12 +136,10 @@ const Hero = () => {
       ))}
 
       {/* content */}
-      <div className="h-1200 absolute inset-0 z-20 flex flex-col justify-start items-center px-4 pt-7 pb-2">
-
-        <div className="max-w-5xl w-full  text-white mx-20">
-
+      <div className="relative z-20">
+    <div className="max-w-7xl mx-auto px-6 border border-red-500">
           {/* MAIN HEADING */}
-          <h1 className="text-4xl md:text-6xl font-black leading-tight">
+          <h1 className="text-4xl md:text-6xl text-white font-black leading-tight">
             Trusted Home Services <br />
 
             <span className="text-orange-400">
@@ -217,9 +215,9 @@ const Hero = () => {
             <p className="text-l text-center mt-4 text-gray-600 font-medium">
               Select Area → Choose Branch → Discover Services
             </p>
+            </div>
 
           </div>
-        </div>
       </div>
 
       {/* arrows */}

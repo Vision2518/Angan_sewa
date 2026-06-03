@@ -4,10 +4,10 @@ import logo1 from "../assets/logo.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-slate-900 px-3 sm:px-11 pt-12 pb-6 font-sans" style={{ backgroundColor: "#0a1628" }}>
+    <footer className="bg-slate-900  pt-12 pb-6 font-sans" style={{ backgroundColor: "#0a1628" }}>
+       <div className="max-w-7xl mx-auto px-6">
       {/* Main Footer Grid - 5 columns */}
-      <div className="max-w-8xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
         {/* Column 1 - Logo & Description */}
         <div className="space-y-4">
           <img src={logo1} alt="Aagan Sewa Logo" className="w-36" />
@@ -93,6 +93,7 @@ const Footer = () => {
           Aagan Sewa Copyright © 2026. All rights reserved.
         </p>
       </div>
+    </div>
     </footer>
   );
 };

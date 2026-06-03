@@ -23,10 +23,11 @@ const Home = () => {
           <FeaturedServices />
           <HowItWorks />
           <TrustStrip />
-          <GallerySlider />
+          <div className="max-w-7xl mx-auto px-6">
+               <GallerySlider />
+          </div>
           <LeadCapture />
           <FAQAccordion />
-          <FeaturedBranches />
         </div>
         <Testimonials />
         <CustomerScroll />
