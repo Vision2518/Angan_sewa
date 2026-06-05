@@ -9,8 +9,8 @@ const About = () => {
       <AboutHero />
 
       {/* STORY SECTION */}
-      <section className="py-14 md:py-20 px-6">
-        <div className="max-w-4xl mx-auto">
+      <section className="py-14 md:py-20 border border-amber-500">
+        <div className=" max-w-7xl mx-auto px-6 border border-amber-500 ">
 
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight">
@@ -47,7 +47,7 @@ const About = () => {
             <p>
               Instead of overwhelming users with too much information,
               Aagan Sewa focuses on clarity — showing only what is relevant
-              to a user’s selected location.
+              to a user's selected location.
             </p>
 
             <p>
@@ -62,8 +62,8 @@ const About = () => {
       </section>
 
       {/* PURPOSE SECTION */}
-      <section className="py-14 md:py-18 px-6 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-14 md:py-20 px-6 bg-gray-50 border border-amber-600">
+        <div className="max-w-6xl mx-auto border border-amber-600">
 
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
@@ -118,8 +118,8 @@ const About = () => {
       </section>
 
       {/* VALUES */}
-      <section className="py-14 md:py-18 px-6">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-14 md:py-20 border border-amber-600 px-6">
+        <div className="max-w-7xl   border border-amber-600">
 
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">

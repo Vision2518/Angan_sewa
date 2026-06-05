@@ -23,7 +23,6 @@ const GallerySlider = () => {
 
   return (
     <div className="bg-white py-12  relative">
-      <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl font-bold border-l-4 border-orange-500 pl-4 mb-10">
           LATEST GALLERY
         </h2>
@@ -49,7 +48,7 @@ const GallerySlider = () => {
         >
           <FaChevronRight />
         </button>
-      </div>
+      
     </div>
   );
 };

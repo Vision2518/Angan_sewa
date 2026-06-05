@@ -7,13 +7,13 @@ import {
 } from "react-icons/fa";
 
 import Select from "../shared/Select";
+import  Container  from "../../layout/PublicLayout";
 import { useNavigate } from "react-router-dom";
 
 import {
   useGetAllDistrictQuery,
   useGetBranchByDistrictQuery,
 } from "../../redux/features/districtSlice";
-
 const HERO_IMAGES = [
   "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1920&h=1080&fit=crop",
   "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=1920&h=1080&fit=crop",
@@ -137,7 +137,6 @@ const Hero = () => {
 
       {/* content */}
       <div className="relative z-20">
-    <div className="max-w-7xl mx-auto px-6 border border-red-500">
           {/* MAIN HEADING */}
           <h1 className="text-4xl md:text-6xl text-white font-black leading-tight">
             Trusted Home Services <br />
@@ -208,7 +207,7 @@ const Hero = () => {
               >
                 Explore Services
               </button>
-
+            </div>
             </div>
 
             {/* STEP TEXT (KEPT) */}
@@ -216,19 +215,13 @@ const Hero = () => {
               Select Area → Choose Branch → Discover Services
             </p>
             </div>
-
-          </div>
-      </div>
-
       {/* arrows */}
       <button onClick={prevSlide} className="absolute left-4 top-1/2 z-20 text-white">
         <FaChevronLeft />
       </button>
-
       <button onClick={nextSlide} className="absolute right-4 top-1/2 z-20 text-white">
         <FaChevronRight />
       </button>
-
     </div>
   );
 };

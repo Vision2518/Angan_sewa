@@ -72,7 +72,7 @@ const Navbar = () => {
     <div className="flex items-center justify-between max-w-7xl mx-auto px-6 h-20 border border-blue-500">
         {/* Logo - Paila kai size ma back! */}
         <NavLink to="/" className="border border-red-500">
-          <img src={logo1} alt="Logo" className="w-auto h-20 object-contain border border-blue-500" />
+          <img src={logo1} alt="Logo" className="w-auto h-12 object-contain border border-blue-500" />
         </NavLink>
 
         {/* MENU */}
