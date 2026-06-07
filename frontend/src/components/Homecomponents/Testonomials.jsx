@@ -1,4 +1,5 @@
 import React from "react";
+import { Container } from "../../layout/PublicLayout";
 
 // Updated testimonials for Aagan Sewa
 const testimonials = [
@@ -54,8 +55,8 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
+    <Container>
     <section className="py-6 bg-gradient-to-b from-white to-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-16">
         <h2 className="text-4xl md:text-5xl font-bold text-slate-900 !leading-tight">
@@ -117,8 +118,9 @@ const Testimonials = () => {
           </div>
         ))}
       </div>
-      </div>
+   
     </section>
+    </Container>
   );
 };
 

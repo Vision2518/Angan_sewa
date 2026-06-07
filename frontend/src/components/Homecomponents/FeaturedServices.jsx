@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Container } from "../../layout/PublicLayout";
 
 const FeaturedServices = () => {
   const navigate = useNavigate();
@@ -32,8 +33,8 @@ const FeaturedServices = () => {
   ];
 
   return (
+    <Container >
     <section className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>
             <h2 className="text-4xl md:text-5xl font-bold" style={{ color: "#0a1628" }}>
@@ -80,8 +81,9 @@ const FeaturedServices = () => {
             </button>
           ))}
         </div>
-      </div>
+      
     </section>
+    </Container>
   );
 };
 

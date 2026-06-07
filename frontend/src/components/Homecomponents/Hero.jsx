@@ -7,13 +7,12 @@ import {
 } from "react-icons/fa";
 
 import Select from "../shared/Select";
-import  Container  from "../../layout/PublicLayout";
 import { useNavigate } from "react-router-dom";
-
 import {
   useGetAllDistrictQuery,
   useGetBranchByDistrictQuery,
 } from "../../redux/features/districtSlice";
+import { Container } from "../../layout/PublicLayout";
 const HERO_IMAGES = [
   "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1920&h=1080&fit=crop",
   "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=1920&h=1080&fit=crop",
@@ -118,7 +117,9 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-gray-900">
+    <Container >
+
+    <div className=" h-140 overflow-hidden bg-gray-900">
 
       {/* overlay */}
       <div className="absolute inset-0 bg-black/60 z-10" />
@@ -134,7 +135,7 @@ const Hero = () => {
           <img src={img} className="w-full h-full object-cover" />
         </div>
       ))}
-
+   
       {/* content */}
       <div className="relative z-20">
           {/* MAIN HEADING */}
@@ -223,6 +224,7 @@ const Hero = () => {
         <FaChevronRight />
       </button>
     </div>
+</Container>
   );
 };
 

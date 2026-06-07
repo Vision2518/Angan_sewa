@@ -8,30 +8,20 @@ import HowItWorks from "../../components/Homecomponents/HowItWorks";
 import TrustStrip from "../../components/Homecomponents/TrustStrip";
 import LeadCapture from "../../components/Homecomponents/LeadCapture";
 import FAQAccordion from "../../components/Homecomponents/FAQAccordion";
-
 import { FeaturedBranches } from "../../features/branches";
-
 const Home = () => {
   return (
     <>
-      <div className=" ">
-        <div className="relative w-full h-140 overflow-hidden ">
-          <Hero />
-        </div>
-        <div className="">
-          <AboutAaganSewa />
-          <FeaturedServices />
-          <HowItWorks />
-          <TrustStrip />
-          <div className="max-w-7xl mx-auto px-6">
-               <GallerySlider />
-          </div>
-          <LeadCapture />
-          <FAQAccordion />
-        </div>
-        <Testimonials />
-        <CustomerScroll />
-      </div>
+      <Hero />
+      <AboutAaganSewa />
+      <FeaturedServices />
+      <HowItWorks />
+      <TrustStrip />
+      <GallerySlider />
+      <LeadCapture />
+      <FAQAccordion />
+      <Testimonials />
+      <CustomerScroll />
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-
+import { Container } from "../../layout/PublicLayout";
 const FAQAccordion = () => {
   const faqs = useMemo(
     () => [
@@ -22,12 +22,10 @@ const FAQAccordion = () => {
     ],
     [],
   );
-
   const [openIndex, setOpenIndex] = useState(0);
-
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
+    <Container>
+      <section className="py-16 bg-gray-50">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <h2
             className="text-4xl md:text-5xl font-bold"
@@ -72,9 +70,8 @@ const FAQAccordion = () => {
             );
           })}
         </div>
-      </div>
-    </section>
+      </section>
+    </Container>
   );
 };
-
 export default FAQAccordion;

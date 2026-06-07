@@ -1,8 +1,10 @@
 import React from "react";
+import { Container } from "../../layout/PublicLayout";
 const AboutAaganSewa = () => {
   return (
-    <section className="w-full py-20 px-3" style={{ backgroundColor: "#f8fafc" }}>
-      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-start">
+    <Container>
+    <section className="w-full py-20" style={{ backgroundColor: "#f8fafc" }}>
+      <div className="grid md:grid-cols-2 gap-12 items-start">
         {/* LEFT CONTENT */}
         <div>
           <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: "#0a1628" }}>
@@ -65,6 +67,7 @@ const AboutAaganSewa = () => {
         </div>
       </div>
     </section>
+    </Container>
   );
 };
 

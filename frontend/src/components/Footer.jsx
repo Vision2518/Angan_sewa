@@ -1,11 +1,12 @@
 import React from "react";
 import { FaFacebook, FaTiktok, FaInstagram } from "react-icons/fa";
 import logo1 from "../assets/logo.png";
+import { Container } from "../layout/PublicLayout";
 
 const Footer = () => {
   return (
     <footer className="bg-slate-900  pt-12 pb-6 font-sans" style={{ backgroundColor: "#0a1628" }}>
-       <div className="max-w-7xl mx-auto px-6">
+    <Container>
       {/* Main Footer Grid - 5 columns */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
         {/* Column 1 - Logo & Description */}
@@ -93,7 +94,8 @@ const Footer = () => {
           Aagan Sewa Copyright © 2026. All rights reserved.
         </p>
       </div>
-    </div>
+
+    </Container>
     </footer>
   );
 };

@@ -1,4 +1,5 @@
 import React from "react";
+import { Container } from "../../layout/PublicLayout";
 
 const HowItWorks = () => {
   const steps = [
@@ -17,8 +18,8 @@ const HowItWorks = () => {
   ];
 
   return (
+    <Container>
     <section className="py-16 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-4xl md:text-5xl font-bold" style={{ color: "#0a1628" }}>
             How it <span style={{ color: "#FF6B35" }}>Works</span>
@@ -47,8 +48,9 @@ const HowItWorks = () => {
             </div>
           ))}
         </div>
-      </div>
+     
     </section>
+    </Container>
   );
 };
 
