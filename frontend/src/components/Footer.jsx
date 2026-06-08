@@ -1,8 +1,7 @@
 import React from "react";
 import { FaFacebook, FaTiktok, FaInstagram } from "react-icons/fa";
 import logo1 from "../assets/logo.png";
-import { Container } from "../layout/PublicLayout";
-
+import { Container } from "../components/Container";
 const Footer = () => {
   return (
     <footer className="bg-slate-900  pt-12 pb-6 font-sans" style={{ backgroundColor: "#0a1628" }}>
@@ -94,7 +93,6 @@ const Footer = () => {
           Aagan Sewa Copyright © 2026. All rights reserved.
         </p>
       </div>
-
     </Container>
     </footer>
   );

@@ -2,8 +2,7 @@ import { useState } from "react";
 import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 import logo1 from "../assets/logo.png";
 import { NavLink, Link } from "react-router-dom";
-import { Container } from "../layout/PublicLayout";
-
+import { Container } from "../components/Container.jsx";
 const AGENCIES = [
   {
     province: "Koshi",

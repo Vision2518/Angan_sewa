@@ -12,7 +12,7 @@ import {
   useGetAllDistrictQuery,
   useGetBranchByDistrictQuery,
 } from "../../redux/features/districtSlice";
-import { Container } from "../../layout/PublicLayout";
+import { Container } from "../../components/Container.jsx";
 const HERO_IMAGES = [
   "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1920&h=1080&fit=crop",
   "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=1920&h=1080&fit=crop",

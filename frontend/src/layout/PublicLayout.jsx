@@ -1,13 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-export const Container =({children})=>{
-return (
-<div className="max-w-7xl mx-auto px-6 ">
-  {children}
-</div>
-);
-};
 export const PublicLayout = () => {
   return (
     <div className="flex min-h-screen flex-col">

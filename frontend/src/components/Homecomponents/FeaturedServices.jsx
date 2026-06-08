@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Container } from "../../layout/PublicLayout";
+import { Container } from "../../components/Container.jsx";
 
 const FeaturedServices = () => {
   const navigate = useNavigate();

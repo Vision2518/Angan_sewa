@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { galleryData } from "../static/Gallery";
 import GalleryCard from "./GalleryCard";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { Container } from "../../layout/PublicLayout";
+import { Container } from "../../components/Container.jsx";
 
 const GallerySlider = () => {
   const [startIndex, setStartIndex] = useState(0);

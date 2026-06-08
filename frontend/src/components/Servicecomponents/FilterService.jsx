@@ -9,6 +9,7 @@ import {
 } from "../../redux/features/districtSlice";
 import ServiceCard from "./ServiceCard";
 import Pagination from "../pagination";
+import { Container } from "../../components/Container.jsx";
 
 const FilterService = () => {
   const [searchParams] = useSearchParams();
@@ -75,7 +76,8 @@ const FilterService = () => {
   };
 
   return (
-    <div className="px-4 md:px-10 py-10">
+    <Container>
+    <div className="md:py-10">
       {/* 🔥 SECTION HEADER (NEW UX LAYER) */}
       <div className="text-center mb-8">
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
@@ -227,6 +229,7 @@ const FilterService = () => {
         )}
       </div>
     </div>
+    </Container>
   );
 };
 

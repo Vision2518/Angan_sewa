@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "../../layout/PublicLayout";
+import { Container } from "../../components/Container.jsx";
 
 const HowItWorks = () => {
   const steps = [

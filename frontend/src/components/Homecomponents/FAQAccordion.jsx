@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Container } from "../../layout/PublicLayout";
+import { Container } from "../../components/Container.jsx";
 const FAQAccordion = () => {
   const faqs = useMemo(
     () => [

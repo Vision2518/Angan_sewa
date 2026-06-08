@@ -1,20 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { Container } from "../../components/Container.jsx";
 const ServiceCard = ({
   allServices = [],
   children,
 }) => {
   return (
-    <div className="bg-white p-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center max-w-xl mx-auto">
+    <div className="bg-white ">
+    <Container>
+        <div className="text-center ">
           <h2 className="text-3xl font-bold text-slate-900 inline-block">
             {children || "Our Services"}
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12 max-lg:max-w-3xl max-md:max-w-md mx-auto">
+  <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
           {allServices.map((service) => {
             return (
               <div className="bg-white relative rounded-xl shadow-md  transition-all duration-300 p-5 flex flex-col gap-3 border-2 border-gray-200 hover:border-orange-200 hover:shadow-orange-100">
@@ -41,7 +41,7 @@ const ServiceCard = ({
             );
           })}
         </div>
-      </div>
+        </Container>
     </div>
   );
 };
